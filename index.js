@@ -1,3 +1,3 @@
-const configure = require('./src');
+const createConfig = require('./src');
 
-module.exports = configure;
+module.exports = createConfig;

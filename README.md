@@ -7,11 +7,14 @@ npm install --save-dev webpack-spa-config webpack webpack-dev-server
 ```
 
 # Getting Started
+```
+webpack.config.js
+```
 ```js
 const createConfig = require('webpack-spa-config');
 const { sassLoader, imagesLoader, fontsLoader } = require('webpack-spa-config/loaders');
 
-const commomConfigParams = {
+const commonConfigParams = {
   entryPath: resolve(__dirname, 'index.js'),
   outputPath: resolve(__dirname, 'dist'),
   assetsPath: resolve(__dirname, 'public'),
@@ -28,5 +31,17 @@ const commonOptions = mode => ({
   }
 });
 
-module.exports = (_, { mode }) => createConfig(mode, commomConfigParams, { commonOptions });
+module.exports = (_, { mode }) => createConfig(mode, commonConfigParams, { commonOptions });
+```
+```
+package.json
+```
+```json
+...
+"scripts": {
+  "build": "webpack --mode=development --config webpack.config.js",
+  "start": "webpack-dev-server --open --mode=development",
+  "build-prod": "webpack --mode=production --config webpack.config.js"
+}
+...
 ```

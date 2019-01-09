@@ -1,14 +1,8 @@
 {
   "name": "webpack-spa-config",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Webpack 4 config with SPA",
   "author": "And_tem",
-  "private": true,
-  "scripts": {
-    "build": "webpack --mode=development --config webpack.config.js",
-    "start": "webpack-dev-server --open --mode=development",
-    "build-prod": "webpack --mode=production --config webpack.config.js"
-  },
   "dependencies": {
     "@babel/core": "^7.2.0",
     "@babel/preset-env": "^7.2.0",
@@ -28,10 +22,7 @@
     "svg-sprite-loader": "^4.1.3",
     "uglifyjs-webpack-plugin": "^2.0.1",
     "url-loader": "^1.1.2",
-    "webpack": "^4.27.1",
     "webpack-bundle-analyzer": "^3.0.3",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.14",
     "webpack-merge": "^4.1.5"
   }
 }

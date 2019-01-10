@@ -8,9 +8,13 @@ const babelLoader = () => ({
   use: ['babel-loader']
 });
 
-const cssLoader = () => ({
+const cssLoader = mode => ({
   test: /\.css$/,
-  use: ['style-loader', 'css-loader']
+  use: [
+    isProduction(mode) ? MiniCssExtractPlugin.loader : 'style-loader',
+    { loader: 'css-loader', options: { importLoaders: 1 } },
+    'postcss-loader'
+  ]
 });
 
 const sassLoader = mode => ({
@@ -22,20 +26,20 @@ const sassLoader = mode => ({
   ]
 });
 
-const imagesLoader = (outputDirectoryPath = 'images') => ({
+const imagesLoader = (outputDirectoryName = 'images') => ({
   test: /\.(png|jpg|gif)$/i,
   use: [
     {
       loader: 'url-loader',
       options: {
         limit: 600,
-        name: outputDirectoryPath
+        name: outputDirectoryName
       }
     },
     {
       loader: 'file-loader',
       options: {
-        outputPath: outputDirectoryPath
+        outputPath: outputDirectoryName
       }
     }
   ]
@@ -46,14 +50,14 @@ const svgSpriteLoader = () => ({
   use: ['svg-sprite-loader']
 });
 
-const fontsLoader = (outputDirectoryPath = 'fonts') => ({
+const fontsLoader = (outputDirectoryName = 'fonts') => ({
   test: /\.(otf|eot|svg|ttf|woff|woff2)(\?.+)?$/,
   use: [
     {
       loader: 'url-loader',
       options: {
         limit: 2048,
-        name: outputDirectoryPath
+        name: outputDirectoryName
       }
     }
   ]

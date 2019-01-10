@@ -17,10 +17,9 @@ const getRootPathWithCleanPlugin = (outputPath) => {
   return splittingPath.join('/');
 };
 
-const devPlugins = ({ templatePath, assetsPath, outputPath }) => ([
-  new CopyWebpackPlugin([{ from: assetsPath, to: outputPath }]),
+const devPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
+  new CopyWebpackPlugin([{ from: publicFilesPath, to: outputPath }]),
   new webpack.DefinePlugin({
-    PRODUCTION: JSON.stringify(false),
     'process.env.NODE_ENV': JSON.stringify(DEVELOPMENT_MODE)
   }),
   new MiniCssExtractPlugin({
@@ -35,15 +34,14 @@ const devPlugins = ({ templatePath, assetsPath, outputPath }) => ([
   new webpack.HotModuleReplacementPlugin()
 ]);
 
-const prodPlugins = ({ templatePath, assetsPath, outputPath }) => ([
+const prodPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
   new CleanWebpackPlugin([basename(outputPath)], {
     root: getRootPathWithCleanPlugin(outputPath)
   }),
   new webpack.DefinePlugin({
-    PRODUCTION: JSON.stringify(true),
     'process.env.NODE_ENV': JSON.stringify(PRODUCTION_MODE)
   }),
-  new CopyWebpackPlugin([{ from: assetsPath, to: outputPath }]),
+  new CopyWebpackPlugin([{ from: publicFilesPath, to: outputPath }]),
   new MiniCssExtractPlugin({
     filename: '[hash].css'
   }),

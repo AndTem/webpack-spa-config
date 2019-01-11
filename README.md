@@ -48,7 +48,7 @@ package.json
 * split chunks + runtime chunks
 * define process.env.NODE_ENV
 * removal of the previous assembly before starting a new one in production
-* default imagemin minimezes, except jpeg (converted to progressive jpeg)
+* default imagemin minimezes except jpeg (converted to progressive jpeg)
 * static bundle report (webpack-bundle-analyzer)
 
 # API

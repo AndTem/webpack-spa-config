@@ -43,9 +43,9 @@ Don't forget to fill in the browserlist.
 # Default features
 * dev-server, hot replace;
 * babel-loader (js, jsx);
-* css-loader, postcss (autoprefixer), minimizes css;
-* image-loader - limit: 60;
-* svg-loader;
+* css-loader, postcss (autoprefixer), minimizes css. Default output directory - 'styles';
+* image-loader - limit: 60. Default output directory - 'images';
+* svg-loader - default output directory - 'images';
 * minimizes html template;
 * split chunks + runtime chunks;
 * define process.env.NODE_ENV;

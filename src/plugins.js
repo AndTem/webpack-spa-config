@@ -23,7 +23,7 @@ const devPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
   }),
   new CopyWebpackPlugin([{ from: publicFilesPath, to: outputPath }]),
   new MiniCssExtractPlugin({
-    filename: '[name].css'
+    filename: 'styles/[name].css'
   }),
   new HtmlWebpackPlugin({
     template: templatePath
@@ -43,7 +43,7 @@ const prodPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
   }),
   new CopyWebpackPlugin([{ from: publicFilesPath, to: outputPath }]),
   new MiniCssExtractPlugin({
-    filename: '[hash].css'
+    filename: 'styles/[hash].css'
   }),
   new HtmlWebpackPlugin({
     template: templatePath,

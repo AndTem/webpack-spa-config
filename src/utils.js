@@ -12,25 +12,27 @@ const mergePlugins = (...plugins) => {
   const mergedPlugins = [];
 
   allPlugins.forEach((plugin) => {
-    const { constructor } = plugin;
-    const { name } = constructor;
+    if (plugin) {
+      const { constructor } = plugin;
+      const { name } = constructor;
 
-    const foundSamePluginIndex = mergedPlugins.findIndex(mergedPlugin => name === mergedPlugin.constructor.name);
+      const foundSamePluginIndex = mergedPlugins.findIndex(mergedPlugin => name === mergedPlugin.constructor.name);
 
-    if (foundSamePluginIndex !== -1) {
-      const mergePluginWithoutConstructor = merge(mergedPlugins[foundSamePluginIndex], plugin);
-      const mergePlugin = Object.create(constructor.prototype);
+      if (foundSamePluginIndex !== -1) {
+        const mergePluginWithoutConstructor = merge(mergedPlugins[foundSamePluginIndex], plugin);
+        const mergePlugin = Object.create(constructor.prototype);
 
-      Object.keys(mergePluginWithoutConstructor).forEach((key) => {
-        mergePlugin[key] = mergePluginWithoutConstructor[key];
-      });
+        Object.keys(mergePluginWithoutConstructor).forEach((key) => {
+          mergePlugin[key] = mergePluginWithoutConstructor[key];
+        });
 
-      mergedPlugins[foundSamePluginIndex] = mergePlugin;
+        mergedPlugins[foundSamePluginIndex] = mergePlugin;
 
-      return;
+        return;
+      }
+
+      mergedPlugins.push(plugin);
     }
-
-    mergedPlugins.push(plugin);
   });
 
   return mergedPlugins;

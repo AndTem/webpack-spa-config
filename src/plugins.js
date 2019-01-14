@@ -18,10 +18,10 @@ const getRootPathWithCleanPlugin = (outputPath) => {
 };
 
 const devPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
-  new CopyWebpackPlugin([{ from: publicFilesPath, to: outputPath }]),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(DEVELOPMENT_MODE)
   }),
+  new CopyWebpackPlugin([{ from: publicFilesPath, to: outputPath }]),
   new MiniCssExtractPlugin({
     filename: '[name].css'
   }),

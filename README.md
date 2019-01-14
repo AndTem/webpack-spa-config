@@ -5,9 +5,8 @@ This configuration has everything you need to build a SPA.
 Also this configuration is easy to expand.
 
 # Installation
-Webpack and webpack-dev-server must be installed separately.
 ```
-npm install --save-dev webpack-spa-config webpack webpack-dev-server
+npm install --save-dev webpack-spa-config
 ```
 
 # Minimum config
@@ -80,7 +79,7 @@ All loaders are functions.
 * **cssLoader** - contains: style-loader, css-loader, postcss-loader. In production minify;
   * parameter - **mode** (string);
 * **sassLoader** - contains: style-loader, css-loader, sass-loader;
-  * parameter - **mode** (string).
+  * parameter - **mode** (string). Don't forget to install **node-sass**.
 * **imagesLoader** - contains: url-loader, file-loader;
   * parameter - **outputDirectoryName**. Default directory name - images.
 * **svgSpriteLoader** - contains: svg-sprite-loader;

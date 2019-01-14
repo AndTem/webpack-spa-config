@@ -1,8 +1,10 @@
 const merge = require('webpack-merge');
 
 const commonConfig = require('./common.config');
-const { mergeArray } = require('./utils');
+
 const { devPlugins } = require('./plugins');
+
+const { mergePlugins } = require('./utils');
 
 const { DEVELOPMENT_MODE } = require('./constants');
 
@@ -20,7 +22,7 @@ module.exports = (commonConfigParams, additionalOptions) => {
         hot: true
       },
       ...additionalOptions,
-      plugins: mergeArray(devPlugins(commonConfigParams), plugins)
+      plugins: mergePlugins(devPlugins(commonConfigParams), plugins)
     }
   );
 };

@@ -13,6 +13,7 @@
     "url": "https://github.com/AndTem/webpack-spa-config/issues"
   },
   "dependencies": {
+    "autoprefixer": "^9.4.5",
     "babel-loader": "^8.0.4",
     "clean-webpack-plugin": "^1.0.0",
     "copy-webpack-plugin": "^4.6.0",

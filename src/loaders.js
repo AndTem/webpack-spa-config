@@ -1,6 +1,7 @@
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const autoprefixer = require('autoprefixer');
 
-const { isProduction } = require('./utils');
+const { urlLoaderFileName, isProduction } = require('./utils');
 
 const babelLoader = () => ({
   test: /\.(js|jsx)$/,
@@ -8,41 +9,57 @@ const babelLoader = () => ({
   use: ['babel-loader']
 });
 
-const cssLoader = mode => ({
+const cssLoader = () => ({
   test: /\.css$/,
   use: [
-    isProduction(mode) ? MiniCssExtractPlugin.loader : 'style-loader',
+    MiniCssExtractPlugin.loader,
     { loader: 'css-loader', options: { importLoaders: 1 } },
-    'postcss-loader'
+    {
+      loader: 'postcss-loader',
+      options: {
+        plugins: [autoprefixer()]
+      }
+    }
   ]
 });
 
-const sassLoader = mode => ({
+const sassLoader = () => ({
   test: /\.scss$/,
   use: [
-    isProduction(mode) ? MiniCssExtractPlugin.loader : 'style-loader',
+    MiniCssExtractPlugin.loader,
     'css-loader',
+    {
+      loader: 'postcss-loader',
+      options: {
+        plugins: [autoprefixer()]
+      }
+    },
     'sass-loader'
   ]
 });
 
-const imagesLoader = (outputDirectoryName = 'images') => ({
-  test: /\.(png|jpg|gif)$/i,
+const imagesLoader = (mode, outputDirectoryName = 'images') => ({
+  test: /\.(png|jpg|jpeg|gif)$/i,
   use: [
     {
       loader: 'url-loader',
       options: {
-        limit: 600,
-        name: outputDirectoryName
-      }
-    },
-    {
-      loader: 'file-loader',
-      options: {
-        outputPath: outputDirectoryName
+        limit: 60,
+        name: urlLoaderFileName(mode, outputDirectoryName)
       }
     }
   ]
+});
+
+const svgLoader = (mode, outputDirectoryName = 'images') => ({
+  test: /\.(svg)$/i,
+  use: {
+    loader: 'file-loader',
+    options: {
+      outputPath: outputDirectoryName,
+      name: isProduction(mode) ? '[hash].svg' : '[name].svg'
+    }
+  }
 });
 
 const svgSpriteLoader = () => ({
@@ -50,14 +67,14 @@ const svgSpriteLoader = () => ({
   use: ['svg-sprite-loader']
 });
 
-const fontsLoader = (outputDirectoryName = 'fonts') => ({
+const fontsLoader = (mode, outputDirectoryName = 'fonts') => ({
   test: /\.(otf|eot|svg|ttf|woff|woff2)(\?.+)?$/,
   use: [
     {
       loader: 'url-loader',
       options: {
         limit: 2048,
-        name: outputDirectoryName
+        name: urlLoaderFileName(mode, outputDirectoryName)
       }
     }
   ]
@@ -68,6 +85,7 @@ module.exports = {
   cssLoader,
   sassLoader,
   imagesLoader,
+  svgLoader,
   svgSpriteLoader,
   fontsLoader
 };

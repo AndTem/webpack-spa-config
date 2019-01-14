@@ -3,8 +3,10 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const commonConfig = require('./common.config');
+
 const { prodPlugins } = require('./plugins');
-const { mergeArray } = require('./utils');
+
+const { mergePlugins } = require('./utils');
 
 const { PRODUCTION_MODE } = require('./constants');
 
@@ -34,7 +36,7 @@ module.exports = (commonConfigParams, additionalOptions) => {
       devtool: ' hidden-source-map',
       ...additionalOptions,
       optimization: getOptimization(optimization),
-      plugins: mergeArray(prodPlugins(commonConfigParams), plugins)
+      plugins: mergePlugins(prodPlugins(commonConfigParams), plugins)
     }
   );
 };

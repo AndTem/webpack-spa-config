@@ -38,17 +38,20 @@ package.json
 }
 ...
 ```
+Don't forget to fill in the browserlist.
 
 # Default features
-* dev-server, hot replace
-* babel-loader (js, jsx)
-* css-loader, postcss, minimizes css
-* minimizes html template
-* split chunks + runtime chunks
-* define process.env.NODE_ENV
-* removal of the previous assembly before starting a new one in production
-* default imagemin minimezes except jpeg (converted to progressive jpeg)
-* static bundle report (webpack-bundle-analyzer)
+* dev-server, hot replace;
+* babel-loader (js, jsx);
+* css-loader, postcss (autoprefixer), minimizes css;
+* image-loader - limit: 60;
+* svg-loader;
+* minimizes html template;
+* split chunks + runtime chunks;
+* define process.env.NODE_ENV;
+* removal of the previous assembly before starting a new one in production;
+* default imagemin minimezes except jpeg (converted to progressive jpeg);
+* static bundle report (webpack-bundle-analyzer).
 
 # API
 ```
@@ -75,16 +78,19 @@ const loaders = require('webpack-spa-config/loaders');
 
 All loaders are functions.
 
-* **babelLoader** - js, jsx;
-* **cssLoader** - contains: style-loader, css-loader, postcss-loader. In production minify;
-  * parameter - **mode** (string);
-* **sassLoader** - contains: style-loader, css-loader, sass-loader;
-  * parameter - **mode** (string). Don't forget to install **node-sass**.
-* **imagesLoader** - contains: url-loader, file-loader;
-  * parameter - **outputDirectoryName**. Default directory name - images.
+* **babelLoader()** - js, jsx;
+* **cssLoader()** - contains: style-loader, css-loader, postcss-loader (autoprefixer). In production minify;
+* **sassLoader()** - contains: style-loader, css-loader, postcss-loader (autoprefixer)sass-loader;
+* **imagesLoader(mode, outputDirectoryName)** - contains: url-loader;
+  * **mode** - required (string).
+  * **outputDirectoryName** (string). Default directory name - images.
+* **svgLoader(mode, outputDirectoryName)** - contains: file-loader;
+  * **mode** - required (string).
+  * **outputDirectoryName** (string). Default directory name - images.
 * **svgSpriteLoader** - contains: svg-sprite-loader;
-* **fontsLoader** - contains: url-loader;
-  * parameter - **outputDirectoryName**. Default directory name - fonts.
+* **fontsLoader(mode, outputDirectoryName)** - contains: url-loader;
+  * **mode** - required (string).
+  * **outputDirectoryName** (string). Default directory name - fonts.
 
 # Example
 ```
@@ -105,12 +111,13 @@ const commonConfigParams = {
 const commonOptions = mode => ({
   module: {
     rules: [
-      sassLoader(mode),
-      imagesLoader(),
+      sassLoader(),
       fontsLoader()
     ]
   }
 });
+
+// Merge to default DefinePlugin
 
 const devOptions = () => ({
   plugins: [
@@ -119,6 +126,20 @@ const devOptions = () => ({
     }),
   ]
 });
+
+// Output
+// {
+//   ...
+//   plugins: [
+//     ...
+//     new webpack.DefinePlugin({
+//       'process.env.NODE_ENV': JSON.stringify(DEVELOPMENT_MODE),
+//       PRODUCTION: JSON.stringify(false)
+//     }),
+//     ...
+//   ]
+//   ...
+// }
 
 const prodOptions = () => ({
   devtool: 'cheap-source-map',

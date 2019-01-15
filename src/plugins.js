@@ -24,9 +24,6 @@ const devPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
   new HtmlWebpackPlugin({
     template: templatePath
   }),
-  new ImageminPlugin({
-    jpegtran: { progressive: true }
-  }),
   new webpack.HotModuleReplacementPlugin()
 ]);
 

@@ -19,7 +19,8 @@ module.exports = (commonConfigParams, additionalOptions) => {
       devtool: 'eval-source-map',
       devServer: {
         contentBase: outputPath,
-        hot: true
+        hot: true,
+        historyApiFallback: true
       },
       ...additionalOptions,
       plugins: mergePlugins(devPlugins(commonConfigParams), plugins)

@@ -81,17 +81,19 @@ const loaders = require('webpack-spa-config/loaders');
 All loaders are functions.
 
 * **babelLoader()** - js, jsx;
-* **cssLoader()** - contains: style-loader, css-loader, postcss-loader (autoprefixer). In production minify;
-* **sassLoader()** - contains: style-loader, css-loader, postcss-loader (autoprefixer)sass-loader;
-* **imagesLoader(mode, outputDirectoryName)** - contains: url-loader:
+* **cssLoader(mode)** - contains: style-loader, css-loader, postcss-loader (autoprefixer). In production minify:
   * **mode** - required (string).
+* **sassLoader(mode)** - contains: style-loader, css-loader, postcss-loader (autoprefixer)sass-loader:
+  * **mode** - required (string).
+* **imagesLoader(mode, outputDirectoryName)** - contains: url-loader:
+  * **mode** - required (string);
   * **outputDirectoryName** (string). Default directory name - images.
 * **svgLoader(mode, outputDirectoryName)** - contains: file-loader:
-  * **mode** - required (string).
+  * **mode** - required (string);
   * **outputDirectoryName** (string). Default directory name - images.
 * **svgSpriteLoader** - contains: svg-sprite-loader;
 * **fontsLoader(mode, outputDirectoryName)** - contains: url-loader:
-  * **mode** - required (string).
+  * **mode** - required (string);
   * **outputDirectoryName** (string). Default directory name - fonts.
 
 # Example
@@ -114,7 +116,7 @@ const commonConfigParams = {
 const commonOptions = mode => ({
   module: {
     rules: [
-      sassLoader(),
+      sassLoader(mode),
       fontsLoader(mode)
     ]
   },

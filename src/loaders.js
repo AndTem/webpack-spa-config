@@ -10,10 +10,10 @@ const babelLoader = () => ({
   use: ['babel-loader']
 });
 
-const cssLoader = () => ({
+const cssLoader = mode => ({
   test: /\.css$/,
   use: [
-    MiniCssExtractPlugin.loader,
+    isProduction(mode) ? MiniCssExtractPlugin.loader : 'style-loader',
     { loader: 'css-loader', options: { importLoaders: 1 } },
     {
       loader: 'postcss-loader',
@@ -27,10 +27,10 @@ const cssLoader = () => ({
   ]
 });
 
-const sassLoader = () => ({
+const sassLoader = mode => ({
   test: /\.scss$/,
   use: [
-    MiniCssExtractPlugin.loader,
+    isProduction(mode) ? MiniCssExtractPlugin.loader : 'style-loader',
     'css-loader',
     {
       loader: 'postcss-loader',

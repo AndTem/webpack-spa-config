@@ -1,4 +1,5 @@
 const { resolve } = require('path');
+const merge = require('webpack-merge');
 
 const { PRODUCTION_MODE } = require('./constants');
 
@@ -7,8 +8,9 @@ const isProduction = mode => mode === PRODUCTION_MODE;
 const urlLoaderFileName = (mode, outputDirectoryName) =>
   resolve(outputDirectoryName, `${isProduction(mode) ? 'hash' : 'name'}].[ext]`);
 
+const allPluginsReducer = (allPlugins, currentPlugins) => allPlugins.concat(currentPlugins);
+
 const mergePlugins = (...plugins) => {
-  const allPluginsReducer = (allPlugins, currentPlugins) => allPlugins.concat(currentPlugins);
   const allPlugins = plugins.reduce(allPluginsReducer, []);
   const mergedPlugins = [];
 
@@ -39,8 +41,22 @@ const mergePlugins = (...plugins) => {
   return mergedPlugins;
 };
 
+const mergeConfigOptions = (commonOptions, specialOptions) => {
+  const { plugins: commonPlugins } = commonOptions;
+  const { plugins: specialPlugins } = specialOptions;
+
+  const mergedOptions = merge(commonOptions, specialOptions);
+
+  if (commonPlugins || specialPlugins) {
+    mergedOptions.plugins = mergePlugins(commonPlugins, specialPlugins);
+  }
+
+  return mergedOptions;
+};
+
 module.exports = {
   isProduction,
   urlLoaderFileName,
-  mergePlugins
+  mergePlugins,
+  mergeConfigOptions
 };

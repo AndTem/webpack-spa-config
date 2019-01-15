@@ -1,4 +1,4 @@
-const { basename } = require('path');
+const { basename, resolve } = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -23,7 +23,7 @@ const devPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
   }),
   new CopyWebpackPlugin([{ from: publicFilesPath, to: outputPath }]),
   new MiniCssExtractPlugin({
-    filename: 'styles/[name].css'
+    filename: resolve('styles', '[name].css')
   }),
   new HtmlWebpackPlugin({
     template: templatePath
@@ -43,7 +43,7 @@ const prodPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
   }),
   new CopyWebpackPlugin([{ from: publicFilesPath, to: outputPath }]),
   new MiniCssExtractPlugin({
-    filename: 'styles/[hash].css'
+    filename: resolve('styles', '[hash].css')
   }),
   new HtmlWebpackPlugin({
     template: templatePath,

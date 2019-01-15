@@ -38,7 +38,7 @@ package.json
 }
 ...
 ```
-Don't forget to fill in the browserlist.
+Don't forget to fill in the browserlist and babel file.
 
 # Default features
 * dev-server, hot replace;

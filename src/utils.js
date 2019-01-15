@@ -8,7 +8,8 @@ const urlLoaderFileName = (mode, outputDirectoryName) =>
   resolve(outputDirectoryName, `${isProduction(mode) ? 'hash' : 'name'}].[ext]`);
 
 const mergePlugins = (...plugins) => {
-  const allPlugins = plugins[0].concat(plugins[1]);
+  const allPluginsReducer = (allPlugins, currentPlugins) => allPlugins.concat(currentPlugins);
+  const allPlugins = plugins.reduce(allPluginsReducer, []);
   const mergedPlugins = [];
 
   allPlugins.forEach((plugin) => {

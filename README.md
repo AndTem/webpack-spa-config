@@ -112,7 +112,7 @@ const commonOptions = mode => ({
   module: {
     rules: [
       sassLoader(),
-      fontsLoader()
+      fontsLoader(mode)
     ]
   }
 });

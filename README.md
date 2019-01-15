@@ -60,7 +60,7 @@ const createConfig = require('webpack-spa-config');
 createConfig(mode, commonParams, { commonOptions, devOptions, prodOptions })
 ```
 * **mode** - required (string);
-* **commonParams** - required parameters for the entire assembly (object)
+* **commonParams** - required parameters for the entire assembly (object):
 	 * **entryPath** (string);
    * **outputPath** (string);
    * **publicFilesPath** (string) - path to the directory where the public files are stored (images, fonts ...);
@@ -81,14 +81,14 @@ All loaders are functions.
 * **babelLoader()** - js, jsx;
 * **cssLoader()** - contains: style-loader, css-loader, postcss-loader (autoprefixer). In production minify;
 * **sassLoader()** - contains: style-loader, css-loader, postcss-loader (autoprefixer)sass-loader;
-* **imagesLoader(mode, outputDirectoryName)** - contains: url-loader;
+* **imagesLoader(mode, outputDirectoryName)** - contains: url-loader:
   * **mode** - required (string).
   * **outputDirectoryName** (string). Default directory name - images.
-* **svgLoader(mode, outputDirectoryName)** - contains: file-loader;
+* **svgLoader(mode, outputDirectoryName)** - contains: file-loader:
   * **mode** - required (string).
   * **outputDirectoryName** (string). Default directory name - images.
 * **svgSpriteLoader** - contains: svg-sprite-loader;
-* **fontsLoader(mode, outputDirectoryName)** - contains: url-loader;
+* **fontsLoader(mode, outputDirectoryName)** - contains: url-loader:
   * **mode** - required (string).
   * **outputDirectoryName** (string). Default directory name - fonts.
 
@@ -100,6 +100,7 @@ webpack.config.js
 const webpack = require('webpack');
 const createConfig = require('webpack-spa-config');
 const { sassLoader, imagesLoader, fontsLoader } = require('webpack-spa-config/loaders');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const commonConfigParams = {
   entryPath: resolve(__dirname, 'index.js'),
@@ -114,7 +115,10 @@ const commonOptions = mode => ({
       sassLoader(),
       fontsLoader(mode)
     ]
-  }
+  },
+  plugins: [
+    new MiniCssExtractPlugin({ filename: resolve('myStyles', 'style.css') })
+  ]
 });
 
 // Merge to default DefinePlugin
@@ -136,6 +140,7 @@ const devOptions = () => ({
 //       'process.env.NODE_ENV': JSON.stringify(DEVELOPMENT_MODE),
 //       PRODUCTION: JSON.stringify(false)
 //     }),
+//     new MiniCssExtractPlugin({ filename: resolve('myStyles', 'style.css') })
 //     ...
 //   ]
 //   ...

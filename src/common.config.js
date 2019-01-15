@@ -30,5 +30,10 @@ module.exports = ({
       svgLoader(mode),
       fontsLoader(mode)
     ]
+  },
+
+  resolve: {
+    modules: ['node_modules'],
+    extensions: ['.js', '.json', '.jsx', '.css', '.scss', '.less']
   }
 });

@@ -1,12 +1,11 @@
-const { resolve } = require('path');
+const { join } = require('path');
 const merge = require('webpack-merge');
 
 const { PRODUCTION_MODE } = require('./constants');
 
 const isProduction = mode => mode === PRODUCTION_MODE;
 
-const urlLoaderFileName = (mode, outputDirectoryName) =>
-  resolve(outputDirectoryName, `${isProduction(mode) ? 'hash' : 'name'}].[ext]`);
+const urlLoaderFileName = (mode, outputDirectoryName) => join(outputDirectoryName, `[${isProduction(mode) ? 'hash' : 'name'}].[ext]`);
 
 const allPluginsReducer = (allPlugins, currentPlugins) => allPlugins.concat(currentPlugins);
 

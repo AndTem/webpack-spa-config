@@ -7,6 +7,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const Dotenv = require('dotenv-webpack');
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 
 const { DEVELOPMENT_MODE, PRODUCTION_MODE } = require('./constants');
 
@@ -14,6 +15,7 @@ const devPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(DEVELOPMENT_MODE)
   }),
+  new CaseSensitivePathsPlugin(),
   new Dotenv(),
   new CopyWebpackPlugin([{ from: publicFilesPath, to: outputPath }]),
   new MiniCssExtractPlugin({
@@ -35,6 +37,7 @@ const prodPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(PRODUCTION_MODE)
   }),
+  new CaseSensitivePathsPlugin(),
   new Dotenv(),
   new CopyWebpackPlugin([{ from: publicFilesPath, to: outputPath }]),
   new MiniCssExtractPlugin({

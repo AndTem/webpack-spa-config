@@ -62,10 +62,11 @@ createConfig(mode, commonParams, { commonOptions, devOptions, prodOptions })
 ```
 * **mode** - required (string);
 * **commonParams** - required parameters for the entire assembly (object):
-	 * **entryPath** (string);
-   * **outputPath** (string);
-   * **publicFilesPath** (string) - path to the directory where the public files are stored (images, fonts ...);
-   * **templatePath** (string) - path to the prepared template.
+	 * **entryPath** - required (string);
+   * **outputPath** - required (string);
+   * **publicFilesPath** (string) - required path to the directory where the public files are stored (images, fonts ...);
+   * **templatePath** (string) - required path to the prepared template.
+   * **publicPath** (string)
 * **commonOptions** - options merged with common config (function);
 * **devOptions** - options merged with development config (function);
 * **prodOptions** - options merged with production config (function);

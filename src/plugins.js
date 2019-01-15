@@ -1,4 +1,4 @@
-const { basename, resolve } = require('path');
+const { basename, resolve, dirname } = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -9,14 +9,6 @@ const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const Dotenv = require('dotenv-webpack');
 
 const { DEVELOPMENT_MODE, PRODUCTION_MODE } = require('./constants');
-
-const getRootPathWithCleanPlugin = (outputPath) => {
-  const splittingPath = outputPath.split('/');
-
-  splittingPath.pop();
-
-  return splittingPath.join('/');
-};
 
 const devPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
   new webpack.DefinePlugin({
@@ -38,7 +30,7 @@ const devPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
 
 const prodPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
   new CleanWebpackPlugin([basename(outputPath)], {
-    root: getRootPathWithCleanPlugin(outputPath)
+    root: dirname(outputPath)
   }),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(PRODUCTION_MODE)

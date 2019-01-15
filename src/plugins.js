@@ -6,6 +6,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
+const Dotenv = require('dotenv-webpack');
 
 const { DEVELOPMENT_MODE, PRODUCTION_MODE } = require('./constants');
 
@@ -21,6 +22,7 @@ const devPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(DEVELOPMENT_MODE)
   }),
+  new Dotenv(),
   new CopyWebpackPlugin([{ from: publicFilesPath, to: outputPath }]),
   new MiniCssExtractPlugin({
     filename: resolve('styles', '[name].css')
@@ -41,6 +43,7 @@ const prodPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(PRODUCTION_MODE)
   }),
+  new Dotenv(),
   new CopyWebpackPlugin([{ from: publicFilesPath, to: outputPath }]),
   new MiniCssExtractPlugin({
     filename: resolve('styles', '[hash].css')

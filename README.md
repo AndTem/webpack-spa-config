@@ -46,6 +46,7 @@ Don't forget to fill in the browserlist and babel file.
 * css-loader, postcss (autoprefixer, flexbugs-fixes), minimizes css. Default output directory - 'styles';
 * image-loader - limit: 60. Default output directory - 'images';
 * svg-loader - default output directory - 'images';
+* fonts-loader - formats: .otf, .eot, .ttf, .woff, .woff2. Default output directory - 'fonts';
 * minimizes html template;
 * split chunks + runtime chunks;
 * define process.env.NODE_ENV;

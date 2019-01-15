@@ -2,7 +2,8 @@ const {
   babelLoader,
   cssLoader,
   imagesLoader,
-  svgLoader
+  svgLoader,
+  fontsLoader
 } = require('./loaders');
 
 module.exports = ({
@@ -24,9 +25,10 @@ module.exports = ({
   module: {
     rules: [
       babelLoader(),
-      cssLoader(),
-      imagesLoader(),
-      svgLoader(mode)
+      cssLoader(mode),
+      imagesLoader(mode),
+      svgLoader(mode),
+      fontsLoader(mode)
     ]
   }
 });

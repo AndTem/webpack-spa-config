@@ -75,7 +75,7 @@ const svgSpriteLoader = () => ({
 });
 
 const fontsLoader = (mode, outputDirectoryName = 'fonts') => ({
-  test: /\.(otf|eot|svg|ttf|woff|woff2)(\?.+)?$/,
+  test: /\.(otf|eot|ttf|woff|woff2)(\?.+)?$/,
   use: [
     {
       loader: 'url-loader',

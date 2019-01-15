@@ -1,5 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
+const flexbugsFixes = require('postcss-flexbugs-fixes');
 
 const { urlLoaderFileName, isProduction } = require('./utils');
 
@@ -17,7 +18,10 @@ const cssLoader = () => ({
     {
       loader: 'postcss-loader',
       options: {
-        plugins: [autoprefixer()]
+        plugins: [
+          flexbugsFixes(),
+          autoprefixer()
+        ]
       }
     }
   ]
@@ -31,7 +35,10 @@ const sassLoader = () => ({
     {
       loader: 'postcss-loader',
       options: {
-        plugins: [autoprefixer()]
+        plugins: [
+          flexbugsFixes(),
+          autoprefixer()
+        ]
       }
     },
     'sass-loader'

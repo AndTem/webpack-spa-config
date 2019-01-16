@@ -64,7 +64,7 @@ const svgLoader = (mode, outputDirectoryName = 'images') => ({
     loader: 'file-loader',
     options: {
       outputPath: outputDirectoryName,
-      name: isProduction(mode) ? '[hash].svg' : '[name].svg'
+      name: urlLoaderFileName(mode, outputDirectoryName)
     }
   }
 });

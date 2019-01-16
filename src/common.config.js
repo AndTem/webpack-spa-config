@@ -10,6 +10,8 @@ module.exports = ({
   entryPath,
   outputPath,
   publicPath,
+  imagesOutputDirectoryName,
+  fontsOutputDirectoryName,
   mode
 }) => ({
   target: 'web',
@@ -26,9 +28,9 @@ module.exports = ({
     rules: [
       babelLoader(),
       cssLoader(mode),
-      imagesLoader(mode),
-      svgLoader(mode),
-      fontsLoader(mode)
+      imagesLoader(mode, imagesOutputDirectoryName),
+      svgLoader(mode, imagesOutputDirectoryName),
+      fontsLoader(mode, fontsOutputDirectoryName)
     ]
   },
 

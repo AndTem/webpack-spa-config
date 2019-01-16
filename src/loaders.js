@@ -46,7 +46,7 @@ const sassLoader = mode => ({
 });
 
 const imagesLoader = (mode, outputDirectoryName = 'images') => ({
-  test: /\.(png|jpg|jpeg|gif)$/i,
+  test: /\.(png|jpg|jpeg|gif|webp)$/i,
   use: [
     {
       loader: 'url-loader',
@@ -59,12 +59,12 @@ const imagesLoader = (mode, outputDirectoryName = 'images') => ({
 });
 
 const svgLoader = (mode, outputDirectoryName = 'images') => ({
-  test: /\.(svg)$/i,
+  test: /\.svg$/i,
   use: {
     loader: 'file-loader',
     options: {
       outputPath: outputDirectoryName,
-      name: `[name]${isProduction(mode) && '.[hash]'}.svg`
+      name: `[name]${isProduction(mode) ? '.[hash]' : ''}.svg`
     }
   }
 });

@@ -12,7 +12,7 @@ module.exports = (commonConfigParams, additionalOptions) => {
   const { outputPath } = commonConfigParams;
   const { plugins } = additionalOptions;
 
-  return merge(
+  return merge.smart(
     commonConfig({ ...commonConfigParams, mode: DEVELOPMENT_MODE }),
     {
       mode: DEVELOPMENT_MODE,

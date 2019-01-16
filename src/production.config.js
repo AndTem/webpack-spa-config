@@ -29,7 +29,7 @@ const getOptimization = additionalOptions => merge({
 module.exports = (commonConfigParams, additionalOptions) => {
   const { plugins, optimization } = additionalOptions;
 
-  return merge(
+  return merge.smart(
     commonConfig({ ...commonConfigParams, mode: PRODUCTION_MODE }),
     {
       mode: PRODUCTION_MODE,

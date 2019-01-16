@@ -66,8 +66,10 @@ createConfig(mode, commonParams, { commonOptions, devOptions, prodOptions })
 	 * **entryPath** - required (string);
    * **outputPath** - required (string);
    * **publicFilesPath** (string) - required path to the directory where the public files are stored (images, fonts ...);
-   * **templatePath** (string) - required path to the prepared template.
-   * **publicPath** (string)
+   * **templatePath** (string) - required path to the prepared template;
+   * **publicPath** (string) - default  '/';
+   * **imagesOutputDirectoryName** (string) - default 'images';
+   * **fontsOutputDirectoryName** (string) - default 'fonts';
 * **commonOptions** - options merged with common config (function);
 * **devOptions** - options merged with development config (function);
 * **prodOptions** - options merged with production config (function);
@@ -117,6 +119,33 @@ const commonConfigParams = {
 const commonOptions = mode => ({
   module: {
     rules: [
+      // Replace imageLoader limit
+      {
+        test: /\.(png|jpg|jpeg|gif|webp)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 300
+            }
+          }
+        ]
+      }
+      // Output
+      // ...
+      // {
+      //  test: /\.(png|jpg|jpeg|gif|webp)$/i,
+      //  use: [
+      //    {
+      //      loader: 'url-loader',
+      //      options: {
+      //        limit: 300,
+      //        name: urlLoaderFileName(mode, outputDirectoryName)
+      //      }
+      //    }
+      //  ]
+      // }
+      // ...
       sassLoader(mode),
       fontsLoader(mode)
     ]

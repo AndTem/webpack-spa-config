@@ -59,7 +59,8 @@ const imagesLoader = ({ mode, outputDirectoryName = 'images', exclude }) => ({
       loader: 'image-webpack-loader',
       options: {
         mozjpeg: {
-          progressive: true
+          progressive: true,
+          quality: 90
         },
         optipng: {
           optimizationLevel: 3

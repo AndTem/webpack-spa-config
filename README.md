@@ -52,7 +52,7 @@ Don't forget to fill in the browserlist and babel file.
 * define process.env.NODE_ENV;
 * adds .env variables in process.env;
 * removal of the previous assembly before starting a new one in production;
-* default imagemin minimezes except jpeg (converted to progressive jpeg);
+* default image-webpack-loader minimezes except jpeg (converted to progressive jpeg) and png (optimiztion level - 3);
 * static bundle report (webpack-bundle-analyzer).
 
 # API
@@ -70,6 +70,8 @@ createConfig(mode, commonParams, { commonOptions, devOptions, prodOptions })
    * **publicPath** (string) - default  '/';
    * **imagesOutputDirectoryName** (string) - default 'images';
    * **fontsOutputDirectoryName** (string) - default 'fonts';
+   * **excludeImages** (regexp);
+   * **excludeSvg**(regexp).
 * **commonOptions** - options merged with common config (function);
 * **devOptions** - options merged with development config (function);
 * **prodOptions** - options merged with production config (function);
@@ -88,12 +90,14 @@ All loaders are functions.
   * **mode** - required (string).
 * **sassLoader(mode)** - contains: style-loader, css-loader, postcss-loader (autoprefixer)sass-loader:
   * **mode** - required (string).
-* **imagesLoader(mode, outputDirectoryName)** - contains: url-loader:
+* **imagesLoader({ mode, outputDirectoryName, exclude })** - contains: url-loader:
   * **mode** - required (string);
-  * **outputDirectoryName** (string). Default directory name - images.
-* **svgLoader(mode, outputDirectoryName)** - contains: file-loader:
+  * **outputDirectoryName** (string). Default directory name - images;
+  * **exclude** (regexp).
+* **svgLoader({ mode, outputDirectoryName, exclude })** - contains: file-loader:
   * **mode** - required (string);
-  * **outputDirectoryName** (string). Default directory name - images.
+  * **outputDirectoryName** (string). Default directory name - images;
+  * **exclude** (regexp).
 * **svgSpriteLoader** - contains: svg-sprite-loader;
 * **fontsLoader(mode, outputDirectoryName)** - contains: url-loader:
   * **mode** - required (string);
@@ -107,13 +111,16 @@ webpack.config.js
 const webpack = require('webpack');
 const createConfig = require('webpack-spa-config');
 const { sassLoader, imagesLoader, fontsLoader } = require('webpack-spa-config/loaders');
+const { isProduction } = require('webpack-spa-config/utils');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const commonConfigParams = {
   entryPath: resolve(__dirname, 'index.js'),
   outputPath: resolve(__dirname, 'dist'),
   publicFilesPath: resolve(__dirname, 'public'),
-  templatePath: resolve(__dirname, 'index.html')
+  templatePath: resolve(__dirname, 'index.html'),
+  // Exclude svg-sprite to cancel minimization
+  excludeSvg: /svg-sprite\.svg/i
 };
 
 const commonOptions = mode => ({
@@ -130,7 +137,7 @@ const commonOptions = mode => ({
             }
           }
         ]
-      }
+      },
       // Output
       // ...
       // {
@@ -146,6 +153,18 @@ const commonOptions = mode => ({
       //  ]
       // }
       // ...
+      {
+        test: /svg-sprite\.svg/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'images',
+              name: `[name]${isProduction(mode) ? '.[hash]' : ''}.svg`
+            }
+          },
+        ]
+      },
       sassLoader(mode),
       fontsLoader(mode)
     ]

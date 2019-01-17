@@ -45,7 +45,7 @@ const sassLoader = mode => ({
   ]
 });
 
-const imagesLoader = (mode, outputDirectoryName = 'images') => ({
+const imagesLoader = ({ mode, outputDirectoryName = 'images', exclude }) => ({
   test: /\.(png|jpg|jpeg|gif|webp)$/i,
   use: [
     {
@@ -54,19 +54,35 @@ const imagesLoader = (mode, outputDirectoryName = 'images') => ({
         limit: 60,
         name: urlLoaderFileName(mode, outputDirectoryName)
       }
+    },
+    {
+      loader: 'image-webpack-loader',
+      options: {
+        mozjpeg: {
+          progressive: true
+        },
+        optipng: {
+          optimizationLevel: 3
+        }
+      }
     }
-  ]
+  ],
+  exclude
 });
 
-const svgLoader = (mode, outputDirectoryName = 'images') => ({
+const svgLoader = ({ mode, outputDirectoryName = 'images', exclude }) => ({
   test: /\.svg$/i,
-  use: {
-    loader: 'file-loader',
-    options: {
-      outputPath: outputDirectoryName,
-      name: `[name]${isProduction(mode) ? '.[hash]' : ''}.svg`
-    }
-  }
+  use: [
+    {
+      loader: 'file-loader',
+      options: {
+        outputPath: outputDirectoryName,
+        name: `[name]${isProduction(mode) ? '.[hash]' : ''}.svg`
+      }
+    },
+    'image-webpack-loader'
+  ],
+  exclude
 });
 
 const svgSpriteLoader = () => ({

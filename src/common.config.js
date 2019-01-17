@@ -12,6 +12,8 @@ module.exports = ({
   publicPath,
   imagesOutputDirectoryName,
   fontsOutputDirectoryName,
+  excludeImages,
+  excludeSvg,
   mode
 }) => ({
   target: 'web',
@@ -28,8 +30,8 @@ module.exports = ({
     rules: [
       babelLoader(),
       cssLoader(mode),
-      imagesLoader(mode, imagesOutputDirectoryName),
-      svgLoader(mode, imagesOutputDirectoryName),
+      imagesLoader({ mode, imagesOutputDirectoryName, exclude: excludeImages }),
+      svgLoader({ mode, imagesOutputDirectoryName, exclude: excludeSvg }),
       fontsLoader(mode, fontsOutputDirectoryName)
     ]
   },

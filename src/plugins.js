@@ -47,9 +47,6 @@ const prodPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
       conservativeCollapse: true
     }
   }),
-  new ImageminPlugin({
-    jpegtran: { progressive: true }
-  }),
   new BundleAnalyzerPlugin({
     analyzerMode: 'static',
     reportFilename: 'bundle-analyzer-report.html',

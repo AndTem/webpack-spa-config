@@ -33,7 +33,7 @@ package.json
 ...
 "scripts": {
   "build": "webpack --mode=development --config webpack.config.js",
-  "start": "webpack-dev-server --open --mode=development",
+  "start": "webpack-dev-server --mode=development",
   "build-prod": "webpack --mode=production --config webpack.config.js"
 }
 ...
@@ -41,7 +41,7 @@ package.json
 Don't forget to fill in the browserlist and babel file.
 
 # Default features
-* dev-server, hot replace;
+* dev-server, hot replace (host on local ip);
 * babel-loader (js, jsx);
 * css-loader, postcss (autoprefixer, flexbugs-fixes), minimizes css. Default output directory - 'styles';
 * image-loader - limit: 60. Default output directory - 'images';
@@ -177,6 +177,9 @@ const commonOptions = mode => ({
 // Merge to default DefinePlugin
 
 const devOptions = () => ({
+  devServer: {
+    open: false
+  },
   plugins: [
     new webpack.DefinePlugin({
       PRODUCTION: JSON.stringify(false)

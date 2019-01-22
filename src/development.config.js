@@ -19,7 +19,10 @@ module.exports = (commonConfigParams, additionalOptions) => {
       devtool: 'eval-source-map',
       devServer: {
         contentBase: outputPath,
+        open: true,
         hot: true,
+        host: '0.0.0.0',
+        useLocalIp: true,
         historyApiFallback: true
       },
       ...additionalOptions,

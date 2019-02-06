@@ -98,7 +98,8 @@ All loaders are functions.
   * **mode** - required (string);
   * **outputDirectoryName** (string). Default directory name - images;
   * **exclude** (regexp).
-* **svgSpriteLoader** - contains: svg-sprite-loader;
+* **svgSpriteLoader({ testRegexp })** - contains: svg-sprite-loader. Don't forget to add excludeSvg param in **commomConfigParams**;
+  * **testRegexp** - required (string);
 * **fontsLoader(mode, outputDirectoryName)** - contains: url-loader:
   * **mode** - required (string);
   * **outputDirectoryName** (string). Default directory name - fonts.
@@ -110,9 +111,11 @@ webpack.config.js
 ```js
 const webpack = require('webpack');
 const createConfig = require('webpack-spa-config');
-const { sassLoader, imagesLoader, fontsLoader } = require('webpack-spa-config/loaders');
+const { sassLoader, svgSpriteLoader } = require('webpack-spa-config/loaders');
 const { isProduction } = require('webpack-spa-config/utils');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+const svgSpriteRegexp = /sprite\/*\/.*\.svg$/i;
 
 const commonConfigParams = {
   entryPath: resolve(__dirname, 'index.js'),
@@ -120,7 +123,7 @@ const commonConfigParams = {
   publicFilesPath: resolve(__dirname, 'public'),
   templatePath: resolve(__dirname, 'index.html'),
   // Exclude svg-sprite to cancel minimization
-  excludeSvg: /svg-sprite\.svg/i
+  excludeSvg: svgSpriteRegexp
 };
 
 const commonOptions = mode => ({
@@ -153,21 +156,16 @@ const commonOptions = mode => ({
       //  ]
       // }
       // ...
-      {
-        test: /svg-sprite\.svg/i,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              outputPath: 'images',
-              name: `[name]${isProduction(mode) ? '.[hash]' : ''}.svg`
-            }
-          },
-        ]
-      },
+
+      //
+      svgSpriteLoader({ testRegexp: svgSpriteRegexp }),
       sassLoader(mode),
-      fontsLoader(mode)
-    ]
+    ],
+    resolve: {
+      alias: {
+        common: resolve(__dirname, 'common')
+      }
+    }
   },
   plugins: [
     new MiniCssExtractPlugin({ filename: resolve('myStyles', 'style.css') })

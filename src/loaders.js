@@ -86,9 +86,12 @@ const svgLoader = ({ mode, outputDirectoryName = 'images', exclude }) => ({
   exclude
 });
 
-const svgSpriteLoader = () => ({
-  test: /\.svg$/,
-  use: ['svg-sprite-loader']
+const svgSpriteLoader = ({ testRegexp }) => ({
+  test: testRegexp,
+  use: [
+    'image-webpack-loader',
+    'svg-sprite-loader'
+  ]
 });
 
 const fontsLoader = (mode, outputDirectoryName = 'fonts') => ({

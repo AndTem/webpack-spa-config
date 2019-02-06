@@ -41,19 +41,29 @@ package.json
 Don't forget to fill in the browserlist and babel file.
 
 # Default features
-* dev-server, hot replace (host on local ip);
-* babel-loader (js, jsx);
-* css-loader, postcss (autoprefixer, flexbugs-fixes), minimizes css. Default output directory - 'styles';
-* image-loader - limit: 60. Default output directory - 'images';
-* svg-loader - default output directory - 'images';
-* fonts-loader - formats: .otf, .eot, .ttf, .woff, .woff2. Default output directory - 'fonts';
-* minimizes html template;
-* split chunks + runtime chunks;
-* define process.env.NODE_ENV;
-* adds .env variables in process.env;
-* removal of the previous assembly before starting a new one in production;
-* default image-webpack-loader minimezes except jpeg (converted to progressive jpeg) and png (optimiztion level - 3);
-* static bundle report (webpack-bundle-analyzer).
+
+## Development mode
+  * dev-server, hot replace (host on local ip);
+  * babel-loader (js, jsx);
+  * css-loader
+  * image-loader - limit: 60. Default output directory - 'images';
+  * svg-loader - default output directory - 'images';
+  * fonts-loader - formats: .otf, .eot, .ttf, .woff, .woff2. Default output directory - 'fonts';
+  * define process.env.NODE_ENV;
+  * adds .env variables in process.env.
+
+## Production mode
+  * babel-loader (js, jsx);
+  * css-loader, postcss (autoprefixer, flexbugs-fixes), minimizes css. Default output directory - 'styles';
+  * image-loader - limit: 60. Default output directory - 'images';
+  * svg-loader - default output directory - 'images';
+  * default image-webpack-loader minimezes except jpeg (converted to progressive jpeg) and png (optimiztion level - 3);
+  * fonts-loader - formats: .otf, .eot, .ttf, .woff, .woff2. Default output directory - 'fonts';
+  * minimizes html template;
+  * split chunks + runtime chunks;
+  * adds .env variables in process.env;
+  * removal of the previous assembly before starting a new one in production;
+  * static bundle report (webpack-bundle-analyzer).
 
 # API
 ```

@@ -9,6 +9,13 @@
   },
   "license": "MIT",
   "homepage": "https://github.com/AndTem/webpack-spa-config#Readme",
+  "keywords": [
+    "webpack",
+    "webpack 4",
+    "webpack config",
+    "webpack-config",
+    "webpack spa"
+  ],
   "bugs": {
     "url": "https://github.com/AndTem/webpack-spa-config/issues"
   },

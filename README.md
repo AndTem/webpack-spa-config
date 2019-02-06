@@ -71,7 +71,7 @@ createConfig(mode, commonParams, { commonOptions, devOptions, prodOptions })
    * **imagesOutputDirectoryName** (string) - default 'images';
    * **fontsOutputDirectoryName** (string) - default 'fonts';
    * **excludeImages** (regexp);
-   * **excludeSvg**(regexp).
+   * **excludeSvg** (regexp).
 * **commonOptions** - options merged with common config (function);
 * **devOptions** - options merged with development config (function);
 * **prodOptions** - options merged with production config (function);

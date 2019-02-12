@@ -22,6 +22,11 @@ const getOptimization = additionalOptions => merge({
   ],
   runtimeChunk: true,
   splitChunks: {
+    cacheGroups: {
+      vendor: {
+        filename: '[chunkhash].vendors.js'
+      }
+    },
     chunks: 'all'
   }
 }, additionalOptions);

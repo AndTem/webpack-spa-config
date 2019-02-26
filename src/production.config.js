@@ -24,6 +24,8 @@ const getOptimization = additionalOptions => merge({
   splitChunks: {
     cacheGroups: {
       vendor: {
+        test: /node_modules/,
+        chunks: 'initial',
         filename: '[chunkhash].vendors.js'
       }
     },

@@ -1,6 +1,6 @@
 {
   "name": "webpack-spa-config",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "Webpack 4 config for SPA",
   "author": "And_tem",
   "repository": {

@@ -15,17 +15,21 @@ module.exports = (commonConfigParams, additionalOptions) => {
   return merge.smart(
     commonConfig({ ...commonConfigParams, mode: DEVELOPMENT_MODE }),
     {
-      mode: DEVELOPMENT_MODE,
-      devtool: 'eval-source-map',
-      devServer: {
-        contentBase: outputPath,
-        open: true,
-        hot: true,
-        host: '0.0.0.0',
-        useLocalIp: true,
-        historyApiFallback: true
-      },
-      ...additionalOptions,
+      ...merge(
+        {
+          mode: DEVELOPMENT_MODE,
+          devtool: 'eval-source-map',
+          devServer: {
+            contentBase: outputPath,
+            open: true,
+            hot: true,
+            host: '0.0.0.0',
+            useLocalIp: true,
+            historyApiFallback: true
+          }
+        },
+        additionalOptions
+      ),
       plugins: mergePlugins(devPlugins(commonConfigParams), plugins)
     }
   );

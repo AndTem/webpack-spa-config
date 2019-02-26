@@ -23,7 +23,6 @@ module.exports = (commonConfigParams, additionalOptions) => {
             contentBase: outputPath,
             open: true,
             hot: true,
-            host: '0.0.0.0',
             useLocalIp: true,
             historyApiFallback: true
           }

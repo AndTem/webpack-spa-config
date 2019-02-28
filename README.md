@@ -221,7 +221,7 @@ module.exports = (_, { mode }) => {
 };
 ```
 
-<a name="#spriteExample"># Example with svg sprite</a>
+<a name="spriteExample"># Example with svg sprite</a>
 
 ```
 index.html

@@ -86,13 +86,23 @@ const svgLoader = ({ mode, outputDirectoryName = 'images', exclude }) => ({
   exclude
 });
 
-const svgSpriteLoader = ({ testRegexp }) => ({
-  test: testRegexp,
-  use: [
-    'image-webpack-loader',
-    'svg-sprite-loader'
-  ]
-});
+const svgSpriteLoader = ({ mode, testRegexp }) => {
+  const loader = {
+    test: testRegexp,
+    use: [
+      {
+        loader: 'svg-sprite-loader',
+        options: {
+          extract: isProduction(mode)
+        }
+      }
+    ]
+  };
+
+  if (isProduction(mode)) loader.use.push('image-webpack-loader');
+
+  return loader;
+};
 
 const fontsLoader = (mode, outputDirectoryName = 'fonts') => ({
   test: /\.(otf|eot|ttf|woff|woff2)(\?.+)?$/,

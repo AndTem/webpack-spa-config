@@ -48,6 +48,7 @@ Don't forget to fill in the browserlist and babel file.
   * css-loader
   * image-loader - limit: 60. Default output directory - 'images';
   * svg-loader - default output directory - 'images';
+  * svg-sprite - in development mode injects in runtime;
   * fonts-loader - formats: .otf, .eot, .ttf, .woff, .woff2. Default output directory - 'fonts';
   * define process.env.NODE_ENV;
   * adds .env variables in process.env.
@@ -57,6 +58,7 @@ Don't forget to fill in the browserlist and babel file.
   * css-loader, postcss (autoprefixer, flexbugs-fixes), minimizes css. Default output directory - 'styles';
   * image-loader - limit: 60. Default output directory - 'images';
   * svg-loader - default output directory - 'images';
+  * svg-sprite - in production mode injects in html;
   * default image-webpack-loader minimezes except jpeg (converted to progressive jpeg) and png (optimiztion level - 3);
   * fonts-loader - formats: .otf, .eot, .ttf, .woff, .woff2. Default output directory - 'fonts';
   * minimizes html template;
@@ -108,7 +110,8 @@ All loaders are functions.
   * **mode** - required (string);
   * **outputDirectoryName** (string). Default directory name - images;
   * **exclude** (regexp).
-* **svgSpriteLoader({ testRegexp })** - contains: svg-sprite-loader. Don't forget to add excludeSvg param in **commomConfigParams**;
+* **svgSpriteLoader({ mode, testRegexp })** - contains: svg-sprite-loader. Don't forget to add excludeSvg param in **commomConfigParams**, SpriteLoaderPlugin in prodOptions and inject to html template code as [in the example](#spriteExample);
+  * **mode** - required (string);
   * **testRegexp** - required (string);
 * **fontsLoader(mode, outputDirectoryName)** - contains: url-loader:
   * **mode** - required (string);
@@ -121,19 +124,15 @@ webpack.config.js
 ```js
 const webpack = require('webpack');
 const createConfig = require('webpack-spa-config');
-const { sassLoader, svgSpriteLoader } = require('webpack-spa-config/loaders');
+const { sassLoader } = require('webpack-spa-config/loaders');
 const { isProduction } = require('webpack-spa-config/utils');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
-const svgSpriteRegexp = /sprite\/*\/.*\.svg$/i;
 
 const commonConfigParams = {
   entryPath: resolve(__dirname, 'index.js'),
   outputPath: resolve(__dirname, 'dist'),
   publicFilesPath: resolve(__dirname, 'public'),
   templatePath: resolve(__dirname, 'index.html'),
-  // Exclude svg-sprite to cancel minimization
-  excludeSvg: [svgSpriteRegexp]
 };
 
 const commonOptions = mode => ({
@@ -167,8 +166,6 @@ const commonOptions = mode => ({
       // }
       // ...
 
-      //
-      svgSpriteLoader({ testRegexp: svgSpriteRegexp }),
       sassLoader(mode),
     ],
     resolve: {
@@ -222,4 +219,72 @@ const prodOptions = () => ({
 module.exports = (_, { mode }) => {
   return createConfig(mode, commonConfigParams, { commonOptions, devOptions, prodOptions });
 };
+```
+
+<a name="#spriteExample"># Example with svg sprite</a>
+
+```
+index.html
+```
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
+
+    <title>Webpack SPA</title>
+
+    <style>
+      .sprite-symbol-usage {
+        display: inline !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="display: none;">
+      <% if (htmlWebpackPlugin.files.sprites) { %> <% for (var spriteFileName in
+      htmlWebpackPlugin.files.sprites) { %> <%= htmlWebpackPlugin.files.sprites[spriteFileName] %>
+      <% } %> <% } %>
+    </div>
+    ...
+  </body>
+</html>
+```
+
+```
+webpack.config.js
+```
+```js
+const createConfig = require('webpack-spa-config');
+const { svgSpriteLoader } = require('webpack-spa-config/loaders');
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
+
+const svgSpriteRegexp = /sprite\/*\/.*\.svg$/i;
+
+const commonConfigParams = {
+  entryPath: resolve(__dirname, 'index.js'),
+  outputPath: resolve(__dirname, 'dist'),
+  publicFilesPath: resolve(__dirname, 'public'),
+  templatePath: resolve(__dirname, 'index.html'),
+  // Exclude svg-sprite to cancel minimization
+  excludeSvg: [svgSpriteRegexp]
+};
+
+const commonOptions = mode => ({
+  module: {
+    rules: [
+      svgSpriteLoader({ mode, testRegexp: svgSpriteRegexp })
+    ]
+  }
+});
+
+const prodOptions = () => ({
+  plugins: [
+    new SpriteLoaderPlugin()
+  ]
+});
+
+module.exports = (_, { mode }) =>
+  createConfig(mode, commonConfigParams, { commonOptions, prodOptions });
 ```

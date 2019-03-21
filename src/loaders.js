@@ -4,6 +4,8 @@ const flexbugsFixes = require('postcss-flexbugs-fixes');
 
 const { urlLoaderFileName, isProduction } = require('./utils');
 
+const { IMAGE_LOADER_OPTIONS } = require('./constants');
+
 const babelLoader = () => ({
   test: /\.(js|jsx)$/,
   exclude: /node_modules/,
@@ -57,15 +59,7 @@ const imagesLoader = ({ mode, outputDirectoryName = 'images', exclude }) => ({
     },
     {
       loader: 'image-webpack-loader',
-      options: {
-        mozjpeg: {
-          progressive: true,
-          quality: 90
-        },
-        optipng: {
-          optimizationLevel: 3
-        }
-      }
+      options: IMAGE_LOADER_OPTIONS
     }
   ],
   exclude
@@ -81,7 +75,10 @@ const svgLoader = ({ mode, outputDirectoryName = 'images', exclude }) => ({
         name: `[name]${isProduction(mode) ? '.[hash]' : ''}.svg`
       }
     },
-    'image-webpack-loader'
+    {
+      loader: 'image-webpack-loader',
+      options: IMAGE_LOADER_OPTIONS
+    }
   ],
   exclude
 });

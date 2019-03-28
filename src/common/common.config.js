@@ -4,7 +4,7 @@ const {
   imagesLoader,
   svgLoader,
   fontsLoader
-} = require('./loaders');
+} = require('../loaders');
 
 module.exports = ({
   entryPath,

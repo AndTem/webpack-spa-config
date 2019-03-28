@@ -1,12 +1,12 @@
 const merge = require('webpack-merge');
 
-const commonConfig = require('./common.config');
+const commonConfig = require('../common/common.config');
 
-const { devPlugins } = require('./plugins');
+const devPlugins = require('./plugins');
 
-const { mergePlugins } = require('./utils');
+const { mergePlugins } = require('../utils');
 
-const { DEVELOPMENT_MODE } = require('./constants');
+const { DEVELOPMENT_MODE } = require('../constants');
 
 module.exports = (commonConfigParams, additionalOptions) => {
   const { outputPath } = commonConfigParams;

@@ -2,13 +2,13 @@ const merge = require('webpack-merge');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-const commonConfig = require('./common.config');
+const commonConfig = require('../common/common.config');
 
-const { prodPlugins } = require('./plugins');
+const prodPlugins = require('./plugins');
 
-const { mergePlugins } = require('./utils');
+const { mergePlugins } = require('../utils');
 
-const { PRODUCTION_MODE } = require('./constants');
+const { PRODUCTION_MODE } = require('../constants');
 
 const getOptimization = additionalOptions => merge({
   minimizer: [

@@ -1,5 +1,5 @@
-const devConfig = require('./development.config');
-const prodConfig = require('./production.config');
+const devConfig = require('./development/development.config');
+const prodConfig = require('./production/production.config');
 
 const { mergeConfigOptions } = require('./utils');
 

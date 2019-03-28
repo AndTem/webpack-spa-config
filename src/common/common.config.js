@@ -9,29 +9,41 @@ const {
 module.exports = ({
   entryPath,
   outputPath,
-  publicPath,
+  publicPath = '/',
+  scriptsFileName = '[hash].bundle.js',
   imagesOutputDirectoryName,
   fontsOutputDirectoryName,
   excludeImages,
   excludeSvg,
-  mode
+  mode,
+  compatibilityMode
 }) => ({
   target: 'web',
 
   entry: entryPath,
 
   output: {
-    filename: '[hash].bundle.js',
+    filename: scriptsFileName,
     path: outputPath,
-    publicPath: publicPath || '/'
+    publicPath: publicPath
   },
 
   module: {
     rules: [
       babelLoader(),
-      cssLoader(mode),
-      imagesLoader({ mode, imagesOutputDirectoryName, exclude: excludeImages }),
-      svgLoader({ mode, imagesOutputDirectoryName, exclude: excludeSvg }),
+      cssLoader({ mode, compatibilityMode }),
+      imagesLoader({
+        mode,
+        compatibilityMode,
+        imagesOutputDirectoryName,
+        exclude: excludeImages
+      }),
+      svgLoader({
+        mode,
+        compatibilityMode,
+        imagesOutputDirectoryName,
+        exclude: excludeSvg
+      }),
       fontsLoader(mode, fontsOutputDirectoryName)
     ]
   },

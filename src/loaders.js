@@ -2,17 +2,21 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
 const flexbugsFixes = require('postcss-flexbugs-fixes');
 
-const { urlLoaderFileName, isProduction } = require('./utils');
+const { isProduction, isLegacyMode } = require('./utils/mode');
+const { urlLoaderFileName } = require('./utils/url');
 
 const { IMAGE_LOADER_OPTIONS } = require('./constants');
 
-const babelLoader = () => ({
+const babelLoader = options => ({
   test: /\.(js|jsx)$/,
   exclude: /node_modules/,
-  use: ['babel-loader']
+  use: {
+    loader: "babel-loader",
+    options
+  }
 });
 
-const cssLoader = mode => ({
+const cssLoader = ({ mode }) => ({
   test: /\.css$/,
   use: [
     isProduction(mode) ? MiniCssExtractPlugin.loader : 'style-loader',
@@ -29,7 +33,7 @@ const cssLoader = mode => ({
   ]
 });
 
-const sassLoader = mode => ({
+const sassLoader = ({ mode }) => ({
   test: /\.scss$/,
   use: [
     isProduction(mode) ? MiniCssExtractPlugin.loader : 'style-loader',
@@ -47,43 +51,65 @@ const sassLoader = mode => ({
   ]
 });
 
-const imagesLoader = ({ mode, outputDirectoryName = 'images', exclude }) => ({
-  test: /\.(png|jpg|jpeg|gif|webp)$/i,
-  use: [
-    {
-      loader: 'url-loader',
-      options: {
-        limit: 60,
-        name: urlLoaderFileName(mode, outputDirectoryName)
+const imagesLoader = ({
+  mode,
+  compatibilityMode,
+  outputDirectoryName = 'images',
+  exclude
+}) => {
+  const loader = {
+    test: /\.(png|jpg|jpeg|gif|webp)$/i,
+    use: [
+      {
+        loader: 'url-loader',
+        options: {
+          limit: 60,
+          // [name] || [hash]
+          name: urlLoaderFileName(mode, outputDirectoryName)
+        }
       }
-    },
-    {
+    ],
+    exclude
+  };
+
+  if (isProduction(mode) && !isLegacyMode(compatibilityMode)) {
+    loader.use.push({
       loader: 'image-webpack-loader',
       options: IMAGE_LOADER_OPTIONS
-    }
-  ],
-  exclude
-});
+    });
+  }
 
-const svgLoader = ({ mode, outputDirectoryName = 'images', exclude }) => ({
-  test: /\.svg$/i,
-  use: [
-    {
-      loader: 'file-loader',
-      options: {
-        outputPath: outputDirectoryName,
-        name: `[name]${isProduction(mode) ? '.[hash]' : ''}.svg`
+  return loader;
+};
+
+const svgLoader = ({
+  mode,
+  compatibilityMode,
+  outputDirectoryName = 'images',
+  exclude
+}) => {
+  const loader = {
+    test: /\.svg$/i,
+    use: [
+      {
+        loader: 'file-loader',
+        options: {
+          outputPath: outputDirectoryName,
+          name: `[name]${isProduction(mode) ? '.[hash]' : ''}.svg`
+        }
       }
-    },
-    {
-      loader: 'image-webpack-loader',
-      options: IMAGE_LOADER_OPTIONS
-    }
-  ],
-  exclude
-});
+    ],
+    exclude
+  };
 
-const svgSpriteLoader = ({ mode, testRegexp }) => {
+  if (isProduction(mode) && !isLegacyMode(compatibilityMode)) {
+    loader.use.push('image-webpack-loader');
+  }
+
+  return loader;
+};
+
+const svgSpriteLoader = ({ mode, compatibilityMode, testRegexp }) => {
   const loader = {
     test: testRegexp,
     use: [
@@ -96,7 +122,9 @@ const svgSpriteLoader = ({ mode, testRegexp }) => {
     ]
   };
 
-  if (isProduction(mode)) loader.use.push('image-webpack-loader');
+  if (isProduction(mode) && !isLegacyMode(compatibilityMode)) {
+    loader.use.push('image-webpack-loader');
+  }
 
   return loader;
 };

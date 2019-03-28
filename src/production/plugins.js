@@ -3,12 +3,11 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const Dotenv = require('dotenv-webpack');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 
-const { PRODUCTION_MODE } = require('./constants');
+const { PRODUCTION_MODE } = require('../constants');
 
 const prodPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
   new CleanWebpackPlugin([basename(outputPath)], {
@@ -19,7 +18,6 @@ const prodPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
   }),
   new CaseSensitivePathsPlugin(),
   new Dotenv(),
-  new CopyWebpackPlugin([{ from: publicFilesPath, to: outputPath }]),
   new MiniCssExtractPlugin({
     filename: join('styles', '[hash].css')
   }),
@@ -32,7 +30,7 @@ const prodPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
   }),
   new BundleAnalyzerPlugin({
     analyzerMode: 'static',
-    reportFilename: 'bundle-analyzer-report.html',
+    reportFilename: 'bundle-report.html',
     openAnalyzer: false
   })
 ]);

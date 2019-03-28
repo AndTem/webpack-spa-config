@@ -61,7 +61,7 @@ Don't forget to fill in the browserlist and babel file.
   * svg-sprite - in production mode injects in html;
   * default image-webpack-loader minimezes except jpeg (converted to progressive jpeg) and png (optimiztion level - 3);
   * fonts-loader - formats: .otf, .eot, .ttf, .woff, .woff2. Default output directory - 'fonts';
-  * minimizes html template;
+  * minimizes html;
   * split chunks + runtime chunks;
   * adds .env variables in process.env;
   * removal of the previous assembly before starting a new one in production;
@@ -84,9 +84,9 @@ createConfig(mode, commonParams, { commonOptions, devOptions, prodOptions })
    * **fontsOutputDirectoryName** (string) - default 'fonts';
    * **excludeImages** (regexp);
    * **excludeSvg** (regexp || array[regexp]).
-* **commonOptions** - options merged with common config (function);
-* **devOptions** - options merged with development config (function);
-* **prodOptions** - options merged with production config (function);
+* **commonOptions(mode, compatibilityMode)** - options merged with common config (function):
+* **devOptions(mode, compatibilityMode)** - options merged with development config (function);
+* **prodOptions(mode, compatibilityMode)** - options merged with production config (function);
 
 There are also ready loaders.
 
@@ -135,7 +135,7 @@ const commonConfigParams = {
   templatePath: resolve(__dirname, 'index.html'),
 };
 
-const commonOptions = mode => ({
+const commonOptions = (mode, compatibilityMode) => ({
   module: {
     rules: [
       // Replace imageLoader limit

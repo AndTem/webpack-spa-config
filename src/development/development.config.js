@@ -4,7 +4,7 @@ const commonConfig = require('../common/common.config');
 
 const devPlugins = require('./plugins');
 
-const { mergePlugins } = require('../utils');
+const { mergePlugins } = require('../utils/merge');
 
 const { DEVELOPMENT_MODE } = require('../constants');
 

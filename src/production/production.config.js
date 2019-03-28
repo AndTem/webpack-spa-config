@@ -1,21 +1,24 @@
 const merge = require('webpack-merge');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserWebpackPlugin = require("terser-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const commonConfig = require('../common/common.config');
 
 const prodPlugins = require('./plugins');
 
-const { mergePlugins } = require('../utils');
+const { mergePlugins } = require('../utils/merge');
+const { getCompatibilityFileName } = require('../compatibility/utils');
 
-const { PRODUCTION_MODE } = require('../constants');
+const { PRODUCTION_MODE, DEFAULT_VENDOR_NAME } = require('../constants');
 
-const getOptimization = additionalOptions => merge({
+const getOptimization = (additionalOptions, vendorsName) => merge({
   minimizer: [
-    new UglifyJsPlugin({
+    new TerserWebpackPlugin({
       parallel: true,
-      uglifyOptions: {
-        compress: { drop_console: true }
+      terserOptions: {
+        compress: {
+          drop_console: true
+        }
       }
     }),
     new OptimizeCSSAssetsPlugin({})
@@ -26,24 +29,34 @@ const getOptimization = additionalOptions => merge({
       vendor: {
         test: /node_modules/,
         chunks: 'initial',
-        filename: '[chunkhash].vendors.js'
+        filename: vendorsName
       }
     },
     chunks: 'all'
   }
 }, additionalOptions);
 
-module.exports = (commonConfigParams, additionalOptions) => {
+module.exports = (commonConfigParams, additionalOptions, compatibilityMode) => {
   const { plugins, optimization } = additionalOptions;
 
+  const allPlugins = compatibilityMode ? plugins
+  : mergePlugins(prodPlugins(commonConfigParams), plugins);
+
+  const vendorsName = !compatibilityMode ? DEFAULT_VENDOR_NAME
+  : getCompatibilityFileName(compatibilityMode, DEFAULT_VENDOR_NAME);
+
   return merge.smart(
-    commonConfig({ ...commonConfigParams, mode: PRODUCTION_MODE }),
+    commonConfig({
+      ...commonConfigParams,
+      mode: PRODUCTION_MODE,
+      compatibilityMode
+    }),
     {
       mode: PRODUCTION_MODE,
       devtool: ' hidden-source-map',
       ...additionalOptions,
-      optimization: getOptimization(optimization),
-      plugins: mergePlugins(prodPlugins(commonConfigParams), plugins)
+      optimization: getOptimization(optimization, vendorsName),
+      plugins: allPlugins
     }
   );
 };

@@ -34,7 +34,7 @@ const cssLoader = ({ mode, compatibilityMode }) => {
   };
 
   if (isProduction(mode)) {
-    loader.use[0].options.plugins.push(autoprefixer());
+    loader.use[2].options.plugins.push(autoprefixer());
   }
 };
 
@@ -57,7 +57,7 @@ const sassLoader = ({ mode, compatibilityMode }) => {
   }
 
   if (isProduction(mode)) {
-    loader.use[0].options.plugins.push(autoprefixer());
+    loader.use[2].options.plugins.push(autoprefixer());
   }
 };
 

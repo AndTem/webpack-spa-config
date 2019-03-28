@@ -2,7 +2,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
 const flexbugsFixes = require('postcss-flexbugs-fixes');
 
-const { isProduction, isModernMode } = require('./utils/mode');
+const { isProduction } = require('./utils/mode');
 const { urlLoaderFileName } = require('./utils/url');
 
 const { IMAGE_LOADER_OPTIONS } = require('./constants');
@@ -33,7 +33,7 @@ const cssLoader = ({ mode, compatibilityMode }) => {
     ]
   };
 
-  if (isProduction(mode) && !isModernMode(compatibilityMode)) {
+  if (isProduction(mode)) {
     loader.use[0].options.plugins.push(autoprefixer());
   }
 };
@@ -56,7 +56,7 @@ const sassLoader = ({ mode, compatibilityMode }) => {
     ]
   }
 
-  if (isProduction(mode) && !isModernMode(compatibilityMode)) {
+  if (isProduction(mode)) {
     loader.use[0].options.plugins.push(autoprefixer());
   }
 };

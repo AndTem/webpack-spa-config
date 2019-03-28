@@ -2,7 +2,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
 const flexbugsFixes = require('postcss-flexbugs-fixes');
 
-const { isProduction, isLegacyMode } = require('./utils/mode');
+const { isProduction } = require('./utils/mode');
 const { urlLoaderFileName } = require('./utils/url');
 
 const { IMAGE_LOADER_OPTIONS } = require('./constants');
@@ -72,7 +72,7 @@ const imagesLoader = ({
     exclude
   };
 
-  if (isProduction(mode) && !isLegacyMode(compatibilityMode)) {
+  if (isProduction(mode)) {
     loader.use.push({
       loader: 'image-webpack-loader',
       options: IMAGE_LOADER_OPTIONS
@@ -102,9 +102,7 @@ const svgLoader = ({
     exclude
   };
 
-  if (isProduction(mode) && !isLegacyMode(compatibilityMode)) {
-    loader.use.push('image-webpack-loader');
-  }
+  if (isProduction(mode)) loader.use.push('image-webpack-loader');
 
   return loader;
 };
@@ -122,9 +120,7 @@ const svgSpriteLoader = ({ mode, compatibilityMode, testRegexp }) => {
     ]
   };
 
-  if (isProduction(mode) && !isLegacyMode(compatibilityMode)) {
-    loader.use.push('image-webpack-loader');
-  }
+  if (isProduction(mode)) loader.use.push('image-webpack-loader');
 
   return loader;
 };

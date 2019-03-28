@@ -2,7 +2,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
 const flexbugsFixes = require('postcss-flexbugs-fixes');
 
-const { isProduction } = require('./utils/mode');
+const { isProduction, isModernMode } = require('./utils/mode');
 const { urlLoaderFileName } = require('./utils/url');
 
 const { IMAGE_LOADER_OPTIONS } = require('./constants');
@@ -16,40 +16,50 @@ const babelLoader = options => ({
   }
 });
 
-const cssLoader = ({ mode }) => ({
-  test: /\.css$/,
-  use: [
-    isProduction(mode) ? MiniCssExtractPlugin.loader : 'style-loader',
-    { loader: 'css-loader', options: { importLoaders: 1 } },
-    {
-      loader: 'postcss-loader',
-      options: {
-        plugins: [
-          flexbugsFixes(),
-          autoprefixer()
-        ]
+const cssLoader = ({ mode, compatibilityMode }) => {
+  const loader = {
+    test: /\.css$/,
+    use: [
+      isProduction(mode) ? MiniCssExtractPlugin.loader : 'style-loader',
+      { loader: 'css-loader', options: { importLoaders: 1 } },
+      {
+        loader: 'postcss-loader',
+        options: {
+          plugins: [
+            flexbugsFixes()
+          ]
+        }
       }
-    }
-  ]
-});
+    ]
+  };
 
-const sassLoader = ({ mode }) => ({
-  test: /\.scss$/,
-  use: [
-    isProduction(mode) ? MiniCssExtractPlugin.loader : 'style-loader',
-    'css-loader',
-    {
-      loader: 'postcss-loader',
-      options: {
-        plugins: [
-          flexbugsFixes(),
-          autoprefixer()
-        ]
-      }
-    },
-    'sass-loader'
-  ]
-});
+  if (isProduction(mode) && !isModernMode(compatibilityMode)) {
+    loader.use[0].options.plugins.push(autoprefixer());
+  }
+};
+
+const sassLoader = ({ mode, compatibilityMode }) => {
+  const loader = {
+    test: /\.scss$/,
+    use: [
+      isProduction(mode) ? MiniCssExtractPlugin.loader : 'style-loader',
+      'css-loader',
+      {
+        loader: 'postcss-loader',
+        options: {
+          plugins: [
+            flexbugsFixes()
+          ]
+        }
+      },
+      'sass-loader'
+    ]
+  }
+
+  if (isProduction(mode) && !isModernMode(compatibilityMode)) {
+    loader.use[0].options.plugins.push(autoprefixer());
+  }
+};
 
 const imagesLoader = ({
   mode,

@@ -36,6 +36,8 @@ const cssLoader = ({ mode, compatibilityMode }) => {
   if (isProduction(mode)) {
     loader.use[2].options.plugins.push(autoprefixer());
   }
+
+  return loader;
 };
 
 const sassLoader = ({ mode, compatibilityMode }) => {
@@ -59,6 +61,8 @@ const sassLoader = ({ mode, compatibilityMode }) => {
   if (isProduction(mode)) {
     loader.use[2].options.plugins.push(autoprefixer());
   }
+
+  return loader;
 };
 
 const imagesLoader = ({

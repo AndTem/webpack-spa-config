@@ -36,8 +36,7 @@ package.json
 "scripts": {
   "build": "webpack --mode=development --config webpack.config.js",
   "start": "webpack-dev-server --mode=development",
-  "build-prod": "webpack --mode=production --config webpack.config.js",
-  "build-compatibility": "node webpack.config.js"
+  "build-prod": "webpack --mode=production --config webpack.config.js"
 }
 ...
 ```
@@ -324,7 +323,7 @@ package.json
 ```json
 ...
 "scripts": {
-  "build": "node webpack.config.js"
+  "build": "COMPATIBILITY=true node webpack.config.js"
 }
 ...
 ```
@@ -336,6 +335,8 @@ webpack.config.js
 ```js
 const createConfig = require('webpack-spa-config');
 
+const { COMPATIBILITY } = process.env;
+
 const commomParams = {
   entryPath: resolve(__dirname, 'index.js'),
   outputPath: resolve(__dirname, 'dist'),
@@ -343,7 +344,10 @@ const commomParams = {
   templatePath: resolve(__dirname, 'index.html')
 };
 
-createConfig({ commomParams });
+if (COMPATIBILITY) createConfig({ commomParams });
+
+// for development or production mode
+module.exports = (_, { mode }) => createConfig({ mode, commomParams });
 ```
 
 **Don't forget add @babel/preset-env to dependencies for babel prop - useBuiltIns: "usage". If throw error - delete node_modules and package-lock.json**
@@ -388,7 +392,20 @@ module.exports = {
         "@babel/plugin-syntax-dynamic-import"
       ]
     }
-  }
+  },
+  // default config (development or production mode)
+  presets: [
+    [
+      '@babel/preset-env',
+      {
+        targets: {
+          // This will target browsers which support ES modules.
+          esmodules: true
+        }
+      }
+    ],
+    '@babel/preset-react'
+  ]
 };
 ```
 

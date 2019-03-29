@@ -18,6 +18,11 @@ const prodPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
   }),
   new CaseSensitivePathsPlugin(),
   new Dotenv(),
+  new webpack.HashedModuleIdsPlugin({
+    hashFunction: 'md4',
+    hashDigest: 'base64',
+    hashDigestLength: 4
+  }),
   new MiniCssExtractPlugin({
     filename: join('styles', '[hash].css')
   }),

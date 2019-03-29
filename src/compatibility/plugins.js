@@ -11,10 +11,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LegacyInjectHtmlPlugin = require('../legacyInjectHtmlPlugin');
 
 const { isLegacyMode } = require('../utils/mode');
+const { getCompatibilityFileName } = require('./utils');
 
-const { PRODUCTION_MODE } = require('../constants');
+const { PRODUCTION_MODE, LEGACY_MODE, MODERN_MODE } = require('../constants');
 
 const LEGACY_MANIFEST_NAME = 'legacy.manifest.json';
+const STYLE_FILE_NAME = '[hash].css';
 
 const getLegacyPlugins = ({ outputPath }) => ([
   new CleanWebpackPlugin([basename(outputPath)], {
@@ -26,7 +28,7 @@ const getLegacyPlugins = ({ outputPath }) => ([
   new CaseSensitivePathsPlugin(),
   new Dotenv(),
   new MiniCssExtractPlugin({
-    filename: join('styles', '[hash].css')
+    filename: join('styles', getCompatibilityFileName(LEGACY_MODE, STYLE_FILE_NAME))
   }),
   new WebpackManifestPlugin({
     fileName: LEGACY_MANIFEST_NAME
@@ -45,7 +47,7 @@ const getModernPlugins = ({ templatePath, outputPath }) => ([
   new CaseSensitivePathsPlugin(),
   new Dotenv(),
   new MiniCssExtractPlugin({
-    filename: join('styles', '[hash].css')
+    filename: join('styles', getCompatibilityFileName(MODERN_MODE, STYLE_FILE_NAME))
   }),
   new HtmlWebpackPlugin({
     template: templatePath,

@@ -1,3 +1,5 @@
-const utils = require('./src/utils');
+const modeUtils = require('./src/mode');
 
-module.exports = utils;
+module.exports = {
+  modeUtils
+};

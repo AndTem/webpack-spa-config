@@ -2,28 +2,14 @@ const getCompatibilityFileName = (compatibilityMode, baseFileName = '[hash].bund
   `${compatibilityMode}.${baseFileName}`;
 
 const compilerStatusHandler = callback => (err, stats) => {
-  if (err) {
-    console.error(err.stack || err);
-    if (err.details) {
-      console.error(err.details);
-    }
-    return;
-  }
+  if (err) throw err;
 
-  console.log(stats.toString({
-    chunks: false,
-    colors: true
-  }));
-
-  const info = stats.toJson();
-
-  if (stats.hasErrors()) {
-    console.error(info.errors);
-  }
-
-  if (stats.hasWarnings()) {
-    console.warn(info.warnings);
-  }
+  console.log(
+    stats.toString({
+      chunks: false,
+      colors: true
+    })
+  );
 
   if (callback) callback();
 };

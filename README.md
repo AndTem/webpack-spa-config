@@ -346,6 +346,8 @@ const commomParams = {
 createConfig({ commomParams });
 ```
 
+**Don't forget add core-js to dependencies for babel prop - useBuiltIns: "usage".**
+
 ```
 babel.config.js
 ```

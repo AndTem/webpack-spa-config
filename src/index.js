@@ -8,9 +8,9 @@ const { isDevelopment, isProduction } = require('./utils/mode');
 const defaultOptionsFunc = () => ({});
 
 module.exports = (
-  mode,
-  commonParams,
   {
+    mode,
+    commonParams,
     commonOptions = defaultOptionsFunc,
     devOptions = defaultOptionsFunc,
     prodOptions = defaultOptionsFunc

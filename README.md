@@ -4,6 +4,8 @@ Webpack 4 config for SPA.
 This configuration has everything you need to build a SPA.
 Also this configuration is easy to expand.
 
+🔥In this configuration there is "compatibility" mode. It is a separate build for old and new browsers. Js files size for new browsers is reduced by **11%**.
+
 # Installation
 ```
 npm install --save-dev webpack-spa-config
@@ -16,14 +18,14 @@ webpack.config.js
 ```js
 const createConfig = require('webpack-spa-config');
 
-const commomConfigParams = {
+const commonParams = {
   entryPath: resolve(__dirname, 'index.js'),
   outputPath: resolve(__dirname, 'dist'),
   publicFilesPath: resolve(__dirname, 'public'),
   templatePath: resolve(__dirname, 'index.html')
 };
 
-module.exports = (_, { mode }) => createConfig(mode, commomConfigParams);
+module.exports = (_, { mode }) => createConfig({ mode, commonParams });
 ```
 
 ```
@@ -34,7 +36,8 @@ package.json
 "scripts": {
   "build": "webpack --mode=development --config webpack.config.js",
   "start": "webpack-dev-server --mode=development",
-  "build-prod": "webpack --mode=production --config webpack.config.js"
+  "build-prod": "webpack --mode=production --config webpack.config.js",
+  "build-compatibility": "node webpack.config.js"
 }
 ...
 ```
@@ -67,13 +70,30 @@ Don't forget to fill in the browserlist and babel file.
   * removal of the previous assembly before starting a new one in production;
   * static bundle report (webpack-bundle-analyzer).
 
+## Compatibility mode
+  Includes all of production mode.
+  * it is possible to make a separate babel config for old browsers. Add polyfills;
+  * it is possible to make a separate babel config for new browsers. Not add polyfills;
+  * sets env name for babel.config;
+  * separate reports for each assembly (legacy and modern).
+
+Webpack in compatibility mode injects tags with necessary attributes in html.
+```html
+<!-- for new browsers. Old browsers not support attribute type="module" -->
+<script type="module" src="/modern.545dc46f7bbd77968d14.bundle.js"></script>
+<!-- for old browsers -->
+<script src="/legacy.bc624b7b4b14725030b0.bundle.js" nomodule></script>
+```
+
+**[Compatibility example](#compatibilityExample)**
+
 # API
 ```
 const createConfig = require('webpack-spa-config');
 
-createConfig(mode, commonParams, { commonOptions, devOptions, prodOptions })
+createConfig({ mode, commonParams, commonOptions, devOptions, prodOptions })
 ```
-* **mode** - required (string);
+* **mode** - (string) oneOf(['development', 'production']);
 * **commonParams** - required parameters for the entire assembly (object):
 	 * **entryPath** - required (string);
    * **outputPath** - required (string);
@@ -88,6 +108,8 @@ createConfig(mode, commonParams, { commonOptions, devOptions, prodOptions })
 * **devOptions(mode, compatibilityMode)** - options merged with development config (function);
 * **prodOptions(mode, compatibilityMode)** - options merged with production config (function);
 
+**compatibilityMode** - oneOf(['legacy', 'modern']).
+
 There are also ready loaders.
 
 ## Loaders
@@ -98,20 +120,25 @@ const loaders = require('webpack-spa-config/loaders');
 All loaders are functions.
 
 * **babelLoader()** - js, jsx;
-* **cssLoader(mode)** - contains: style-loader, css-loader, postcss-loader (autoprefixer). In production minify:
+* **cssLoader({ mode, compatibilityMode })** - contains: style-loader, css-loader, postcss-loader (autoprefixer). In production minify:
   * **mode** - required (string).
-* **sassLoader(mode)** - contains: style-loader, css-loader, postcss-loader (autoprefixer)sass-loader:
+  * **compatibilityMode** - oneOf(['legacy', 'modern']).
+* **sassLoader({ mode, compatibilityMode })** - contains: style-loader, css-loader, postcss-loader (autoprefixer)sass-loader:
   * **mode** - required (string).
-* **imagesLoader({ mode, outputDirectoryName, exclude })** - contains: url-loader:
+  * **compatibilityMode** - oneOf(['legacy', 'modern']).
+* **imagesLoader({ mode, compatibilityMode, outputDirectoryName, exclude })** - contains: url-loader:
   * **mode** - required (string);
+  * **compatibilityMode** - oneOf(['legacy', 'modern']).
   * **outputDirectoryName** (string). Default directory name - images;
   * **exclude** (regexp).
-* **svgLoader({ mode, outputDirectoryName, exclude })** - contains: file-loader:
+* **svgLoader({ mode, compatibilityMode, outputDirectoryName, exclude })** - contains: file-loader:
   * **mode** - required (string);
+  * **compatibilityMode** - oneOf(['legacy', 'modern']).
   * **outputDirectoryName** (string). Default directory name - images;
   * **exclude** (regexp).
-* **svgSpriteLoader({ mode, testRegexp })** - contains: svg-sprite-loader. Don't forget to add excludeSvg param in **commomConfigParams**, SpriteLoaderPlugin in prodOptions and inject to html template code as [in the example](#spriteExample);
+* **svgSpriteLoader({ mode, compatibilityMode, testRegexp })** - contains: svg-sprite-loader. Don't forget to add excludeSvg param in **commomConfigParams**, SpriteLoaderPlugin in prodOptions and inject to html template code as [in the example](#spriteExample);
   * **mode** - required (string);
+  * **compatibilityMode** - oneOf(['legacy', 'modern']).
   * **testRegexp** - required (string);
 * **fontsLoader(mode, outputDirectoryName)** - contains: url-loader:
   * **mode** - required (string);
@@ -128,7 +155,7 @@ const { sassLoader } = require('webpack-spa-config/loaders');
 const { isProduction } = require('webpack-spa-config/utils');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const commonConfigParams = {
+const commonParams = {
   entryPath: resolve(__dirname, 'index.js'),
   outputPath: resolve(__dirname, 'dist'),
   publicFilesPath: resolve(__dirname, 'public'),
@@ -166,7 +193,7 @@ const commonOptions = (mode, compatibilityMode) => ({
       // }
       // ...
 
-      sassLoader(mode),
+      sassLoader({ mode }),
     ],
     resolve: {
       alias: {
@@ -217,11 +244,11 @@ const prodOptions = () => ({
 });
 
 module.exports = (_, { mode }) => {
-  return createConfig(mode, commonConfigParams, { commonOptions, devOptions, prodOptions });
+  return createConfig({ mode, commonParams, commonOptions, devOptions, prodOptions });
 };
 ```
 
-<a name="spriteExample"># Example with svg sprite</a>
+# <a name="spriteExample">Example with svg sprite</a>
 
 ```
 index.html
@@ -262,7 +289,7 @@ const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
 const svgSpriteRegexp = /sprite\/*\/.*\.svg$/i;
 
-const commonConfigParams = {
+const commonParams = {
   entryPath: resolve(__dirname, 'index.js'),
   outputPath: resolve(__dirname, 'dist'),
   publicFilesPath: resolve(__dirname, 'public'),
@@ -286,5 +313,88 @@ const prodOptions = () => ({
 });
 
 module.exports = (_, { mode }) =>
-  createConfig(mode, commonConfigParams, { commonOptions, prodOptions });
+  createConfig({ mode, commonParams, commonOptions, prodOptions });
+```
+
+# <a name="compatibilityExample">Compatibility example</a>
+
+```
+package.json
+```
+```json
+...
+"scripts": {
+  "build": "node webpack.config.js"
+}
+...
+```
+
+```
+webpack.config.js
+```
+
+```js
+const createConfig = require('webpack-spa-config');
+
+const commomParams = {
+  entryPath: resolve(__dirname, 'index.js'),
+  outputPath: resolve(__dirname, 'dist'),
+  publicFilesPath: resolve(__dirname, 'public'),
+  templatePath: resolve(__dirname, 'index.html')
+};
+
+createConfig({ commomParams });
+```
+
+```
+babel.config.js
+```
+
+```js
+module.exports = {
+  env: {
+    // This is the config we'll use to generate bundles for legacy browsers.
+    legacy: {
+      presets: [
+        [
+          "@babel/preset-env", {
+            useBuiltIns: "usage"
+          }
+        ],
+        "@babel/preset-react"
+      ],
+      plugins: [
+        "@babel/plugin-transform-runtime",
+        "@babel/plugin-syntax-dynamic-import"
+      ]
+    },
+    // This is the config we'll use to generate bundles for modern browsers.
+    modern: {
+      presets: [
+        [
+          "@babel/preset-env", {
+            targets: {
+              // This will target browsers which support ES modules.
+              esmodules: true
+            }
+          }
+        ],
+        "@babel/preset-react"
+      ],
+      plugins: [
+        "@babel/plugin-transform-runtime",
+        "@babel/plugin-syntax-dynamic-import"
+      ]
+    }
+  }
+};
+```
+
+```
+.browserslistrc
+```
+
+```
+last 4 version
+ie >= 9
 ```

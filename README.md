@@ -143,6 +143,17 @@ All loaders are functions.
   * **mode** - required (string);
   * **outputDirectoryName** (string). Default directory name - fonts.
 
+## Utils
+```js
+const utils = require('webpack-spa-config/utils');
+```
+
+* **isProduction(mode)**
+* **isDevelopment(mode)**
+* **isLegacyMode(compatibilityMode)**
+* **isModernMode(compatibilityMode)**
+* **isCompatibilityMode(compatibilityMode)**
+
 # Example
 ```
 webpack.config.js

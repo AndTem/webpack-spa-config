@@ -1,5 +1,5 @@
-const modeUtils = require('./src/mode');
+const modeUtils = require('./src/utils/mode');
 
 module.exports = {
-  modeUtils
+  ...modeUtils
 };

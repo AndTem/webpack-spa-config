@@ -5,7 +5,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { mergePlugins } = require('../utils/merge');
 
 module.exports = (additionalOptions, vendorsName) => {
-  const { minimizer, ...otherAdditionalOptions } = additionalOptions;
+  const { minimizer: additionalMinimizer, ...othersAdditionalOptions } = additionalOptions;
 
   const defaultMinimizer = [
     new TerserWebpackPlugin({
@@ -21,7 +21,7 @@ module.exports = (additionalOptions, vendorsName) => {
 
   return merge(
     {
-      minimizer: mergePlugins(defaultMinimizer, otherAdditionalOptions),
+      minimizer: mergePlugins(defaultMinimizer, additionalMinimizer),
       runtimeChunk: true,
       splitChunks: {
         cacheGroups: {
@@ -34,6 +34,6 @@ module.exports = (additionalOptions, vendorsName) => {
         chunks: 'all'
       }
     },
-    additionalOptions
+    othersAdditionalOptions
   );
 };

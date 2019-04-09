@@ -4,10 +4,10 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const { mergePlugins } = require('../utils/merge');
 
-module.exports = (additionalOptions, vendorsName) => {
+module.exports = (additionalOptions = {}, vendorsName) => {
   const { minimizer: additionalMinimizer, ...othersAdditionalOptions } = additionalOptions;
 
-  const defaultMinimizer = [
+  let defaultMinimizer = [
     new TerserWebpackPlugin({
       parallel: true,
       terserOptions: {

@@ -2,7 +2,6 @@ const { basename, dirname, join } = require('path');
 
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const Dotenv = require('dotenv-webpack');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const WebpackManifestPlugin = require('webpack-manifest-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
@@ -26,7 +25,6 @@ const getLegacyPlugins = ({ outputPath }) => ([
     'process.env.NODE_ENV': JSON.stringify(PRODUCTION_MODE)
   }),
   new CaseSensitivePathsPlugin(),
-  new Dotenv(),
   new MiniCssExtractPlugin({
     filename: join('styles', getCompatibilityFileName(LEGACY_MODE, STYLE_FILE_NAME))
   }),

@@ -4,7 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const Dotenv = require('dotenv-webpack');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 
 const { PRODUCTION_MODE } = require('../constants');
@@ -17,7 +16,6 @@ const prodPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
     'process.env.NODE_ENV': JSON.stringify(PRODUCTION_MODE)
   }),
   new CaseSensitivePathsPlugin(),
-  new Dotenv(),
   new webpack.HashedModuleIdsPlugin({
     hashFunction: 'md4',
     hashDigest: 'base64',

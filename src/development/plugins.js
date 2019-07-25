@@ -2,7 +2,6 @@ const { join } = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const Dotenv = require('dotenv-webpack');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 
 const { DEVELOPMENT_MODE } = require('../constants');
@@ -12,7 +11,6 @@ const devPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
     'process.env.NODE_ENV': JSON.stringify(DEVELOPMENT_MODE)
   }),
   new CaseSensitivePathsPlugin(),
-  new Dotenv(),
   new MiniCssExtractPlugin({
     filename: join('styles', '[name].css')
   }),

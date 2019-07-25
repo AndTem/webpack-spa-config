@@ -53,7 +53,6 @@ Don't forget to fill in the browserlist and babel file.
   * svg-sprite - in development mode injects in runtime;
   * fonts-loader - formats: .otf, .eot, .ttf, .woff, .woff2. Default output directory - 'fonts';
   * define process.env.NODE_ENV;
-  * adds .env variables in process.env.
 
 ## Production mode
   * babel-loader (js, jsx);
@@ -65,7 +64,6 @@ Don't forget to fill in the browserlist and babel file.
   * fonts-loader - formats: .otf, .eot, .ttf, .woff, .woff2. Default output directory - 'fonts';
   * minimizes html;
   * split chunks + runtime chunks;
-  * adds .env variables in process.env;
   * removal of the previous assembly before starting a new one in production;
   * static bundle report (webpack-bundle-analyzer).
 

@@ -43,7 +43,6 @@ const getModernPlugins = ({ templatePath, outputPath }) => ([
     'process.env.NODE_ENV': JSON.stringify(PRODUCTION_MODE)
   }),
   new CaseSensitivePathsPlugin(),
-  new Dotenv(),
   new MiniCssExtractPlugin({
     filename: join('styles', getCompatibilityFileName(MODERN_MODE, STYLE_FILE_NAME))
   }),

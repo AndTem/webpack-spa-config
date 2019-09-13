@@ -1,14 +1,14 @@
 const { basename, join, dirname } = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 
 const { PRODUCTION_MODE } = require('../constants');
 
-const prodPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
+const prodPlugins = ({ templatePath, publicFilesPath, outputPath }) => [
   new CleanWebpackPlugin([basename(outputPath)], {
     root: dirname(outputPath)
   }),
@@ -36,6 +36,6 @@ const prodPlugins = ({ templatePath, publicFilesPath, outputPath }) => ([
     reportFilename: 'bundle-report.html',
     openAnalyzer: false
   })
-]);
+];
 
 module.exports = prodPlugins;

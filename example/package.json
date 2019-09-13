@@ -1,0 +1,29 @@
+{
+  "name": "webpack-spa-config-example",
+  "dependencies": {
+    "core-js": "^3.2.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-final-form": "^6.3.0",
+    "react-hot-loader": "^4.12.10",
+    "react-router-dom": "^5.0.1",
+    "roboto-fontface": "^0.10.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.5.0",
+    "@babel/plugin-transform-runtime": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "fast-async": "^6.3.8",
+    "webpack-spa-config": "file:../"
+  },
+  "scripts": {
+    "build": "COMPATIBILITY=true node webpack.config.js",
+    "build-dev": "webpack --mode=development --config webpack.config.js",
+    "start": "webpack-dev-server --mode=development"
+  }
+}

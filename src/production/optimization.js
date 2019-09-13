@@ -1,13 +1,16 @@
 const merge = require('webpack-merge');
-const TerserWebpackPlugin = require("terser-webpack-plugin");
+const TerserWebpackPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const { mergePlugins } = require('../utils/merge');
 
 module.exports = (additionalOptions = {}, vendorsName) => {
-  const { minimizer: additionalMinimizer, ...othersAdditionalOptions } = additionalOptions;
+  const {
+    minimizer: additionalMinimizer,
+    ...othersAdditionalOptions
+  } = additionalOptions;
 
-  let defaultMinimizer = [
+  const defaultMinimizer = [
     new TerserWebpackPlugin({
       parallel: true,
       terserOptions: {

@@ -116,7 +116,8 @@ const loaders = require('webpack-spa-config/loaders');
 
 All loaders are functions.
 
-* **babelLoader()** - js, jsx;
+* **babelLoader(options)** - js, jsx. Runs in a separate thread;
+    * **options** - Object (babel-loader options)
 * **cssLoader({ mode, compatibilityMode })** - contains: style-loader, css-loader, postcss-loader (autoprefixer). In production minify:
   * **mode** - required (string).
   * **compatibilityMode** - oneOf(['legacy', 'modern']).
@@ -291,11 +292,12 @@ index.html
 webpack.config.js
 ```
 ```js
+const { sep } = require('path');
 const createConfig = require('webpack-spa-config');
 const { svgSpriteLoader } = require('webpack-spa-config/loaders');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
-const svgSpriteRegexp = /sprite\/*\/.*\.svg$/i;
+const svgSpriteRegexp = new RegExp(`sprite\\${sep}*\\${sep}.*\\.svg$`, 'i');
 
 const commonParams = {
   entryPath: resolve(__dirname, 'index.js'),

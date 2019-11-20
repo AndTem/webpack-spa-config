@@ -30,29 +30,32 @@ class LegacyInjectHtmlPlugin {
   apply(compiler) {
     const pluginName = 'legacy-inject-html-plugin';
 
-    compiler.hooks.compilation.tap(pluginName, (compilation) => {
+    compiler.hooks.compilation.tap(pluginName, compilation => {
       // Подписываемся на хук html-webpack-plugin,
       // в котором можно менять данные HTML
-      compilation.hooks.htmlWebpackPluginAlterAssetTags.tapAsync(pluginName, (data, cb) => {
-        // Добавляем type="module" для modern-файлов
-        data.body.forEach((tag) => {
-          if (tag.tagName === 'script' && tag.attributes) {
-            tag.attributes.type = 'module';
-          }
-        });
+      compilation.hooks.htmlWebpackPluginAlterAssetTags.tapAsync(
+        pluginName,
+        (data, cb) => {
+          // Добавляем type="module" для modern-файлов
+          data.body.forEach(tag => {
+            if (tag.tagName === 'script' && tag.attributes) {
+              tag.attributes.type = 'module';
+            }
+          });
 
-        // Вставляем фикс для Safari
-        data.body.push({
-          tagName: 'script',
-          closeTag: true,
-          innerHTML: safariNoModuleFix,
-        });
+          // Вставляем фикс для Safari
+          data.body.push({
+            tagName: 'script',
+            closeTag: true,
+            innerHTML: safariNoModuleFix
+          });
 
-        // Вставляем legacy-файлы с атрибутом nomodule
-        this.injectLegacyScriptsToHtml(data.body);
+          // Вставляем legacy-файлы с атрибутом nomodule
+          this.injectLegacyScriptsToHtml(data.body);
 
-        cb();
-      });
+          cb();
+        }
+      );
     });
   }
 }

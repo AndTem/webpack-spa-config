@@ -46,7 +46,7 @@ Don't forget to fill in the browserlist and babel file.
 
 ## Development mode
   * dev-server, hot replace (host on local ip);
-  * babel-loader (js, jsx);
+  * babel-loader (js, jsx, ts, tsx);
   * css-loader
   * image-loader - limit: 60. Default output directory - 'images';
   * svg-loader - default output directory - 'images';
@@ -91,8 +91,8 @@ const createConfig = require('webpack-spa-config');
 createConfig({ mode, commonParams, commonOptions, devOptions, prodOptions })
 ```
 * **mode** - (string) oneOf(['development', 'production']);
-* **commonParams** - required parameters for the entire assembly (object):
-	 * **entryPath** - required (string);
+* **basicParams** - required parameters for the entire assembly (object):
+   * **entryPath** - required (string);
    * **outputPath** - required (string);
    * **publicFilesPath** (string) - required path to the directory where the public files are stored (images, fonts ...);
    * **templatePath** (string) - required path to the prepared template;
@@ -114,33 +114,152 @@ There are also ready loaders.
 const loaders = require('webpack-spa-config/loaders');
 ```
 
-All loaders are functions.
+All loaders are functions and everyone takes the following general parameters:
+```ts
+{
+  mode: 'development' | 'production' | 'legacy' | 'modern';
+  test?: RegExp;
+  exclude?: RegExp | string[];
+}
+```
 
-* **babelLoader(options)** - js, jsx. Runs in a separate thread;
-    * **options** - Object (babel-loader options)
-* **cssLoader({ mode, compatibilityMode })** - contains: style-loader, css-loader, postcss-loader (autoprefixer). In production minify:
-  * **mode** - required (string).
-  * **compatibilityMode** - oneOf(['legacy', 'modern']).
-* **sassLoader({ mode, compatibilityMode })** - contains: style-loader, css-loader, postcss-loader (autoprefixer)sass-loader:
-  * **mode** - required (string).
-  * **compatibilityMode** - oneOf(['legacy', 'modern']).
-* **imagesLoader({ mode, compatibilityMode, outputDirectoryName, exclude })** - contains: url-loader:
-  * **mode** - required (string);
-  * **compatibilityMode** - oneOf(['legacy', 'modern']).
-  * **outputDirectoryName** (string). Default directory name - images;
-  * **exclude** (regexp).
-* **svgLoader({ mode, compatibilityMode, outputDirectoryName, exclude })** - contains: file-loader:
-  * **mode** - required (string);
-  * **compatibilityMode** - oneOf(['legacy', 'modern']).
-  * **outputDirectoryName** (string). Default directory name - images;
-  * **exclude** (regexp).
-* **svgSpriteLoader({ mode, compatibilityMode, testRegexp })** - contains: svg-sprite-loader. Don't forget to add excludeSvg param in **commomConfigParams**, SpriteLoaderPlugin in prodOptions and inject to html template code as [in the example](#spriteExample);
-  * **mode** - required (string);
-  * **compatibilityMode** - oneOf(['legacy', 'modern']).
-  * **testRegexp** - required (string);
-* **fontsLoader(mode, outputDirectoryName)** - contains: url-loader:
-  * **mode** - required (string);
-  * **outputDirectoryName** (string). Default directory name - fonts.
+For all loaders you can change the parameters described above
+
+### Scripts loaders
+
+#### babelLoader({ mode, test, exclude, options })
+Params:
+```ts
+{
+  mode: 'development' | 'production' | 'legacy' | 'modern';
+  test?: RegExp;
+  exclude?: RegExp | string[];
+  // (babel-loader options)
+  options?: Object;
+}
+```
+
+Default test extensions - js, jsx, ts, tsx.
+Runs in a separate thread.
+
+### Styles Loaders
+
+#### cssLoader({ mode, test, exclude })
+Params:
+```ts
+{
+  mode: 'development' | 'production' | 'legacy' | 'modern';
+  test?: RegExp;
+  exclude?: RegExp | string[];
+}
+```
+
+Contains: style-loader, css-loader, postcss-loader (autoprefixer).
+In production minify.
+
+
+#### sassLoader({ mode, test, exclude })
+Params:
+```ts
+{
+  mode: 'development' | 'production' | 'legacy' | 'modern';
+  test?: RegExp;
+  exclude?: RegExp | string[];
+}
+```
+
+Contains: style-loader, css-loader, postcss-loader (autoprefixer), sass-loader.
+In production minify.
+
+### Images Loaders
+
+#### imagesLoader({ mode, test, exclude, optimizationOptions, outputDirectoryName })
+
+Params:
+```ts
+{
+  mode: 'development' | 'production' | 'legacy' | 'modern';
+  // image-webpack-loader optinos
+  optimizationOptions?: Object;
+  outputDirectoryName?: string;
+  test?: RegExp;
+  exclude?: RegExp | string[];
+}
+```
+
+Contains: url-loader, image-webpack-loader.
+
+Default test RegExp - /\.(png|jpg|jpeg|gif|webp)$/i
+
+Converts images to base64 if file size <= 60.
+
+In production minify images. Default optimizationOptions:
+```js
+{
+  mozjpeg: {
+    progressive: true,
+    quality: 90
+  },
+  optipng: {
+    optimizationLevel: 3
+  },
+  pngquant: {
+    enabled: false
+  }
+}
+```
+
+#### svgLoader({ mode, test, exclude, optimizationOptions, outputDirectoryName })
+
+Params:
+```ts
+{
+  mode: 'development' | 'production' | 'legacy' | 'modern';
+  // image-webpack-loader optinos
+  optimizationOptions?: Object;
+  outputDirectoryName?: string;
+  test?: RegExp;
+  exclude?: RegExp | string[];
+}
+```
+
+Contains: file-loader, image-webpack-loader.
+In production minify svg. (default image-webpack-loader options).
+
+#### svgSpriteLoader({ mode, test, exclude, optimizationOptions })
+
+Params:
+```ts
+{
+  mode: 'development' | 'production' | 'legacy' | 'modern';
+  // image-webpack-loader optinos
+  optimizationOptions?: Object;
+  test?: RegExp;
+  exclude?: RegExp | string[];
+}
+```
+
+Contains: svg-sprite-loader, image-webpack-loader.
+Adds a satisfying "test" regExp svg to sprite.
+In production minify svg. (default image-webpack-loader options).
+
+Don't forget to add excludeSvg param in **commomConfigParams**, SpriteLoaderPlugin in prodOptions and inject to html template code as [in the example](#spriteExample).
+
+### Fonts Loaders
+
+#### fontsLoader({ mode, test, exclude, outputDirectoryName })
+
+Params:
+```ts
+{
+  mode: 'development' | 'production' | 'legacy' | 'modern';
+  outputDirectoryName?: string;
+  test?: RegExp;
+  exclude?: RegExp | string[];
+}
+```
+
+Contains: files-loader.
 
 ## Utils
 ```js

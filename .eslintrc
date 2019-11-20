@@ -3,15 +3,19 @@
     "node": true
   },
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "prettier"],
-  "extends": ["airbnb-base", "prettier", "plugin:@typescript-eslint/recommended"],
+  "plugins": ["@typescript-eslint", "prettier", "import"],
+  "extends": [
+    "airbnb-base",
+    "prettier",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "settings": {
     "import/resolver": {
-      "alias": [
-        ["src", "./src"]
-      ],
+      "typescript": {
+        "directory": "./"
+      },
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "extensions": [".js", ".ts"]
       }
     }
   },

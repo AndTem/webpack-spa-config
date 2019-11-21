@@ -1,6 +1,6 @@
 const safariNoModuleFix = require('./safariNoModuleFix');
 
-const { JS_REGEXP } = require('../constants');
+const { JS_REGEXP } = require('../../src/constants');
 
 class LegacyInjectHtmlPlugin {
   constructor(options) {

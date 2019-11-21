@@ -1,4 +1,5 @@
 import { Mode } from 'src/types/mode';
+import { Config } from 'src/types/config';
 
 import { babelLoader } from 'src/loaders/scripts';
 import { cssLoader } from 'src/loaders/styles';
@@ -32,7 +33,7 @@ const createCommonConfig = ({
   imagesOutputDirectoryName,
   excludeImages,
   svgSpriteRegExp
-}: CommonConfigParams): Record<string, any> => ({
+}: CommonConfigParams): Config => ({
   target: 'web',
 
   entry: entryPath,

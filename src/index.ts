@@ -1,6 +1,6 @@
 const devConfig = require('./configs/development/development.config');
-const prodConfig = require('./configs/production/production.config');
-const compatibilityConfig = require('./configs/compatibility/compatibility.config');
+const prodConfig = require('../old/production/production.config');
+const compatibilityConfig = require('../old/compatibility/compatibility.config');
 
 const { mergeConfigOptions } = require('./utils/merge');
 const { isDevelopment, isProduction } = require('./utils/mode/mode');

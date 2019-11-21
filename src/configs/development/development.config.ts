@@ -1,36 +1,54 @@
-const merge = require('webpack-merge');
+import { CreateMainConfig } from 'src/types/config';
 
-const commonConfig = require('../common/common.config');
+import { connectConfigs } from 'src/utils/config';
 
-const devPlugins = require('./plugins');
+import { createCommonConfig } from 'src/configs/common';
 
-const { mergePlugins } = require('../../utils/merge');
+import { DEVELOPMENT_MODE } from 'src/constants/mode';
 
-const { DEVELOPMENT_MODE } = require('../../constants');
+// const devPlugins = require('./plugins');
 
-module.exports = (commonConfigParams, additionalOptions) => {
-  const { outputPath } = commonConfigParams;
-  const { plugins } = additionalOptions;
+const createDevConfig: CreateMainConfig = (
+  basicParams,
+  { addToAllConfigs, addToDevConfig }
+) => {
+  const additionalConfig = connectConfigs(
+    addToAllConfigs({ mode: DEVELOPMENT_MODE }),
+    addToDevConfig({ mode: DEVELOPMENT_MODE })
+  );
 
-  return merge.smart(
-    commonConfig({ ...commonConfigParams, mode: DEVELOPMENT_MODE }),
-    {
-      ...merge(
-        {
-          mode: DEVELOPMENT_MODE,
-          devtool: 'eval-source-map',
-          devServer: {
-            contentBase: outputPath,
-            open: true,
-            hot: true,
-            host: '0.0.0.0',
-            useLocalIp: true,
-            historyApiFallback: true
-          }
-        },
-        additionalOptions
-      ),
-      plugins: mergePlugins(devPlugins(commonConfigParams), plugins)
-    }
+  return connectConfigs(
+    createCommonConfig({ ...basicParams, mode: DEVELOPMENT_MODE }),
+    // { plugins: devPlugins() },
+    additionalConfig
   );
 };
+
+module.exports = { createDevConfig };
+
+// module.exports = (basicParams: BasicParams,  additionalOptions) => {
+//   const { outputPath } = commonConfigParams;
+//   const { plugins } = additionalOptions;
+//
+//   return merge.smart(
+//     commonConfig({ ...commonConfigParams, mode: DEVELOPMENT_MODE }),
+//     {
+//       ...merge(
+//         {
+//           mode: DEVELOPMENT_MODE,
+//           devtool: 'eval-source-map',
+//           devServer: {
+//             contentBase: outputPath,
+//             open: true,
+//             hot: true,
+//             host: '0.0.0.0',
+//             useLocalIp: true,
+//             historyApiFallback: true
+//           }
+//         },
+//         additionalOptions
+//       ),
+//       plugins: mergePlugins(devPlugins(commonConfigParams), plugins)
+//     }
+//   );
+// };

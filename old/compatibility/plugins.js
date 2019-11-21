@@ -7,12 +7,12 @@ const WebpackManifestPlugin = require('webpack-manifest-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const LegacyInjectHtmlPlugin = require('../../legacyInjectHtmlPlugin');
+const LegacyInjectHtmlPlugin = require('../legacyInjectHtmlPlugin');
 
-const { isLegacyMode } = require('../../utils/mode/mode');
+const { isLegacyMode } = require('../../src/utils/mode/mode');
 const { getCompatibilityFileName } = require('./utils');
 
-const { PRODUCTION_MODE, LEGACY_MODE, MODERN_MODE } = require('../../constants');
+const { PRODUCTION_MODE, LEGACY_MODE, MODERN_MODE } = require('../../src/constants');
 
 const LEGACY_MANIFEST_NAME = 'legacy.manifest.json';
 const STYLE_FILE_NAME = '[hash].css';

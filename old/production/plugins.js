@@ -6,7 +6,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 
-const { PRODUCTION_MODE } = require('../../constants');
+const { PRODUCTION_MODE } = require('../../src/constants');
 
 const prodPlugins = ({ templatePath, publicFilesPath, outputPath }) => [
   new CleanWebpackPlugin([basename(outputPath)], {

@@ -3,10 +3,10 @@ const DEFAULT_BUNDLES_FILE_NAME = '[hash].bundle.js';
 
 const DEFAULT_RESOLVE_EXTENSIONS = [
   '.js',
+  '.jsx',
   '.ts',
   '.tsx',
   '.json',
-  '.jsx',
   '.css',
   '.scss',
   '.less'

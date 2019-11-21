@@ -3,9 +3,9 @@ import {
   PRODUCTION_MODE,
   MODERN_MODE,
   LEGACY_MODE
-} from '../../constants';
+} from 'src/constants/mode';
 
-import { Mode } from '../../types/mode';
+import { Mode } from 'src/types/mode';
 
 type CheckModeFunc = (mode: Mode) => boolean;
 

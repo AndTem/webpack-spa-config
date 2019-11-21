@@ -5,7 +5,7 @@ const commonCompatibilityConfig = require('./common.config');
 const { mergeConfigOptions } = require('../../utils/merge');
 const { compilerStatusHandler } = require('./utils');
 
-const { PRODUCTION_MODE, LEGACY_MODE, MODERN_MODE } = require('../../constants');
+const { PRODUCTION_MODE, LEGACY_MODE, MODERN_MODE } = require('../../src/constants');
 
 module.exports = (commonConfigParams, commonOptions, prodOptions) => {
   const modernCompiler = () => {

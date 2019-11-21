@@ -1,6 +1,6 @@
 const merge = require('webpack-merge');
 
-const commonConfig = require('../common/common.config');
+const commonConfig = require('../../src/configs/common/common.config');
 
 const prodPlugins = require('./plugins');
 
@@ -8,7 +8,7 @@ const { mergePlugins } = require('../../utils/merge');
 const { getCompatibilityFileName } = require('../compatibility/utils');
 const getOptimization = require('./optimization');
 
-const { PRODUCTION_MODE, DEFAULT_VENDOR_NAME } = require('../../constants');
+const { PRODUCTION_MODE, DEFAULT_VENDOR_NAME } = require('../../src/constants');
 
 module.exports = (commonConfigParams, additionalOptions, compatibilityMode) => {
   const { plugins, optimization } = additionalOptions;

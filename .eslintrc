@@ -1,9 +1,10 @@
 {
   "env": {
-    "node": true
+    "node": true,
+    "jest": true
   },
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "prettier", "import"],
+  "plugins": ["@typescript-eslint", "prettier", "jest", "import"],
   "extends": [
     "airbnb-base",
     "prettier",

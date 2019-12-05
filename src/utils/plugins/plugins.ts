@@ -1,6 +1,33 @@
 import merge from 'webpack-merge';
+import webpack from 'webpack';
 
 import { WebpackPlugin } from 'src/types/plugins';
+import { Mode } from 'src/types/mode';
+
+type PluginsListCreatorParams<AdditionalParams = {}> = {
+  mode: Mode;
+} & AdditionalParams;
+
+type PluginsListCreator<AdditionalParams = {}> = (
+  params: PluginsListCreatorParams<AdditionalParams>
+) => WebpackPlugin[];
+
+function createPluginsList<AdditionalParams>(
+  pluginsListCreator: PluginsListCreator<AdditionalParams>
+) {
+  return (
+    params: PluginsListCreatorParams<AdditionalParams>
+  ): WebpackPlugin[] => {
+    const { mode } = params;
+
+    return [
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(mode)
+      }),
+      ...pluginsListCreator(params)
+    ];
+  };
+}
 
 const getFlatArray = <T>(array: Array<T[]>): T[] =>
   array.reduce((flatArray, currentArray) => flatArray.concat(currentArray), []);
@@ -44,4 +71,4 @@ const deepMergePlugins = (
   return mergedPlugins;
 };
 
-export { deepMergePlugins };
+export { createPluginsList, deepMergePlugins };

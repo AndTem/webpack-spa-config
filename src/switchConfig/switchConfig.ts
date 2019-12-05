@@ -1,4 +1,17 @@
+import { createDevConfig } from 'src/configs';
+
+import { isDevelopment } from 'src/utils/mode';
+
 import { EntryParams } from 'src/types/entryParams';
+import { Config } from 'src/types/config';
+
+const switchConfigs = (entryParams: EntryParams): Config | void => {
+  const { mode } = entryParams;
+
+  if (isDevelopment(mode)) {
+    return createDevConfig(entryParams);
+  }
+};
 
 // const devConfig = require('./configs/development/development.config');
 // const prodConfig = require('./configs/production/production.config');
@@ -31,3 +44,5 @@ import { EntryParams } from 'src/types/entryParams';
 //   // if not development or production that compatibility
 //   compatibilityConfig(basicParams, commonOptions, prodOptions);
 // };
+
+export { switchConfigs };

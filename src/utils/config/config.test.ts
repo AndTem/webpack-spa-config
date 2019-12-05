@@ -1,3 +1,5 @@
+import { DEVELOPMENT_MODE, PRODUCTION_MODE } from 'src/constants/mode';
+
 import { connectConfigs } from './config';
 
 class Plugin1 {
@@ -19,24 +21,37 @@ class Plugin2 {
 describe('connectConfigs', () => {
   it('deep merges two configs', () => {
     const config1 = {
-      output: {
-        a: 2,
-        b: { test: 'test' }
+      mode: DEVELOPMENT_MODE,
+      devtool: 'eval-source-map',
+      devServer: {
+        contentBase: '/',
+        open: true,
+        hot: true,
+        host: '0.0.0.0',
+        useLocalIp: true,
+        historyApiFallback: true,
+        options: { test: 1 }
       }
     };
     const config2 = {
-      output: {
-        a: 2,
-        b: { test: 'data', enable: true },
-        c: 3
+      mode: PRODUCTION_MODE,
+      devServer: {
+        open: false,
+        options: { test: 1, enable: true }
       }
     };
 
     const expectConfig = {
-      output: {
-        a: 2,
-        b: { test: 'data', enable: true },
-        c: 3
+      mode: PRODUCTION_MODE,
+      devtool: 'eval-source-map',
+      devServer: {
+        contentBase: '/',
+        open: false,
+        hot: true,
+        host: '0.0.0.0',
+        useLocalIp: true,
+        historyApiFallback: true,
+        options: { test: 1, enable: true }
       }
     };
 

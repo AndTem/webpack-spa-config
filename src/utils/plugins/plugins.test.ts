@@ -1,4 +1,10 @@
-import { deepMergePlugins } from './plugins';
+import webpack from 'webpack';
+
+import { DEVELOPMENT_MODE } from 'src/constants/mode';
+
+import { Mode } from 'src/types/mode';
+
+import { createPluginsList, deepMergePlugins } from './plugins';
 
 class Plugin1 {
   value: Record<string, any>;
@@ -23,6 +29,41 @@ class Plugin3 {
     this.value = value;
   }
 }
+
+describe('createPluginsList', () => {
+  it('adds definePlugin to the list of plugins that will return pluginsListCreator', () => {
+    const plugins = [new Plugin1({})];
+    const expectPlugins = [
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(DEVELOPMENT_MODE)
+      }),
+      new Plugin1({})
+    ];
+
+    const pluginsList = createPluginsList(() => plugins);
+
+    expect(pluginsList({ mode: DEVELOPMENT_MODE })).toEqual(expectPlugins);
+  });
+
+  it('passes to creator all passed values ​​with mode', () => {
+    const plugins = [new Plugin1({})];
+    const params = { mode: DEVELOPMENT_MODE as Mode, outputDirectoryName: '/' };
+
+    const expectPlugins = [
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(DEVELOPMENT_MODE)
+      }),
+      new Plugin1({}),
+      params
+    ];
+
+    const pluginsList = createPluginsList<{ outputDirectoryName: string }>(
+      allParams => [...plugins, allParams]
+    );
+
+    expect(pluginsList(params)).toEqual(expectPlugins);
+  });
+});
 
 describe('deepMergePlugins', () => {
   it('merges two plugins based on constructor information', () => {

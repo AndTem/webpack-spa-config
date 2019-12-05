@@ -1,4 +1,4 @@
-import { LoaderCreator, LoaderCreatorParams, Loader } from 'src/types/loaders';
+import { Loader } from 'src/types/loaders';
 import { Mode } from 'src/types/mode';
 
 type LoaderCreatorParams<AdditionalParams = {}> = {

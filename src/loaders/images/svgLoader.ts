@@ -9,6 +9,7 @@ export type SvgLoaderAddParams = {
 
 const DEFAULT_IMAGE_OUTPUT_DIRECTORY_NAME = 'images';
 
+// TODO: add loader ID for merge
 const createSvgLoader = createLoader<SvgLoaderAddParams>(
   ({
     mode,

@@ -19,6 +19,7 @@
   "bugs": {
     "url": "https://github.com/AndTem/webpack-spa-config/issues"
   },
+  "main": "lib/index.js",
   "scripts": {
     "tsc": "tsc",
     "remove-build": "rimraf lib/*",

@@ -1,6 +1,6 @@
 import merge from 'webpack-merge';
 
-import { deepMergePlugins } from 'src/utils/plugins';
+import { mergePlugins } from 'src/utils/plugins';
 
 import { Config } from 'src/types/config';
 
@@ -19,7 +19,7 @@ const connectConfigs = (...connectedConfigs: Config[]): Config =>
     );
 
     if (connectedPlugins && additionalPlugins) {
-      newConfig.plugins = deepMergePlugins(connectedPlugins, additionalPlugins);
+      newConfig.plugins = mergePlugins(connectedPlugins, additionalPlugins);
     }
 
     return newConfig;

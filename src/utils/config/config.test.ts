@@ -108,7 +108,7 @@ describe('connectConfigs', () => {
     expect(connectConfigs(config1, config2)).toEqual(expectConfig);
   });
 
-  it('deep merge plugins', () => {
+  it('merge plugins with replace', () => {
     const config1 = {
       plugins: [new Plugin1({ data: 'data' }), new Plugin2({ test: 'test' })]
     };
@@ -117,10 +117,7 @@ describe('connectConfigs', () => {
     };
 
     const expectConfig = {
-      plugins: [
-        new Plugin1({ test: 'test', data: 'data' }),
-        new Plugin2({ test: 'test', data: 'data' })
-      ]
+      plugins: [new Plugin1({ test: 'test' }), new Plugin2({ data: 'data' })]
     };
 
     expect(connectConfigs(config1, config2)).toEqual(expectConfig);

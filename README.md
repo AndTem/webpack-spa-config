@@ -11,6 +11,8 @@ Also this configuration is easy to expand.
 npm install --save-dev webpack-spa-config
 ```
 
+Plugins replace!!!!!
+
 # Minimum config
 ```
 webpack.config.js

@@ -4,7 +4,7 @@ import { DEVELOPMENT_MODE } from 'src/constants/mode';
 
 import { Mode } from 'src/types/mode';
 
-import { createPluginsList, deepMergePlugins } from './plugins';
+import { createPluginsList, mergePlugins } from './plugins';
 
 class Plugin1 {
   value: Record<string, any>;
@@ -65,10 +65,10 @@ describe('createPluginsList', () => {
   });
 });
 
-describe('deepMergePlugins', () => {
+describe('mergePlugins', () => {
   it('merges two plugins based on constructor information', () => {
     const plugins1 = [
-      new Plugin1({ data: 'data', enable: true }),
+      new Plugin1({ test: 'test' }),
       new Plugin2({ test: 'test' })
     ];
     const plugins2 = [new Plugin1({ data: 'data', enable: false })];
@@ -77,7 +77,7 @@ describe('deepMergePlugins', () => {
       new Plugin2({ test: 'test' })
     ];
 
-    expect(deepMergePlugins(plugins1, plugins2)).toEqual(expectPlugins);
+    expect(mergePlugins(plugins1, plugins2)).toEqual(expectPlugins);
   });
 
   it('combines more than two plugins, preserving the order of the first array', () => {
@@ -87,57 +87,16 @@ describe('deepMergePlugins', () => {
       new Plugin3({ test: 'test' })
     ];
     const plugins2 = [
-      new Plugin3({ test: 'test' }),
-      new Plugin1({ data: 'data', enable: false })
+      new Plugin3({ data: 'data' }),
+      new Plugin1({ data: 'data', enable: false, newData: 'newdata' })
     ];
     const plugins3 = [new Plugin1({ data: 'data', enable: false })];
     const expectPlugins = [
       new Plugin1({ data: 'data', enable: false }),
       new Plugin2({ test: 'test' }),
-      new Plugin3({ test: 'test' })
+      new Plugin3({ data: 'data' })
     ];
 
-    expect(deepMergePlugins(plugins1, plugins2, plugins3)).toEqual(
-      expectPlugins
-    );
-  });
-
-  it('deeply merges plugins', () => {
-    const plugins1 = [
-      new Plugin1({
-        data: {
-          a: 2,
-          b: { data: 'data' },
-          c: 'test'
-        },
-        enable: true
-      }),
-      new Plugin2({ test: 'test' })
-    ];
-    const plugins2 = [
-      new Plugin2({ test: 'test' }),
-      new Plugin1({
-        data: {
-          a: 3,
-          b: { data: 'test', test: 'test' }
-        },
-        enable: false,
-        add: true
-      })
-    ];
-    const expectPlugins = [
-      new Plugin1({
-        data: {
-          a: 3,
-          b: { data: 'test', test: 'test' },
-          c: 'test'
-        },
-        enable: false,
-        add: true
-      }),
-      new Plugin2({ test: 'test' })
-    ];
-
-    expect(deepMergePlugins(plugins1, plugins2)).toEqual(expectPlugins);
+    expect(mergePlugins(plugins1, plugins2, plugins3)).toEqual(expectPlugins);
   });
 });

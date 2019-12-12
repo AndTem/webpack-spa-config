@@ -3,9 +3,8 @@ import { Mode } from 'src/types/mode';
 
 type LoaderCreatorParams<AdditionalParams = {}> = {
   mode: Mode;
-  test?: RegExp;
-  exclude?: RegExp | string[];
-} & AdditionalParams;
+} & Partial<Loader> &
+  AdditionalParams;
 
 type LoaderCreator<AdditionalParams = {}> = (
   params: LoaderCreatorParams<AdditionalParams>

@@ -1,9 +1,9 @@
 import * as path from 'path';
-import webpack from 'webpack';
-import CleanWebpackPlugin from 'clean-webpack-plugin';
-import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
+import * as webpack from 'webpack';
+import * as CleanWebpackPlugin from 'clean-webpack-plugin';
+import * as CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
+import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import * as HtmlWebpackPlugin from 'html-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 import { BasicEntryParams } from 'src/types/entryParams';

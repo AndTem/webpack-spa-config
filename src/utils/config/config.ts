@@ -1,4 +1,4 @@
-import merge from 'webpack-merge';
+import * as merge from 'webpack-merge';
 
 import { mergePlugins } from 'src/utils/plugins';
 

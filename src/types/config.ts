@@ -10,4 +10,4 @@ type AddConfigFunctionParams = {
 // obtained from input parameters
 export type AddConfigFunction = (params: AddConfigFunctionParams) => Config;
 
-export type CreateMainConfig = (entryParams: EntryParams) => Config;
+export type CreateMainConfig = (entryParams: Required<EntryParams>) => Config;

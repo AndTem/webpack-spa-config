@@ -1,3 +1,2 @@
-import { switchConfigs } from './switchConfigs';
-
-export { switchConfigs as createConfig };
+export { switchConfigs as createConfig } from './switchConfigs';
+export * from './loaders';

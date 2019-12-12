@@ -1,5 +1,4 @@
-import merge from 'webpack-merge';
-import webpack from 'webpack';
+import * as webpack from 'webpack';
 
 import { WebpackPlugin } from 'src/types/plugins';
 import { Mode } from 'src/types/mode';

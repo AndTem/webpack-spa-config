@@ -1,4 +1,4 @@
-import * as path from 'path';
+import path from 'path';
 import webpack from 'webpack';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';

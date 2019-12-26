@@ -1,4 +1,4 @@
-import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 import { Mode } from '../../../types/mode';
 import { WebpackLoader } from '../../../types/loaders';

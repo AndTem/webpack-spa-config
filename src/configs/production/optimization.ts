@@ -1,5 +1,5 @@
-import * as TerserWebpackPlugin from 'terser-webpack-plugin';
-import * as OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import TerserWebpackPlugin from 'terser-webpack-plugin';
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 
 import { DEFAULT_VENDOR_NAME } from './constants';
 

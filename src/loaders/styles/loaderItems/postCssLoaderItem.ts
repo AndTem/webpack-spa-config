@@ -1,5 +1,5 @@
-import * as autoprefixer from 'autoprefixer';
-import * as flexbugsFixes from 'postcss-flexbugs-fixes';
+import autoprefixer from 'autoprefixer';
+import flexbugsFixes from 'postcss-flexbugs-fixes';
 
 import { Mode } from '../../../types/mode';
 import { WebpackLoader } from '../../../types/loaders';

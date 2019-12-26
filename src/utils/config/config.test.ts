@@ -31,6 +31,14 @@ describe('connectConfigs', () => {
         useLocalIp: true,
         historyApiFallback: true,
         options: { test: 1 }
+      },
+      module: {
+        rules: [
+          {
+            test: /test/,
+            use: ['loader']
+          }
+        ]
       }
     };
     const config2 = {
@@ -52,6 +60,14 @@ describe('connectConfigs', () => {
         useLocalIp: true,
         historyApiFallback: true,
         options: { test: 1, enable: true }
+      },
+      module: {
+        rules: [
+          {
+            test: /test/,
+            use: ['loader']
+          }
+        ]
       }
     };
 
@@ -71,6 +87,13 @@ describe('connectConfigs', () => {
           },
           {
             test: /test1/,
+            use: [
+              'thread-loader',
+              { loader: 'babel-loader', options: { test: 'test' } }
+            ]
+          },
+          {
+            test: /test2/,
             use: [
               'thread-loader',
               { loader: 'babel-loader', options: { test: 'test' } }
@@ -102,7 +125,32 @@ describe('connectConfigs', () => {
     };
 
     const expectConfig = {
-      module: config2.module
+      module: {
+        rules: [
+          {
+            test: /test/,
+            use: [
+              'thread-loader',
+              { loader: 'babel-loader', options: { data: 'data' } },
+              'my-loader'
+            ]
+          },
+          {
+            test: /test1/,
+            use: [
+              'thread-loader',
+              { loader: 'babel-loader', options: { test: 'test' } }
+            ]
+          },
+          {
+            test: /test2/,
+            use: [
+              'thread-loader',
+              { loader: 'babel-loader', options: { test: 'test' } }
+            ]
+          }
+        ]
+      }
     };
 
     expect(connectConfigs(config1, config2)).toEqual(expectConfig);

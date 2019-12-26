@@ -1,7 +1,8 @@
-import * as webpack from 'webpack';
+import webpack from 'webpack';
 
 import { WebpackPlugin } from 'src/types/plugins';
 import { Mode } from 'src/types/mode';
+import { flat } from '../array';
 
 type PluginsListCreatorParams<AdditionalParams = {}> = {
   mode: Mode;
@@ -28,13 +29,10 @@ function createPluginsList<AdditionalParams>(
   };
 }
 
-const getFlatArray = <T>(array: Array<T[]>): T[] =>
-  array.reduce((flatArray, currentArray) => flatArray.concat(currentArray), []);
-
 const mergePlugins = (
   ...pluginsArrays: Array<WebpackPlugin[]>
 ): WebpackPlugin[] => {
-  const allPlugins = getFlatArray<WebpackPlugin>(pluginsArrays);
+  const allPlugins = flat(pluginsArrays);
   const mergedPlugins = [];
 
   allPlugins.forEach(plugin => {

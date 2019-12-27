@@ -25,7 +25,7 @@
     "webpack-spa-config": "0.8.2"
   },
   "scripts": {
-    "build": "webpack --mode=production webpack.config.js",
+    "build": "webpack --mode=production --config webpack.config.js",
     "build-dev": "webpack --mode=development --config webpack.config.js",
     "start": "webpack-dev-server --mode=development"
   }

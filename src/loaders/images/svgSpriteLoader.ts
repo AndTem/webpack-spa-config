@@ -13,7 +13,8 @@ const createSvgSpriteLoader = createLoader<SvgSpriteLoaderAddParams>(
         {
           loader: 'svg-sprite-loader',
           options: {
-            extract: isProduction(mode)
+            extract: isProduction(mode),
+            spriteFilename: 'sprite.[hash].svg'
           }
         }
       ]

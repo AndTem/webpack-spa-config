@@ -3,7 +3,7 @@ const { resolve, sep } = require('path');
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
-const { createConfig, svgSpriteLoader, sassLoader } = require('webpack-spa-config');
+const { createConfig, svgSpriteLoader } = require('webpack-spa-config');
 // eslint-disable-next-line import/no-extraneous-dependencies
 // eslint-disable-next-line import/no-extraneous-dependencies
 
@@ -21,11 +21,10 @@ const basicParams = {
   svgSpriteRegExp
 };
 
-const addToAllConfigs = mode => ({
+const addToAllConfigs = ({ mode }) => ({
   module: {
     rules: [
-      svgSpriteLoader({ mode, test: svgSpriteRegExp }),
-      sassLoader(mode)
+      svgSpriteLoader({ mode, test: svgSpriteRegExp })
     ]
   },
   resolve: {
@@ -38,7 +37,7 @@ const addToAllConfigs = mode => ({
 });
 
 const addToProdConfig = () => ({
-  plugins: [new SpriteLoaderPlugin()]
+  plugins: [new SpriteLoaderPlugin({ plainSprite: true })]
 });
 
 module.exports = (_, { mode }) =>

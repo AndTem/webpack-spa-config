@@ -4,11 +4,12 @@ import { createStyleLoaderItem, createPostCssLoaderItem } from './loaderItems';
 
 const createSassLoader = createLoader(({ mode }) => {
   return {
-    test: /\.css$/,
+    test: /\.scss$/,
     use: [
       createStyleLoaderItem(mode),
       { loader: 'css-loader', options: { importLoaders: 1 } },
-      createPostCssLoaderItem(mode)
+      createPostCssLoaderItem(mode),
+      'sass-loader'
     ]
   };
 });

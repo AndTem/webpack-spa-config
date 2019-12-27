@@ -20,6 +20,7 @@ const createDevConfig: CreateMainConfig = ({
     devtool: 'eval-source-map',
     devServer: {
       contentBase: outputPath,
+      host: '0.0.0.0',
       open: true,
       hot: true,
       useLocalIp: true,

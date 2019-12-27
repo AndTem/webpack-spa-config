@@ -1,4 +1,4 @@
-import { default as merge } from 'webpack-merge';
+import merge from 'webpack-merge';
 
 import { mergePlugins } from 'src/utils/plugins';
 import { smartMergeLoaders } from 'src/utils/loaders';

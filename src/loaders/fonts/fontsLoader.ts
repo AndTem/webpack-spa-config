@@ -13,9 +13,9 @@ const createFontsLoader = createLoader<FontsLoaderAddParams>(
       test: /\.(otf|eot|ttf|woff|woff2)(\?.+)?$/,
       use: [
         {
-          loader: 'file-loader',
+          loader: 'url-loader',
           options: {
-            outputPath: outputDirectoryName,
+            limit: 2048,
             name: getFileNameDependingEnv(mode, outputDirectoryName)
           }
         }

@@ -7,9 +7,9 @@ import { EntryParams } from 'src/types/entryParams';
 
 const mockAddConfigFunction: AddConfigFunction = () => ({});
 
-const switchConfigs = (entryParams: EntryParams): Config => {
-  const { mode } = entryParams;
+const switchConfigs = (_, { mode }) => (entryParams: EntryParams): Config => {
   const requiredParams = {
+    mode,
     addToAllConfigs: mockAddConfigFunction,
     addToDevConfig: mockAddConfigFunction,
     addToProdConfig: mockAddConfigFunction,

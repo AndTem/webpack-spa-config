@@ -1,33 +1,29 @@
 # Webpack SPA Config
 Webpack 4 config for SPA.
 
-This configuration has everything you need to build a SPA.
-Also this configuration is easy to expand.
+This configuration has everything you need to build a SPA. Also this configuration is easy to extend and editing.
 
-🔥In this configuration there is "compatibility" mode. It is a separate build for old and new browsers. Js files size for new browsers is reduced by **11%**.
+🔥In this configuration there is "compatibility" mode. It is a separate build for old and new browsers. Js files size for new browsers is reduced by about **11%**.
 
 # Installation
 ```
 npm install --save-dev webpack-spa-config
 ```
 
-Plugins replace!!!!!
-
 # Minimum config
 ```
 webpack.config.js
 ```
 ```js
-const createConfig = require('webpack-spa-config');
+const { createConfig } = require('webpack-spa-config');
 
-const commonParams = {
+const basicParams = {
   entryPath: resolve(__dirname, 'index.js'),
   outputPath: resolve(__dirname, 'dist'),
-  publicFilesPath: resolve(__dirname, 'public'),
   templatePath: resolve(__dirname, 'index.html')
 };
 
-module.exports = (_, { mode }) => createConfig({ mode, commonParams });
+module.exports = createConfig({ basicParams });
 ```
 
 ```
@@ -36,9 +32,9 @@ package.json
 ```json
 ...
 "scripts": {
-  "build": "webpack --mode=development --config webpack.config.js",
-  "start": "webpack-dev-server --mode=development",
-  "build-prod": "webpack --mode=production --config webpack.config.js"
+  "build": "webpack --mode=production --config webpack.config.js",
+  "build-dev": "webpack --mode=development --config webpack.config.js",
+  "start": "webpack-dev-server --mode=development"
 }
 ...
 ```
@@ -50,7 +46,7 @@ Don't forget to fill in the browserlist and babel file.
   * dev-server, hot replace (host on local ip);
   * babel-loader (js, jsx, ts, tsx);
   * css-loader
-  * image-loader - limit: 60. Default output directory - 'images';
+  * image-loader - limit: 60. Default output directory - 'images'. Extensions: png|jpg|jpeg|gif|webp;
   * svg-loader - default output directory - 'images';
   * svg-sprite - in development mode injects in runtime;
   * fonts-loader - formats: .otf, .eot, .ttf, .woff, .woff2. Default output directory - 'fonts';
@@ -70,9 +66,10 @@ Don't forget to fill in the browserlist and babel file.
   * static bundle report (webpack-bundle-analyzer).
 
 ## Compatibility mode
-  Includes all of production mode.
-  * it is possible to make a separate babel config for old browsers. Add polyfills;
-  * it is possible to make a separate babel config for new browsers. Not add polyfills;
+  Includes all the features for the selected modification (development|production).
+
+  * it is possible to make a separate babel config for old browsers. Specify in the babel configuration everything that is necessary for old browsers and this will not get into the assembly for new browsers (polyfills);
+  * it is possible to make a separate babel config for new browsers. Specify in babel config only what is needed for new browser;
   * sets env name for babel.config;
   * separate reports for each assembly (legacy and modern).
 
@@ -80,36 +77,58 @@ Webpack in compatibility mode injects tags with necessary attributes in html.
 ```html
 <!-- for new browsers. Old browsers not support attribute type="module" -->
 <script type="module" src="/modern.545dc46f7bbd77968d14.bundle.js"></script>
-<!-- for old browsers -->
+<!-- for old browsers. New browsers will ignore the script tag with the nomodule attribute  -->
 <script src="/legacy.bc624b7b4b14725030b0.bundle.js" nomodule></script>
 ```
 
-**[Compatibility example](#compatibilityExample)**
+How to turn on сompatibility mode - **[Compatibility example](#compatibilityExample)**.
 
-# API
+# createConfig API
 ```
-const createConfig = require('webpack-spa-config');
+const { createConfig } = require('webpack-spa-config');
 
-createConfig({ mode, commonParams, commonOptions, devOptions, prodOptions })
+createConfig(params)
 ```
-* **mode** - (string) oneOf(['development', 'production']);
-* **basicParams** - required parameters for the entire assembly (object):
-   * **entryPath** - required (string);
-   * **outputPath** - required (string);
-   * **publicFilesPath** (string) - required path to the directory where the public files are stored (images, fonts ...);
-   * **templatePath** (string) - required path to the prepared template;
-   * **publicPath** (string) - default  '/';
-   * **imagesOutputDirectoryName** (string) - default 'images';
-   * **fontsOutputDirectoryName** (string) - default 'fonts';
-   * **excludeImages** (regexp);
-   * **excludeSvg** (regexp || array[regexp]).
-* **commonOptions(mode, compatibilityMode)** - options merged with common config (function):
-* **devOptions(mode, compatibilityMode)** - options merged with development config (function);
-* **prodOptions(mode, compatibilityMode)** - options merged with production config (function);
 
-**compatibilityMode** - oneOf(['legacy', 'modern']).
+Params object is required.
+
+```params```: ```required <Object>```
+* ```basicParams```: ```required <Object>```
+   * ```entryPath```: ```required <String>```;
+   * ```outputPath```: ```required <String>```;
+   * ```templatePath```: ```required <String>```. Path to html;
+   * ```publicPath```: ```<String> Default value: '/'```. https://webpack.js.org/configuration/output/#outputpublicpath
+   * ```imagesOutputDirectoryName```: ```<String> Default value: 'images'```. Names of output images files.;
+   * ```excludeImages```: ```<Regexp>```. Exclude images for images loader;
+   * ```svgSpriteRegExp```: ```<Regexp>```.
+
+* ```addToAllConfigs```: ```<({ mode }) => PartConfig>```:
+    * ```mode```: ```required <String>```. The current mode will be transmitted;
+    * ```PartConfig```: ```required <Object>```. Part of the configuration that will extend the configurations for all modes.
+* ```addToDevConfig```: ```<({ mode }) => PartConfig>```:
+    * ```mode```: ```required <String>```. The current mode will be transmitted;
+    * ```PartConfig```: ```required <Object>```. Part of the configuration that will extend the configurations for dev mode.
+* ```addToProdConfig```: ```<({ mode }) => PartConfig>```:
+    * ```mode```: ```required <String>```. The current mode will be transmitted;
+    * ```PartConfig```: ```required <Object>```. Part of the configuration that will extend the configurations for prod mode.
 
 There are also ready loaders.
+
+# Extending/changing the basic configuration
+To expand/change the basic configuration, you must use the following functions: ```addToAllConfigs```, ```addToDevConfig```, ```addToProdConfig```.
+For configurations there is a deep merge except for loaders and plugins.
+
+For loaders (```config.module.rules```) and plugins (```config.plugins```) there is a rough replacement.
+Loaders are replaced using the **test** field.
+Plugins are replaced using the constructor name.
+
+Merging configurations will occur in the following order:
+* For dev mode:
+   1. merge the **basic configuration** with the object returned by **addToAllConfigs**
+   2. merge the config received in the first step with the object that the addToDevConfig function returned
+* For prod mode:
+   1. merge the **basic configuration** with the object returned by **addToAllConfigs**
+   2. merge the config received in the first step with the object that the **addToProdConfig** function returned
 
 ## Loaders
 ```

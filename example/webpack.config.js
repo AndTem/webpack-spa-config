@@ -40,9 +40,7 @@ const addToProdConfig = () => ({
   plugins: [new SpriteLoaderPlugin({ plainSprite: true })]
 });
 
-module.exports = (_, { mode }) =>
-  createConfig({
-    mode,
+module.exports = createConfig({
     basicParams,
     addToAllConfigs,
     addToProdConfig

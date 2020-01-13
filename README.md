@@ -135,7 +135,7 @@ There are also ready loaders.
 
 ## Loaders
 ```
-const loaders = require('webpack-spa-config');
+const { babelLoader } = require('webpack-spa-config');
 ```
 
 All loaders are functions and everyone takes the following general parameters:
@@ -155,7 +155,7 @@ For all loaders you can change the parameters described above
 Params:
 ```ts
 {
-  mode: 'development' | 'production' | 'legacy' | 'modern';
+  mode: 'development' | 'production';
   test?: RegExp;
   exclude?: RegExp | string[];
   // (babel-loader options)
@@ -172,7 +172,7 @@ Runs in a separate thread.
 Params:
 ```ts
 {
-  mode: 'development' | 'production' | 'legacy' | 'modern';
+  mode: 'development' | 'production';
   test?: RegExp;
   exclude?: RegExp | string[];
 }
@@ -186,7 +186,7 @@ In production minify.
 Params:
 ```ts
 {
-  mode: 'development' | 'production' | 'legacy' | 'modern';
+  mode: 'development' | 'production';
   test?: RegExp;
   exclude?: RegExp | string[];
 }
@@ -202,7 +202,7 @@ In production minify.
 Params:
 ```ts
 {
-  mode: 'development' | 'production' | 'legacy' | 'modern';
+  mode: 'development' | 'production';
   // image-webpack-loader optinos
   optimizationOptions?: Object;
   outputDirectoryName?: string;
@@ -296,7 +296,7 @@ const utils = require('webpack-spa-config/utils');
 * **isModernMode(compatibilityMode)**
 * **isCompatibilityMode(compatibilityMode)**
 
-# Example
+# Example of expansion/change of configuration
 ```
 webpack.config.js
 ```

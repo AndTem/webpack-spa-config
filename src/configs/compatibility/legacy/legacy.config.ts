@@ -8,7 +8,8 @@ import { LEGACY_MODE } from 'src/constants/mode';
 
 import { CreateMainConfig } from 'src/types/config';
 
-import { createCompatibilityLegacyDevConfig } from './development';
+import { createDevConfig } from '../../development';
+import { createProdConfig } from '../../production';
 import { createCompatibilityModernConfig } from '../modern';
 
 import { addLegacyPlugins } from './utils';
@@ -17,7 +18,9 @@ import { DEFAULT_SCRIPTS_FILE_NAME } from '../../common/constants';
 
 const createCompatibilityLegacyConfig: CreateMainConfig = entryParams => {
   const { basicParams, mode } = entryParams;
-  const createModeConfig = createCompatibilityLegacyDevConfig;
+  const createModeConfig = isProduction(mode)
+    ? createProdConfig
+    : createDevConfig;
 
   // dev or prod config
   const modeConfig = createModeConfig({

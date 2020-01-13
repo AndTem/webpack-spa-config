@@ -27,7 +27,8 @@
   "scripts": {
     "build": "webpack --mode=production --config webpack.config.js",
     "build:dev": "webpack --mode=development --config webpack.config.js",
-    "build:compatibility": "COMPATIBILITY=true webpack --mode=development --config webpack.config.js",
+    "build:compatibility:dev": "COMPATIBILITY=true webpack --mode=development --config webpack.config.js",
+    "build:compatibility:prod": "COMPATIBILITY=true webpack --mode=production --config webpack.config.js",
     "start": "webpack-dev-server --mode=development"
   }
 }

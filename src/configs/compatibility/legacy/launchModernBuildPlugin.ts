@@ -23,10 +23,8 @@ class LaunchModernBuildPlugin {
   apply(compiler) {
     const pluginName = 'launch-modern-build-plugin';
 
-    compiler.hooks.afterEmit.tapAsync(pluginName, () => {
+    compiler.hooks.done.tapAsync(pluginName, () => {
       webpack(this.modernConfig, compilerStatusHandler);
-
-      return true;
     });
   }
 }

@@ -2,6 +2,7 @@ import path from 'path';
 
 import { Config } from 'src/types/config';
 
+import { WebpackPlugin } from 'src/types/plugins';
 import LegacyInjectHtmlPlugin from './legacyInjectHtmlPlugin';
 
 import { LEGACY_MANIFEST_NAME } from '../constants';

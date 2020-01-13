@@ -64,14 +64,15 @@ const mergePlugins = (
   return mergedPlugins;
 };
 
-const findPluginPredicate = Plugin => (
-  pluginInstanceItem: WebpackPlugin
-): boolean => {
-  const pluginInstance = new Plugin();
+const removePlugin = (
+  plugins: WebpackPlugin[],
+  RemovePluginClass
+): WebpackPlugin[] => {
+  const removePluginInstance = new RemovePluginClass();
 
-  return (
-    pluginInstanceItem.constructor.name === pluginInstance.constructor.name
+  return plugins.filter(
+    plugin => plugin.constructor.name !== removePluginInstance.constructor.name
   );
 };
 
-export { createPluginsList, mergePlugins, findPluginPredicate };
+export { createPluginsList, mergePlugins, removePlugin };

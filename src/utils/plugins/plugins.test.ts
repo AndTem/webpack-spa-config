@@ -4,11 +4,7 @@ import { DEVELOPMENT_MODE } from 'src/constants/mode';
 
 import { Mode } from 'src/types/mode';
 
-import {
-  createPluginsList,
-  mergePlugins,
-  findPluginPredicate
-} from './plugins';
+import { createPluginsList, mergePlugins, removePlugin } from './plugins';
 
 class Plugin1 {
   value: Record<string, any>;
@@ -105,16 +101,10 @@ describe('mergePlugins', () => {
   });
 });
 
-describe('findPluginPredicate', () => {
-  it('returns true if plugin is found', () => {
+describe('removePlugin', () => {
+  it('removes the passed plugin', () => {
     const plugins = [new Plugin1({}), new Plugin2({})];
 
-    expect(plugins.find(findPluginPredicate(Plugin1))).toEqual(new Plugin1({}));
-  });
-
-  it('returns false if plugin is not found', () => {
-    const plugins = [new Plugin1({}), new Plugin2({})];
-
-    expect(plugins.find(findPluginPredicate(Plugin3))).toBe(undefined);
+    expect(removePlugin(plugins, Plugin2)).toEqual([new Plugin1({})]);
   });
 });

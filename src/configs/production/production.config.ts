@@ -10,6 +10,8 @@ import { createDefaultOptimization } from './optimization';
 import { createProdPlugins } from './plugins';
 
 const createProdConfig: CreateMainConfig = ({
+  mode,
+  compatibilityMode,
   basicParams,
   addToAllConfigs,
   addToProdConfig
@@ -17,14 +19,14 @@ const createProdConfig: CreateMainConfig = ({
   const prodBaseOptions = {
     mode: PRODUCTION_MODE,
     optimization: createDefaultOptimization(),
-    plugins: createProdPlugins({ ...basicParams, mode: PRODUCTION_MODE })
+    plugins: createProdPlugins({ ...basicParams, mode })
   };
 
   return connectConfigs(
-    createCommonConfig({ ...basicParams, mode: PRODUCTION_MODE }),
+    createCommonConfig({ ...basicParams, mode }),
     prodBaseOptions,
-    addToAllConfigs({ mode: PRODUCTION_MODE }),
-    addToProdConfig({ mode: PRODUCTION_MODE })
+    addToAllConfigs({ mode, compatibilityMode }),
+    addToProdConfig({ mode, compatibilityMode })
   );
 };
 

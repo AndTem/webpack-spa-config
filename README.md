@@ -102,17 +102,18 @@ Params object is required.
    * ```excludeImages```: ```<Regexp>```. Exclude images for images loader;
    * ```svgSpriteRegExp```: ```<Regexp>```.
 
-* ```addToAllConfigs```: ```<({ mode }) => PartConfig>```:
-    * ```mode```: ```required <String>```. The current mode will be transmitted;
+* ```addToAllConfigs```: ```<({ mode, compatibility }) => PartConfig>```:
+    * ```mode```: ```required <production | development>```. The current mode will be transmitted;
+    * ```compatibilityMode```: ```required <legacy | modern>```. The current compatibility mode will be transmitted;
     * ```PartConfig```: ```required <Object>```. Part of the configuration that will extend the configurations for all modes.
 * ```addToDevConfig```: ```<({ mode }) => PartConfig>```:
-    * ```mode```: ```required <String>```. The current mode will be transmitted;
+    * ```mode```: ```required <production | development>```. The current mode will be transmitted;
+    * ```compatibilityMode```: ```required <legacy | modern>```. The current compatibility mode will be transmitted;
     * ```PartConfig```: ```required <Object>```. Part of the configuration that will extend the configurations for dev mode.
 * ```addToProdConfig```: ```<({ mode }) => PartConfig>```:
-    * ```mode```: ```required <String>```. The current mode will be transmitted;
+    * ```mode```: ```required <production | development>```. The current mode will be transmitted;
+    * ```compatibilityMode```: ```required <legacy | modern>```. The current compatibility mode will be transmitted;
     * ```PartConfig```: ```required <Object>```. Part of the configuration that will extend the configurations for prod mode.
-
-There are also ready loaders.
 
 # Extending/changing the basic configuration
 To expand/change the basic configuration, you must use the following functions: ```addToAllConfigs```, ```addToDevConfig```, ```addToProdConfig```.
@@ -130,15 +131,17 @@ Merging configurations will occur in the following order:
    1. merge the **basic configuration** with the object returned by **addToAllConfigs**
    2. merge the config received in the first step with the object that the **addToProdConfig** function returned
 
+There are also ready loaders.
+
 ## Loaders
 ```
-const loaders = require('webpack-spa-config/loaders');
+const loaders = require('webpack-spa-config');
 ```
 
 All loaders are functions and everyone takes the following general parameters:
 ```ts
 {
-  mode: 'development' | 'production' | 'legacy' | 'modern';
+  mode: 'development' | 'production';
   test?: RegExp;
   exclude?: RegExp | string[];
 }

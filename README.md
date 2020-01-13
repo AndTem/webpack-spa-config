@@ -63,6 +63,7 @@ Don't forget to fill in the browserlist and babel file.
   * minimizes html;
   * split chunks + runtime chunks;
   * removal of the previous assembly before starting a new one in production;
+  * checks for duplicate packets (duplicate-package-checker-webpack-plugin)
   * static bundle report (webpack-bundle-analyzer).
 
 ## Compatibility mode

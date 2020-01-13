@@ -4,6 +4,7 @@ import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import DuplicatePackageCheckerPlugin from 'duplicate-package-checker-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 import { BasicEntryParams } from 'src/types/entryParams';
@@ -31,6 +32,7 @@ const createProdPlugins = createPluginsList<AdditionalParams>(
         conservativeCollapse: true
       }
     }),
+    new DuplicatePackageCheckerPlugin({ emitError: true }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       reportFilename: 'bundle-report.html',

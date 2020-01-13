@@ -1,11 +1,6 @@
 const { resolve, sep } = require('path');
-// eslint-disable-next-line import/no-extraneous-dependencies
-
-// eslint-disable-next-line import/no-extraneous-dependencies
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const { createConfig, svgSpriteLoader } = require('webpack-spa-config');
-// eslint-disable-next-line import/no-extraneous-dependencies
-// eslint-disable-next-line import/no-extraneous-dependencies
 
 const scriptsPath = resolve(__dirname, 'src', 'scripts');
 const publicFilesPath = resolve(__dirname, 'public');

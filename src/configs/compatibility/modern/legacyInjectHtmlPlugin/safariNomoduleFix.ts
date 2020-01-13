@@ -17,6 +17,6 @@ const safariNoModuleFix = `(function() {
     d.head.appendChild(c);
     c.remove();
   }
-}());`
+}());`;
 
-module.exports = safariNoModuleFix;
+export { safariNoModuleFix };

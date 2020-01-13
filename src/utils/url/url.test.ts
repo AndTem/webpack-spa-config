@@ -1,19 +1,31 @@
-import { PRODUCTION_MODE, DEVELOPMENT_MODE } from 'src/constants/mode';
+import {
+  PRODUCTION_MODE,
+  DEVELOPMENT_MODE,
+  LEGACY_MODE
+} from 'src/constants/mode';
 
-import { getFileNameDependingEnv } from './url';
+import { getFilePathDependingMode, addCompatibilityPrefixToName } from './url';
 
-describe('getFileNameDependingEnv', () => {
+describe('getFilePathDependingMode', () => {
   const outputDirectoryName = 'images';
 
   it('if it does not work in prod, then a hash is added to the file name', () => {
-    expect(getFileNameDependingEnv(PRODUCTION_MODE, outputDirectoryName)).toBe(
+    expect(getFilePathDependingMode(PRODUCTION_MODE, outputDirectoryName)).toBe(
       'images/[name].[hash].[ext]'
     );
   });
 
   it('if it does not work in prod, then only the file name is used', () => {
-    expect(getFileNameDependingEnv(DEVELOPMENT_MODE, outputDirectoryName)).toBe(
-      'images/[name].[ext]'
+    expect(
+      getFilePathDependingMode(DEVELOPMENT_MODE, outputDirectoryName)
+    ).toBe('images/[name].[ext]');
+  });
+});
+
+describe('addCompatibilityPrefixToName', () => {
+  it('add compatibility mode name to filename', () => {
+    expect(addCompatibilityPrefixToName(LEGACY_MODE, 'scripts')).toBe(
+      'legacy.scripts'
     );
   });
 });

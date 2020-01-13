@@ -1,17 +1,21 @@
-const safariNoModuleFix = require('./safariNoModuleFix');
+import { safariNoModuleFix } from './safariNomoduleFix';
 
-const { JS_REGEXP } = require('../../src/constants');
+const JS_REGEXP = /\.js$/;
 
 class LegacyInjectHtmlPlugin {
-  constructor(options) {
-    const { manifestPath } = options;
+  legacyManifestPath: string;
 
-    this.manifestPath = manifestPath;
+  constructor(options: { legacyManifestPath: string }) {
+    const { legacyManifestPath } = options;
+
+    this.legacyManifestPath = legacyManifestPath;
   }
 
   injectLegacyScriptsToHtml(body) {
-    // Получаем информацию о legacy Build
-    const legacyManifest = require(this.manifestPath);
+    // get data about the past legacy assembly from the manifest.json
+    // eslint-disable-next-line
+    const legacyManifest: Record<string, string> = require(this
+      .legacyManifestPath);
 
     Object.values(legacyManifest).forEach(filePath => {
       if (JS_REGEXP.test(filePath)) {
@@ -31,26 +35,25 @@ class LegacyInjectHtmlPlugin {
     const pluginName = 'legacy-inject-html-plugin';
 
     compiler.hooks.compilation.tap(pluginName, compilation => {
-      // Подписываемся на хук html-webpack-plugin,
-      // в котором можно менять данные HTML
+      // subscribe on html-webpack-plugin for change html
       compilation.hooks.htmlWebpackPluginAlterAssetTags.tapAsync(
         pluginName,
         (data, cb) => {
-          // Добавляем type="module" для modern-файлов
+          // add type="module" for modern-файлов
           data.body.forEach(tag => {
             if (tag.tagName === 'script' && tag.attributes) {
               tag.attributes.type = 'module';
             }
           });
 
-          // Вставляем фикс для Safari
+          // add Safari fix
           data.body.push({
             tagName: 'script',
             closeTag: true,
             innerHTML: safariNoModuleFix
           });
 
-          // Вставляем legacy-файлы с атрибутом nomodule
+          // insert legacy-files with nomodule attribute
           this.injectLegacyScriptsToHtml(data.body);
 
           cb();
@@ -60,4 +63,4 @@ class LegacyInjectHtmlPlugin {
   }
 }
 
-module.exports = LegacyInjectHtmlPlugin;
+export default LegacyInjectHtmlPlugin;

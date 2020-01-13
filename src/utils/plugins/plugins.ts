@@ -64,4 +64,14 @@ const mergePlugins = (
   return mergedPlugins;
 };
 
-export { createPluginsList, mergePlugins };
+const findPluginPredicate = Plugin => (
+  pluginInstanceItem: WebpackPlugin
+): boolean => {
+  const pluginInstance = new Plugin();
+
+  return (
+    pluginInstanceItem.constructor.name === pluginInstance.constructor.name
+  );
+};
+
+export { createPluginsList, mergePlugins, findPluginPredicate };

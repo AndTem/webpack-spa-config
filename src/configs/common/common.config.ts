@@ -8,7 +8,7 @@ import { fontsLoader } from 'src/loaders/fonts';
 
 import {
   DEFAULT_PUBLIC_PATH,
-  DEFAULT_BUNDLES_FILE_NAME,
+  DEFAULT_SCRIPTS_FILE_NAME,
   DEFAULT_RESOLVE_EXTENSIONS,
   DEFAULT_RESOLVE_MODULES
 } from './constants';
@@ -29,7 +29,7 @@ const createCommonConfig = ({
   outputPath,
   mode,
   publicPath = DEFAULT_PUBLIC_PATH,
-  scriptsFileName = DEFAULT_BUNDLES_FILE_NAME,
+  scriptsFileName = DEFAULT_SCRIPTS_FILE_NAME,
   imagesOutputDirectoryName,
   excludeImages,
   svgSpriteRegExp

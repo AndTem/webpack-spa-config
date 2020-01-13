@@ -1,6 +1,6 @@
 import { createLoader } from 'src/utils/loaders';
 import { isProduction } from 'src/utils/mode';
-import { getFileNameDependingEnv } from 'src/utils/url';
+import { getFilePathDependingMode } from 'src/utils/url';
 
 export type ImagesLoaderAddParams = {
   optimizationOptions?: Record<string, Record<string, any>>;
@@ -36,7 +36,7 @@ const createCommonImagesLoader = createLoader<ImagesLoaderAddParams>(
           options: {
             limit: 60,
             // [name] || [hash]
-            name: getFileNameDependingEnv(mode, outputDirectoryName)
+            name: getFilePathDependingMode(mode, outputDirectoryName)
           }
         }
       ]

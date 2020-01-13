@@ -5,22 +5,19 @@ import {
   LEGACY_MODE
 } from 'src/constants/mode';
 
-import { Mode } from 'src/types/mode';
+import { Mode, CompatibilityMode } from 'src/types/mode';
 
 type CheckModeFunc = (mode: Mode) => boolean;
+type CheckCompatibilityModeFunc = (
+  compatibilityMode: CompatibilityMode
+) => boolean;
 
 const isProduction: CheckModeFunc = mode => mode === PRODUCTION_MODE;
 const isDevelopment: CheckModeFunc = mode => mode === DEVELOPMENT_MODE;
 
-const isLegacyMode: CheckModeFunc = mode => mode === LEGACY_MODE;
-const isModernMode: CheckModeFunc = mode => mode === MODERN_MODE;
-const isCompatibilityMode: CheckModeFunc = mode =>
-  isLegacyMode(mode) || isModernMode(mode);
+const isLegacyMode: CheckCompatibilityModeFunc = compatibilityMode =>
+  compatibilityMode === LEGACY_MODE;
+const isModernMode: CheckCompatibilityModeFunc = compatibilityMode =>
+  compatibilityMode === MODERN_MODE;
 
-export {
-  isProduction,
-  isDevelopment,
-  isLegacyMode,
-  isModernMode,
-  isCompatibilityMode
-};
+export { isProduction, isDevelopment, isLegacyMode, isModernMode };

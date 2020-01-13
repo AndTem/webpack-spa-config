@@ -1,5 +1,9 @@
 import { AddConfigFunction, Config } from 'src/types/config';
-import { createDevConfig, createProdConfig } from 'src/configs';
+import {
+  createDevConfig,
+  createProdConfig,
+  createCompatibilityConfig
+} from 'src/configs';
 
 import { isDevelopment } from 'src/utils/mode';
 
@@ -7,7 +11,7 @@ import { EntryParams } from 'src/types/entryParams';
 
 const mockAddConfigFunction: AddConfigFunction = () => ({});
 
-const switchConfigs = (_, { mode }) => (entryParams: EntryParams): Config => {
+const switchConfigs = (entryParams: EntryParams) => (_, { mode }): Config => {
   const requiredParams = {
     mode,
     addToAllConfigs: mockAddConfigFunction,
@@ -15,6 +19,10 @@ const switchConfigs = (_, { mode }) => (entryParams: EntryParams): Config => {
     addToProdConfig: mockAddConfigFunction,
     ...entryParams
   };
+
+  if (process.env.COMPATIBILITY) {
+    return createCompatibilityConfig(requiredParams);
+  }
 
   if (isDevelopment(mode)) {
     return createDevConfig(requiredParams);

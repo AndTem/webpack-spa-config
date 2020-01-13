@@ -1,5 +1,5 @@
 import { createLoader } from 'src/utils/loaders';
-import { getFileNameDependingEnv } from 'src/utils/url';
+import { getFilePathDependingMode } from 'src/utils/url';
 
 export type FontsLoaderAddParams = {
   outputDirectoryName?: string;
@@ -16,7 +16,7 @@ const createFontsLoader = createLoader<FontsLoaderAddParams>(
           loader: 'url-loader',
           options: {
             limit: 2048,
-            name: getFileNameDependingEnv(mode, outputDirectoryName)
+            name: getFilePathDependingMode(mode, outputDirectoryName)
           }
         }
       ]

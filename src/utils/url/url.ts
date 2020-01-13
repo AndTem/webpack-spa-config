@@ -1,10 +1,15 @@
-import { Mode } from 'src/types/mode';
+import { Mode, CompatibilityMode } from 'src/types/mode';
 import { isProduction } from 'src/utils/mode';
 
-const getFileNameDependingEnv = (
+const getFilePathDependingMode = (
   mode: Mode,
   outputDirectoryName: string
 ): string =>
   `${outputDirectoryName}/[name]${isProduction(mode) ? '.[hash]' : ''}.[ext]`;
 
-export { getFileNameDependingEnv };
+const addCompatibilityPrefixToName = (
+  compatibilityMode: CompatibilityMode,
+  scriptsFileName: string
+): string => `${compatibilityMode}.${scriptsFileName}`;
+
+export { getFilePathDependingMode, addCompatibilityPrefixToName };

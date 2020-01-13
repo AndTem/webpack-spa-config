@@ -1,6 +1,6 @@
 import { createLoader } from 'src/utils/loaders';
 import { isProduction } from 'src/utils/mode';
-import { getFileNameDependingEnv } from 'src/utils/url';
+import { getFilePathDependingMode } from 'src/utils/url';
 
 export type SvgLoaderAddParams = {
   optimizationOptions?: Record<string, Record<string, any>>;
@@ -22,7 +22,7 @@ const createSvgLoader = createLoader<SvgLoaderAddParams>(
           loader: 'file-loader',
           options: {
             outputPath: outputDirectoryName,
-            name: getFileNameDependingEnv(mode, outputDirectoryName)
+            name: getFilePathDependingMode(mode, outputDirectoryName)
           }
         }
       ]

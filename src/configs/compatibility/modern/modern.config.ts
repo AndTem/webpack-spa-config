@@ -6,7 +6,7 @@ import { MODERN_MODE } from 'src/constants/mode';
 import { CreateMainConfig } from 'src/types/config';
 
 import { createDevConfig } from '../../development';
-import { createProdConfig } from '../../production';
+import { createModernProdConfig } from './modern.prod.config';
 
 import { transformPluginsToModern } from './utils';
 
@@ -15,7 +15,7 @@ import { DEFAULT_SCRIPTS_FILE_NAME } from '../../common/constants';
 const createCompatibilityModernConfig: CreateMainConfig = entryParams => {
   const { basicParams, mode } = entryParams;
   const createModeConfig = isProduction(mode)
-    ? createProdConfig
+    ? createModernProdConfig
     : createDevConfig;
 
   const modeConfig = createModeConfig({

@@ -32,7 +32,7 @@ const createProdPlugins = createPluginsList<AdditionalParams>(
         conservativeCollapse: true
       }
     }),
-    new DuplicatePackageCheckerPlugin({ emitError: true }),
+    new DuplicatePackageCheckerPlugin(),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       reportFilename: 'bundle-report.html',

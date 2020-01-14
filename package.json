@@ -1,6 +1,6 @@
 {
   "name": "webpack-spa-config",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Webpack 4 config for SPA",
   "author": "And_tem",
   "repository": {
@@ -31,8 +31,7 @@
     "babel-transform": "babel lib --out-dir lib",
     "build": "npm run remove-build && npm run tsc && npm run babel-transform",
     "lint": "eslint --debug src/",
-    "test": "jest",
-    "publish": "npm run build && npm publish"
+    "test": "jest"
   },
   "dependencies": {
     "autoprefixer": "^9.7.3",

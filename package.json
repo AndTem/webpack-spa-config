@@ -21,10 +21,6 @@
   "bugs": {
     "url": "https://github.com/AndTem/webpack-spa-config/issues"
   },
-  "main": "lib/index.js",
-  "files": [
-    "lib/**/*"
-  ],
   "scripts": {
     "tsc": "tsc",
     "remove-build": "rimraf lib/*",
@@ -33,7 +29,7 @@
     "build": "npm run remove-build && npm run tsc && npm run babel-transform && npm run copy-service-files",
     "lint": "eslint --debug src/",
     "test": "jest",
-    "publish": "npm run build && npm publish lib"
+    "deploy-and-publish": "npm run build && npm publish lib"
   },
   "dependencies": {
     "autoprefixer": "^9.7.3",

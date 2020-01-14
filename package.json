@@ -14,7 +14,9 @@
     "webpack 4",
     "webpack config",
     "webpack-config",
-    "webpack spa"
+    "webpack spa",
+    "webpack compatibility config",
+    "webpack modern config"
   ],
   "bugs": {
     "url": "https://github.com/AndTem/webpack-spa-config/issues"

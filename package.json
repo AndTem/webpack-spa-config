@@ -1,6 +1,6 @@
 {
   "name": "webpack-spa-config",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Webpack 4 config for SPA",
   "author": "And_tem",
   "repository": {
@@ -24,12 +24,11 @@
   "scripts": {
     "tsc": "tsc",
     "remove-build": "rimraf lib/*",
-    "copy-service-files": "copyfiles package.json README.md LICENSE lib",
     "babel-transform": "babel lib --out-dir lib",
-    "build": "npm run remove-build && npm run tsc && npm run babel-transform && npm run copy-service-files",
+    "build": "npm run remove-build && npm run tsc && npm run babel-transform",
     "lint": "eslint --debug src/",
     "test": "jest",
-    "deploy-and-publish": "npm run build && npm publish lib"
+    "publish": "npm run build && npm publish"
   },
   "dependencies": {
     "autoprefixer": "^9.7.3",

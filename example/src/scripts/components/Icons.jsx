@@ -1,6 +1,6 @@
 import React from 'react';
 
-import cameraIcon from 'images/sprite/camera-icon.svg';
+import cameraIcon from 'sprite/camera-icon.svg';
 
 import Icon from './Icon';
 

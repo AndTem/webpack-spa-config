@@ -1,15 +1,30 @@
 {
   "env": {
-    "node": true
+    "node": true,
+    "jest": true
   },
-  "extends": ["airbnb", "prettier"],
-  "plugins": ["prettier"],
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "prettier", "jest", "import"],
+  "extends": [
+    "airbnb-base",
+    "prettier",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "directory": "./"
+      },
+      "node": {
+        "extensions": [".js", ".ts"]
+      }
+    }
+  },
   "rules": {
     "prettier/prettier": ["error", { "singleQuote": true }],
     "import/prefer-default-export": "off",
     "prefer-promise-reject-errors": "off",
     "no-throw-literal": "off",
-    "quotes": ["error", "single", { "avoidEscape": true }]
+    "quotes": ["error", "single"]
   }
 }

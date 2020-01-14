@@ -19,11 +19,16 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "fast-async": "^6.3.8",
-    "webpack-spa-config": "file:../"
+    "svg-sprite-loader": "^4.1.6",
+    "webpack": "^4.41.4",
+    "webpack-cli": "^3.3.10",
+    "webpack-spa-config": "0.8.2"
   },
   "scripts": {
-    "build": "COMPATIBILITY=true node webpack.config.js",
-    "build-dev": "webpack --mode=development --config webpack.config.js",
+    "build:prod": "webpack --mode=production --config webpack.config.js",
+    "build:dev": "webpack --mode=development --config webpack.config.js",
+    "build:compatibility:dev": "COMPATIBILITY=true webpack --mode=development --config webpack.config.js",
+    "build:compatibility:prod": "COMPATIBILITY=true webpack --mode=production --config webpack.config.js",
     "start": "webpack-dev-server --mode=development"
   }
 }

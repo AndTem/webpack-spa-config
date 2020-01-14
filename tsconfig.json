@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["es2019"],
+    "module": "commonjs",
+    "outDir": "lib",
+    "rootDir": "src",
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "paths": {
+      "src/*": ["./src/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["src/**/*.test.ts"]
+}

@@ -31,7 +31,8 @@
     "babel-transform": "babel lib --out-dir lib",
     "build": "npm run remove-build && npm run tsc && npm run babel-transform",
     "lint": "eslint --debug src/",
-    "test": "jest"
+    "test": "jest",
+    "publish": "npm run build && npm publish lib"
   },
   "dependencies": {
     "autoprefixer": "^9.7.3",

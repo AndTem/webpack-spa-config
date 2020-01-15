@@ -9,7 +9,7 @@ const getFilePathDependingMode = (
 
 const addCompatibilityPrefixToName = (
   compatibilityMode: CompatibilityMode,
-  scriptsFileName: string
-): string => `${compatibilityMode}.${scriptsFileName}`;
+  name: string
+): string => `${compatibilityMode}.${name}`;
 
 export { getFilePathDependingMode, addCompatibilityPrefixToName };

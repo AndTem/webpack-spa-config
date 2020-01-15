@@ -2,10 +2,10 @@
   "main.css": "/styles/0.de1fee24b236020085cd.css",
   "main.js": "/0.legacy.de1fee24b236020085cd.bundle.js",
   "runtime~main.js": "/legacy.de1fee24b236020085cd.bundle.js",
-  "vendor~main.js": "/c1b53e6d4f6512f738c2.vendors.js",
+  "vendor~main.js": "/legacy.c1b53e6d4f6512f738c2.vendors.js",
   "sprite.856e68fa6f8017e5d78ea765cba1cc8f.svg": "/sprite.856e68fa6f8017e5d78ea765cba1cc8f.svg",
-  "c1b53e6d4f6512f738c2.vendors.js.LICENSE": "/c1b53e6d4f6512f738c2.vendors.js.LICENSE",
   "fonts/index.css": "/fonts/Roboto-Thin.d3b47375afd904983d9be8d6e239a949.woff",
   "images/user-avatar.png": "/images/user-avatar.693ff439b0836011d5e65f025757427f.png",
-  "index.html": "/index.html"
+  "index.html": "/index.html",
+  "legacy.c1b53e6d4f6512f738c2.vendors.js.LICENSE": "/legacy.c1b53e6d4f6512f738c2.vendors.js.LICENSE"
 }

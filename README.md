@@ -589,5 +589,5 @@ chrome >= 55
 firefox >= 52
 opera >= 42
 edge >= 18
-safari >= 9
+ie >= 9
 ```

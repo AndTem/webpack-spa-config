@@ -18,13 +18,14 @@ import { DEFAULT_SCRIPTS_FILE_NAME } from '../../common/constants';
 
 const createCompatibilityLegacyConfig: CreateMainConfig = entryParams => {
   const { basicParams, mode } = entryParams;
-  const createModeConfig = isProduction(mode)
+  const createModeConfig: CreateMainConfig = isProduction(mode)
     ? createLegacyProdConfig
     : createDevConfig;
 
   // dev or prod config
   const modeConfig = createModeConfig({
     ...entryParams,
+
     basicParams: {
       ...basicParams,
       scriptsFileName: addCompatibilityPrefixToName(

@@ -1,9 +1,24 @@
 import TerserWebpackPlugin from 'terser-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 
+import { addCompatibilityPrefixToName } from 'src/utils/url';
+
+import { CompatibilityMode } from 'src/types/mode';
+
 import { DEFAULT_VENDOR_NAME } from './constants';
 
-const createDefaultOptimization = (): Record<string, any> => ({
+type Params = {
+  compatibilityMode?: CompatibilityMode;
+};
+
+const getVendorsFileName = (compatibilityMode?: CompatibilityMode): string =>
+  compatibilityMode
+    ? addCompatibilityPrefixToName(compatibilityMode, DEFAULT_VENDOR_NAME)
+    : DEFAULT_VENDOR_NAME;
+
+const createDefaultOptimization = ({
+  compatibilityMode
+}: Params): Record<string, any> => ({
   minimizer: [
     new TerserWebpackPlugin({
       parallel: true,
@@ -21,7 +36,7 @@ const createDefaultOptimization = (): Record<string, any> => ({
       vendor: {
         test: /node_modules/,
         chunks: 'initial',
-        filename: DEFAULT_VENDOR_NAME
+        filename: getVendorsFileName(compatibilityMode)
       }
     },
     chunks: 'all'

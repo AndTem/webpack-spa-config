@@ -16,8 +16,13 @@ function createLoader<AdditionalParams>(
 ) {
   return (params: LoaderCreatorParams<AdditionalParams>): Loader => {
     const { test, exclude } = params;
+    const loader = loaderCreator(params);
 
-    return { test, exclude, ...loaderCreator(params) };
+    return {
+      ...loader,
+      test: test || loader.test,
+      exclude: exclude || loader.exclude
+    };
   };
 }
 

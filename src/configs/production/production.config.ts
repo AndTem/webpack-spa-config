@@ -17,7 +17,7 @@ const createProdConfig: CreateMainConfig = ({
   addToProdConfig
 }) => {
   const prodBaseOptions = {
-    mode: PRODUCTION_MODE,
+    mode,
     optimization: createDefaultOptimization({ compatibilityMode }),
     plugins: createProdPlugins({ ...basicParams, mode })
   };

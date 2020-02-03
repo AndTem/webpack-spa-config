@@ -4,8 +4,6 @@ import { connectConfigs } from 'src/utils/config';
 
 import { createCommonConfig } from 'src/configs/common';
 
-import { PRODUCTION_MODE } from 'src/constants/mode';
-
 import { createDefaultOptimization } from './optimization';
 import { createProdPlugins } from './plugins';
 

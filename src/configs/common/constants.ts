@@ -4,8 +4,6 @@ const DEFAULT_SCRIPTS_FILE_NAME = '[hash].bundle.js';
 const DEFAULT_RESOLVE_EXTENSIONS = [
   '.js',
   '.jsx',
-  '.ts',
-  '.tsx',
   '.json',
   '.css',
   '.scss',

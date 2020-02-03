@@ -25,7 +25,6 @@ const createCompatibilityLegacyConfig: CreateMainConfig = entryParams => {
   // dev or prod config
   const modeConfig = createModeConfig({
     ...entryParams,
-
     basicParams: {
       ...basicParams,
       scriptsFileName: addCompatibilityPrefixToName(
@@ -35,16 +34,10 @@ const createCompatibilityLegacyConfig: CreateMainConfig = entryParams => {
     }
   });
 
-  const compatibilityConfigPart = {
-    module: {
-      rules: [babelLoader({ mode, options: { envName: LEGACY_MODE } })]
-    }
-  };
-
   // add launch modern build after legacy scripts build and add manifestPlugin
   return addLegacyPlugins(
     // add legacy babelLoader
-    connectConfigs(modeConfig, compatibilityConfigPart),
+    modeConfig,
     createCompatibilityModernConfig(entryParams)
   );
 };

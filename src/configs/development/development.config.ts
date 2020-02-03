@@ -30,7 +30,7 @@ const createDevConfig: CreateMainConfig = ({
   };
 
   return connectConfigs(
-    createCommonConfig({ ...basicParams, mode }),
+    createCommonConfig({ ...basicParams, mode, compatibilityMode }),
     devBaseOptions,
     addToAllConfigs({ mode, compatibilityMode }),
     addToDevConfig({ mode, compatibilityMode })

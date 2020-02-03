@@ -21,7 +21,7 @@ const createProdConfig: CreateMainConfig = ({
   };
 
   return connectConfigs(
-    createCommonConfig({ ...basicParams, mode }),
+    createCommonConfig({ ...basicParams, mode, compatibilityMode }),
     prodBaseOptions,
     addToAllConfigs({ mode, compatibilityMode }),
     addToProdConfig({ mode, compatibilityMode })

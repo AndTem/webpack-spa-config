@@ -1,4 +1,4 @@
-import { Mode } from 'src/types/mode';
+import { Mode, CompatibilityMode } from 'src/types/mode';
 import { Config } from 'src/types/config';
 
 import { babelLoader } from 'src/loaders/scripts';
@@ -17,6 +17,7 @@ export type CommonConfigParams = {
   entryPath: string;
   outputPath: string;
   mode: Mode;
+  compatibilityMode?: CompatibilityMode;
   publicPath?: string;
   scriptsFileName?: string;
   imagesOutputDirectoryName?: string;
@@ -28,6 +29,7 @@ const createCommonConfig = ({
   entryPath,
   outputPath,
   mode,
+  compatibilityMode,
   publicPath = DEFAULT_PUBLIC_PATH,
   scriptsFileName = DEFAULT_SCRIPTS_FILE_NAME,
   imagesOutputDirectoryName,
@@ -51,7 +53,7 @@ const createCommonConfig = ({
 
   module: {
     rules: [
-      babelLoader({ mode }),
+      babelLoader({ mode, options: { envName: compatibilityMode } }),
       cssLoader({ mode }),
       imagesLoader({
         mode,

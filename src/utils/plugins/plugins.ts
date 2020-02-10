@@ -1,7 +1,10 @@
 import webpack from 'webpack';
 
+import { DEFAULT_EXCLUDE_MERGE_PLUGINS_NAMES } from 'src/constants/plugins';
+
 import { WebpackPlugin } from 'src/types/plugins';
 import { Mode } from 'src/types/mode';
+
 import { flat } from '../array';
 
 type PluginsListCreatorParams<AdditionalParams = {}> = {
@@ -39,6 +42,12 @@ const mergePlugins = (
     if (plugin) {
       const { constructor } = plugin;
       const { name } = constructor;
+
+      if (DEFAULT_EXCLUDE_MERGE_PLUGINS_NAMES.includes(name)) {
+        mergedPlugins.push(plugin);
+
+        return;
+      }
 
       const foundSamePluginIndex = mergedPlugins.findIndex(
         mergedPlugin => name === mergedPlugin.constructor.name

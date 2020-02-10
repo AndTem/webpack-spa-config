@@ -99,6 +99,26 @@ describe('mergePlugins', () => {
 
     expect(mergePlugins(plugins1, plugins2, plugins3)).toEqual(expectPlugins);
   });
+
+  it('exclude merge for definePlugin', () => {
+    const plugins1 = [
+      new Plugin1({ data: 'data', enable: true }),
+      new webpack.DefinePlugin({ test1: 1 })
+    ];
+    const plugins2 = [
+      new Plugin1({ data: 'data', enable: false }),
+      new webpack.DefinePlugin({ test2: 2 }),
+      new webpack.DefinePlugin({ test3: 3 })
+    ];
+    const expectPlugins = [
+      new Plugin1({ data: 'data', enable: false }),
+      new webpack.DefinePlugin({ test1: 1 }),
+      new webpack.DefinePlugin({ test2: 2 }),
+      new webpack.DefinePlugin({ test3: 3 })
+    ];
+
+    expect(mergePlugins(plugins1, plugins2)).toEqual(expectPlugins);
+  });
 });
 
 describe('removePlugin', () => {

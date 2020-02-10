@@ -9,7 +9,7 @@ const CameraIcon = props => (
     width={34}
     height={34}
     {...props}
-    id={cameraIcon.id}
+    url={cameraIcon.url}
     viewBox={cameraIcon.viewBox}
   />
 );

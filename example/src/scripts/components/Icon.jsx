@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Icon = ({ id, viewBox, className, ...props }) => (
+const Icon = ({ url, viewBox, className, ...props }) => (
   <svg className={className} viewBox={viewBox} {...props}>
-    <use xlinkHref={`#${id}`} />
+    <use xlinkHref={url} />
   </svg>
 );
 
@@ -14,7 +14,7 @@ Icon.defaultProps = {
 Icon.propTypes = {
   viewBox: PropTypes.string,
   className: PropTypes.string,
-  id: PropTypes.string.isRequired
+  url: PropTypes.string.isRequired
 };
 
 export default Icon;

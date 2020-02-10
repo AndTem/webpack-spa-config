@@ -5,19 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <title>Example</title>
-
-    <style>
-      .sprite-symbol-usage {
-        display: inline !important;
-      }
-    </style>
   </head>
   <body>
-    <div style="display: none;">
-      <% if (htmlWebpackPlugin.files.sprites) { %> <% for (var spriteFileName in
-      htmlWebpackPlugin.files.sprites) { %> <%= htmlWebpackPlugin.files.sprites[spriteFileName] %>
-      <% } %> <% } %>
-    </div>
     <div id="root"></div>
   </body>
 </html>

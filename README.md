@@ -263,12 +263,16 @@ Params:
 Contains: file-loader, image-webpack-loader.
 In production minify svg. (default image-webpack-loader options).
 
-### svgSpriteLoader({ mode, test, exclude, optimizationOptions })
+### svgSpriteLoader({ mode, test, exclude, extractInProd, options, optimizationOptions })
 
 Params:
 ```ts
 {
   mode: 'development' | 'production' | 'legacy' | 'modern';
+  // active svg-sprite-loader extract mode in prod. Default true
+  extractInProd?: boolean;
+  // svg-sprite-loader optinos
+  options?: Object;
   // image-webpack-loader optinos
   optimizationOptions?: Object;
   test?: RegExp;
@@ -393,42 +397,13 @@ module.exports = createConfig({
 
 # <a name="spriteExample">Example with svg sprite</a>
 
-In this example, svg is embedded in html during assembly.
-
-```
-index.html
-```
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
-
-    <title>Webpack SPA</title>
-
-    <style>
-      .sprite-symbol-usage {
-        display: inline !important;
-      }
-    </style>
-  </head>
-  <body>
-    <div style="display: none;">
-      <% if (htmlWebpackPlugin.files.sprites) { %> <% for (var spriteFileName in
-      htmlWebpackPlugin.files.sprites) { %> <%= htmlWebpackPlugin.files.sprites[spriteFileName] %>
-      <% } %> <% } %>
-    </div>
-    ...
-  </body>
-</html>
-```
+In this example, svg-sprite in prod mode is loaded from the browser as a separate file.
 
 ```
 webpack.config.js
 ```
 ```js
-const { resolve, sep } = require('path');
+const { resolve } = require('path');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const { createConfig, svgSpriteLoader } = require('webpack-spa-config');
 
@@ -436,7 +411,7 @@ const scriptsPath = resolve(__dirname, 'src', 'scripts');
 const publicFilesPath = resolve(__dirname, 'public');
 const outputPath = resolve(__dirname, 'build');
 
-const svgSpriteRegExp = new RegExp(`sprite\\${sep}*\\${sep}.*\\.svg$`, 'i');
+const svgSpriteRegExp = /sprite\/*\/.*\.svg$/i;
 
 const basicParams = {
   entryPath: resolve(scriptsPath, 'index.jsx'),
@@ -448,6 +423,7 @@ const basicParams = {
 const addToAllConfigs = ({ mode }) => ({
   module: {
     rules: [
+      // in prod mode extract: true
       svgSpriteLoader({ mode, test: svgSpriteRegExp })
     ]
   }
@@ -464,6 +440,26 @@ module.exports = createConfig({
   });
 
 ```
+
+Use url param for load svg-sprite file.
+
+```js
+import twitterIcon from '../public/images/sprite/twitter.svg';
+// => {id string, width: string, height: string, viewBox: string, url: string}
+
+const TwitterIcon = ({ url, viewBox, width, height }) => (
+  <svg
+    fill="currentColor"
+    viewBox={twitterIcon.viewBox}
+    width={twitterIcon.width}
+    height={twitterIcon.height}
+  >
+    <use xlinkHref={twitterIcon.url} />
+  </svg>
+);
+```
+
+Other examples: https://github.com/JetBrains/svg-sprite-loader/tree/master/examples.
 
 # <a name="compatibilityExample">Compatibility example</a>
 

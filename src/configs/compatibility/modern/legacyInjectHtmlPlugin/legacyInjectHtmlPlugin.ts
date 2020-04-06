@@ -1,3 +1,5 @@
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+
 import { safariNoModuleFix } from './safariNomoduleFix';
 
 const JS_REGEXP = /\.js$/;
@@ -21,7 +23,7 @@ class LegacyInjectHtmlPlugin {
       if (JS_REGEXP.test(filePath)) {
         body.push({
           tagName: 'script',
-          closeTag: true,
+          voidTag: false,
           attributes: {
             src: filePath,
             nomodule: true
@@ -36,25 +38,26 @@ class LegacyInjectHtmlPlugin {
 
     compiler.hooks.compilation.tap(pluginName, compilation => {
       // subscribe on html-webpack-plugin for change html
-      compilation.hooks.htmlWebpackPluginAlterAssetTags.tapAsync(
+      HtmlWebpackPlugin.getHooks(compilation).alterAssetTagGroups.tapAsync(
         pluginName,
         (data, cb) => {
           // add type="module" for modern-файлов
-          data.body.forEach(tag => {
+          data.bodyTags.forEach(tag => {
             if (tag.tagName === 'script' && tag.attributes) {
               tag.attributes.type = 'module';
             }
           });
 
           // add Safari fix
-          data.body.push({
+          data.bodyTags.push({
             tagName: 'script',
-            closeTag: true,
-            innerHTML: safariNoModuleFix
+            attributes: {},
+            innerHTML: safariNoModuleFix,
+            voidTag: false
           });
 
           // insert legacy-files with nomodule attribute
-          this.injectLegacyScriptsToHtml(data.body);
+          this.injectLegacyScriptsToHtml(data.bodyTags);
 
           cb();
         }

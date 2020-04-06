@@ -13,7 +13,7 @@ class LegacyInjectHtmlPlugin {
     this.legacyManifestPath = legacyManifestPath;
   }
 
-  injectLegacyScriptsToHtml(body) {
+  injectLegacyScriptsToHtml(bodyTags) {
     // get data about the past legacy assembly from the manifest.json
     // eslint-disable-next-line
     const legacyManifest: Record<string, string> = require(this
@@ -21,7 +21,7 @@ class LegacyInjectHtmlPlugin {
 
     Object.values(legacyManifest).forEach(filePath => {
       if (JS_REGEXP.test(filePath)) {
-        body.push({
+        bodyTags.push({
           tagName: 'script',
           voidTag: false,
           attributes: {

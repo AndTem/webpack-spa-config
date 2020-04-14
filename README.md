@@ -269,8 +269,6 @@ Params:
 ```ts
 {
   mode: 'development' | 'production' | 'legacy' | 'modern';
-  // active svg-sprite-loader extract mode in prod. Default true
-  extractInProd?: boolean;
   // svg-sprite-loader optinos
   options?: Object;
   // image-webpack-loader optinos

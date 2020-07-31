@@ -20,6 +20,7 @@ const createCompatibilityModernConfig: CreateMainConfig = entryParams => {
 
   const modeConfig = createModeConfig({
     ...entryParams,
+    compatibilityMode: MODERN_MODE,
     basicParams: {
       ...basicParams,
       scriptsFileName: addCompatibilityPrefixToName(

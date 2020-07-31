@@ -1,6 +1,6 @@
 const { resolve, sep } = require('path');
-const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const { createConfig, svgSpriteLoader } = require('webpack-spa-config');
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
 const scriptsPath = resolve(__dirname, 'src', 'scripts');
 const publicFilesPath = resolve(__dirname, 'public');
@@ -28,15 +28,11 @@ const addToAllConfigs = ({ mode }) => ({
       images: imagesPath,
       sprite: resolve(imagesPath, 'sprite')
     }
-  }
-});
-
-const addToProdConfig = () => ({
+  },
   plugins: [new SpriteLoaderPlugin()]
 });
 
 module.exports = createConfig({
     basicParams,
-    addToAllConfigs,
-    addToProdConfig
+    addToAllConfigs
   });

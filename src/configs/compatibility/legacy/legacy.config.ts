@@ -1,8 +1,5 @@
 import { isProduction } from 'src/utils/mode';
-import { connectConfigs } from 'src/utils/config';
 import { addCompatibilityPrefixToName } from 'src/utils/url';
-
-import { babelLoader } from 'src/loaders';
 
 import { LEGACY_MODE } from 'src/constants/mode';
 
@@ -25,6 +22,7 @@ const createCompatibilityLegacyConfig: CreateMainConfig = entryParams => {
   // dev or prod config
   const modeConfig = createModeConfig({
     ...entryParams,
+    compatibilityMode: LEGACY_MODE,
     basicParams: {
       ...basicParams,
       scriptsFileName: addCompatibilityPrefixToName(

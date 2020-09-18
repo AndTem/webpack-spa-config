@@ -30,8 +30,9 @@
     "remove-build": "rimraf lib/*",
     "babel-transform": "babel lib --out-dir lib",
     "build": "npm run remove-build && npm run tsc && npm run babel-transform",
-    "lint": "eslint --debug src/",
-    "test": "jest",
+    "lint": "eslint --fix ./src/**/*.ts",
+    "lint:types": "tsc --noEmit",
+    "tests": "jest",
     "release": "npm run test && npm run build && npm publish"
   },
   "dependencies": {

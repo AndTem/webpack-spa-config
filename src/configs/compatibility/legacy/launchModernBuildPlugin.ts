@@ -1,4 +1,4 @@
-import webpack from 'webpack';
+import webpack, { Plugin, Compiler } from 'webpack';
 
 import { Config } from 'src/types/config';
 
@@ -13,17 +13,30 @@ const compilerStatusHandler = (err, stats) => {
   );
 };
 
-class LaunchModernBuildPlugin {
+class LaunchModernBuildPlugin implements Plugin {
   modernConfig: Config;
 
   constructor({ modernConfig }: { modernConfig: Config }) {
     this.modernConfig = modernConfig;
   }
 
-  apply(compiler) {
+  apply(compiler: Compiler) {
     const pluginName = 'launch-modern-build-plugin';
 
-    compiler.hooks.done.tapAsync(pluginName, () => {
+    compiler.hooks.done.tapAsync(pluginName, stats => {
+      // if an error occurs while building legacy then webpack will simply ignore it
+      // therefore we handle errors manually
+      if (stats.hasErrors()) {
+        console.log(
+          stats.toString({
+            chunks: false,
+            colors: true
+          })
+        );
+
+        process.exit(1);
+      }
+
       webpack(this.modernConfig, compilerStatusHandler);
     });
   }

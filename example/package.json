@@ -22,7 +22,7 @@
     "svg-sprite-loader": "^4.1.6",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
-    "webpack-spa-config": "0.8.2"
+    "webpack-spa-config": "../lib"
   },
   "scripts": {
     "build:prod": "webpack --mode=production --config webpack.config.js",

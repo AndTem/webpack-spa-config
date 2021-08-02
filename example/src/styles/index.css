@@ -21,6 +21,11 @@
   scroll-snap-type: block;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+}
+
 @font-face {
   font-family: "Roboto";
   src: url("~roboto-fontface/fonts/roboto/Roboto-Thin.woff2") format("woff2"), url("~roboto-fontface/fonts/roboto/Roboto-Thin.woff") format("woff");

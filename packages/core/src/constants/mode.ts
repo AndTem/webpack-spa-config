@@ -1,7 +1,5 @@
-const DEVELOPMENT_MODE = 'development';
-const PRODUCTION_MODE = 'production';
+export const DEVELOPMENT_MODE = 'development';
+export const PRODUCTION_MODE = 'production';
 
-const LEGACY_MODE = 'legacy';
-const MODERN_MODE = 'modern';
-
-export { DEVELOPMENT_MODE, PRODUCTION_MODE, LEGACY_MODE, MODERN_MODE };
+export const LEGACY_MODE = 'legacy';
+export const MODERN_MODE = 'modern';

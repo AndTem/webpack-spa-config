@@ -11,14 +11,14 @@ import { EntryParams } from '../types/entryParams';
 
 const mockAddConfigFunction: AddConfigFunction = () => ({});
 
-const switchConfigs =
+export const createConfig =
   (entryParams: EntryParams) =>
   (_, { mode }): Config => {
     const requiredParams = {
       mode,
-      addToAllConfigs: mockAddConfigFunction,
-      addToDevConfig: mockAddConfigFunction,
-      addToProdConfig: mockAddConfigFunction,
+      modifyAllConfigs: mockAddConfigFunction,
+      modifyDevConfig: mockAddConfigFunction,
+      modifyProdConfig: mockAddConfigFunction,
       ...entryParams,
     };
 
@@ -32,5 +32,3 @@ const switchConfigs =
 
     return createProdConfig(requiredParams);
   };
-
-export { switchConfigs };

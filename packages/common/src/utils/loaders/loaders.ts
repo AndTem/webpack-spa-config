@@ -1,5 +1,6 @@
 import { Loader } from '../../types/loaders';
 import { Mode } from '../../types/mode';
+import { flat } from '../array';
 
 type LoaderCreatorParams<AdditionalParams = {}> = {
   mode: Mode;
@@ -10,7 +11,7 @@ type LoaderCreator<AdditionalParams = {}> = (
   params: LoaderCreatorParams<AdditionalParams>
 ) => Loader;
 
-export function createLoader<AdditionalParams>(
+function createLoader<AdditionalParams>(
   loaderCreator: LoaderCreator<AdditionalParams>
 ) {
   return (params: LoaderCreatorParams<AdditionalParams>): Loader => {
@@ -30,10 +31,8 @@ const findLoader =
   ({ test }) =>
     String(test) === String(requiredLoaderTest);
 
-export const smartMergeLoaders = (
-  ...loadersLists: Array<Loader[]>
-): Loader[] => {
-  const allLoaders = loadersLists.flat();
+const smartMergeLoaders = (...loadersLists: Array<Loader[]>): Loader[] => {
+  const allLoaders = flat(loadersLists);
 
   return allLoaders.reduce((mergedLoaders, currentLoader) => {
     const { test: currentLoaderTest } = currentLoader;
@@ -52,3 +51,5 @@ export const smartMergeLoaders = (
     return [...mergedLoaders, currentLoader];
   }, []);
 };
+
+export { createLoader, smartMergeLoaders };

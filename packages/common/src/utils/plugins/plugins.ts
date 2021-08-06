@@ -5,6 +5,8 @@ import { DEFAULT_EXCLUDE_MERGE_PLUGINS_NAMES } from '../../constants/plugins';
 import { WebpackPlugin } from '../../types/plugins';
 import { Mode } from '../../types/mode';
 
+import { flat } from '../array';
+
 type PluginsListCreatorParams<AdditionalParams = {}> = {
   mode: Mode;
 } & AdditionalParams;
@@ -33,7 +35,7 @@ function createPluginsList<AdditionalParams>(
 const mergePlugins = (
   ...pluginsArrays: Array<WebpackPlugin[]>
 ): WebpackPlugin[] => {
-  const allPlugins = pluginsArrays.flat();
+  const allPlugins = flat(pluginsArrays);
   const mergedPlugins = [];
 
   allPlugins.forEach((plugin) => {

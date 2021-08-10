@@ -1,11 +1,11 @@
-import { AddConfigFunction, Config } from '../types/config';
+import { AddConfigFunction, Config } from '../config/config';
 import {
   createDevConfig,
   createProdConfig,
   createCompatibilityConfig,
 } from '../configs';
 
-import { isDevelopment } from '../utils/mode';
+import { isDevelopment } from '../mode/mode';
 
 import { EntryParams } from '../types/entryParams';
 

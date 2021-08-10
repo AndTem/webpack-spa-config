@@ -1,0 +1,24 @@
+{
+  "name": "@webpackon/babel",
+  "version": "1.0.0",
+  "description": "Webpack 4 config for SPA",
+  "author": "And_tem",
+  "browser": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "tsc": "../../node_modules/.bin/tsc",
+    "remove-build": "../../node_modules/.bin/rimraf lib/*",
+    "babel-transform": "../../node_modules/.bin/babel lib --out-dir lib",
+    "build": "npm run remove-build && npm run tsc && npm run babel-transform",
+    "lint": "eslint --fix .",
+    "lint:types": "tsc --noEmit",
+    "tests": "jest",
+    "linting": "npm run lint && npm run lint:types && npm run tests",
+    "release": "npm run linting && npm run build && npm publish"
+  },
+  "dependencies": {
+    "babel-loader": "^8.2.2",
+    "thread-loader": "^3.0.4",
+    "@webpackon/core": "1.0.0"
+  }
+}

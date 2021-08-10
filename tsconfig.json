@@ -7,8 +7,5 @@
     "baseUrl": ".",
     "esModuleInterop": true,
     "declaration": true
-  },
-  "exclude": [
-    "**/*.test.ts"
-  ]
+  }
 }

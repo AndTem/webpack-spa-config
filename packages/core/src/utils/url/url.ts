@@ -1,5 +1,5 @@
-import { Mode, CompatibilityMode } from '../../types/mode';
-import { isProduction } from '../mode';
+import { Mode, CompatibilityMode } from '../../mode/mode';
+import { isProduction } from '../../mode/mode';
 
 const getFileNameDependingMode = (mode: Mode): string =>
   `[name]${isProduction(mode) ? '.[hash]' : ''}.[ext]`;

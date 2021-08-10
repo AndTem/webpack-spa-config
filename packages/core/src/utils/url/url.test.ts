@@ -2,7 +2,7 @@ import {
   PRODUCTION_MODE,
   DEVELOPMENT_MODE,
   LEGACY_MODE
-} from '../../constants/mode';
+} from '../../mode/mode';
 
 import { getFilePathDependingMode, addCompatibilityPrefixToName } from './url';
 

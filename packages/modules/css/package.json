@@ -18,6 +18,10 @@
   },
   "dependencies": {
     "css-loader": "^6.2.0",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-loader": "^6.1.1",
+    "autoprefixer": "^10.3.1",
+    "mini-css-extract-plugin": "^2.2.0",
     "@webpackon/core": "1.0.0"
   }
 }

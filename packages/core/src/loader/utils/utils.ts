@@ -1,5 +1,5 @@
 import { Loader } from '../types';
-import { Config } from '../../config/config';
+import { Config } from '../../config';
 
 const findLoader =
   (requiredLoaderTest: RegExp) =>
@@ -29,9 +29,9 @@ export const smartMergeLoaders = (
   }, []);
 };
 
-export const addLoader = (config: Config, loader: Loader): Config => ({
+export const addLoaders = (config: Config, loaders: Loader[]): Config => ({
   ...config,
   module: {
-    rules: [...config.module.rules, loader],
+    rules: [...config.module.rules, ...loaders],
   },
 });

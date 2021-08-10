@@ -4,6 +4,7 @@ import { DEFAULT_EXCLUDE_MERGE_PLUGINS_NAMES } from '../constants';
 
 import { Plugin } from '../types';
 import { Mode } from '../../mode';
+import { Config } from '../../config';
 
 type PluginsListCreatorParams<AdditionalParams = {}> = {
   mode: Mode;
@@ -78,3 +79,8 @@ export const removePlugin = (
       plugin.constructor.name !== removePluginInstance.constructor.name
   );
 };
+
+export const addPlugin = (config: Config, plugins: Plugin[]): Config => ({
+  ...config,
+  plugins: [...config.plugins, ...plugins],
+});

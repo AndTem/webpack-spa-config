@@ -1,2 +1,2 @@
 export { createLoader, addLoader, LoaderCreatorParams } from './loader';
-export { createConfigDecorator } from './config';
+export { createConfigDecorator, createConfig } from './config';

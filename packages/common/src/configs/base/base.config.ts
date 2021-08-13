@@ -8,7 +8,7 @@ import { cssLoader } from '../../loaders/styles';
 import { imagesLoader, svgLoader } from '../../loaders/images';
 import { fontsLoader } from '../../loaders/fonts';
 
-import { DEFAULT_RESOLVE_OPTION, DEFAULT_OUTPUT_OPTION } from './constants';
+import { DEFAULT_RESOLVE_OPTION, DEFAULT_OUTPUT_OPTION } from '../../createFoundationConfig/constants';
 
 export type CommonConfigParams = {
   entry: webpack.Configuration['entry'];

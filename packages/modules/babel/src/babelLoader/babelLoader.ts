@@ -22,7 +22,6 @@ const getTranspileModulesRegexp = (
 export const createBabelLoader = createLoader<BabelLoaderAddParams>(
   ({ options, enableJSX, transpileModules }) => ({
     test: enableJSX ? /\.(js|jsx)$/ : /\.js$/,
-    // TODO: подумать как смержить exclude
     exclude: transpileModules
       ? getTranspileModulesRegexp(transpileModules)
       : /node_modules/,

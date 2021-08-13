@@ -7,7 +7,6 @@ import {
   addPlugin,
 } from '@webpackon/core';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import path from 'path';
 
 import { createCssLoader, CssLoaderOptions } from '../cssLoader';
@@ -39,18 +38,6 @@ export const withCss = createConfigDecorator<WithCssParams, true>(
       }),
     ]);
 
-    return addPlugin(
-      {
-        ...withLoaders,
-        optimization: {
-          ...withLoaders.optimization,
-          minimizer: [
-            ...withLoaders.optimization.minimizer,
-            new OptimizeCSSAssetsPlugin(),
-          ],
-        },
-      },
-      [getMiniCssExtractPlugin(mode)]
-    );
+    return addPlugin(withLoaders, [getMiniCssExtractPlugin(mode)]);
   }
 );

@@ -1,12 +1,12 @@
 import { isDevelopment, Mode } from '../../mode';
 import { Config } from '../types';
-import { CreateConfigParams, ModifyConfigFunc, Context } from './types';
+import { CreateConfigParams, Context } from './types';
 
-const mockModifyConfig: ModifyConfigFunc = (config) => config;
+const mockModifyConfig = (config) => config;
 
-export const createConfig = (
+export const createConfig = <AdditionalParams extends Record<string, any>>(
   baseConfig: Config,
-  entryParams: CreateConfigParams,
+  entryParams: CreateConfigParams<AdditionalParams>,
   mode: Mode
 ) => {
   const {
@@ -15,7 +15,7 @@ export const createConfig = (
     modifyProdConfig = mockModifyConfig,
   } = entryParams;
 
-  const context: Context = { ...entryParams, mode };
+  const context: Context<AdditionalParams> = { ...entryParams, mode };
 
   const commonConfig = modifyAllConfigs(baseConfig, context);
 

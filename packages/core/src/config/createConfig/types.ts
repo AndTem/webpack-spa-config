@@ -1,17 +1,21 @@
-import webpack from 'webpack';
 import { Config } from '../types';
 import { Mode } from '../../mode';
 
-export type ModifyConfigFunc = (config: Config, context: Context) => Config;
+export type ModifyConfigFunc<AdditionalParams extends Record<string, any>> = (
+  config: Config,
+  context: Context<AdditionalParams>
+) => Config;
 
-export type CreateConfigParams = {
-  entry: webpack.Entry;
-  output: webpack.WebpackOptionsNormalized;
-  modifyAllConfigs?: ModifyConfigFunc;
-  modifyDevConfig?: ModifyConfigFunc;
-  modifyProdConfig?: ModifyConfigFunc;
-};
+export type CreateConfigParams<AdditionalParams extends Record<string, any>> =
+  AdditionalParams & {
+    modifyAllConfigs?: ModifyConfigFunc<AdditionalParams>;
+    modifyDevConfig?: ModifyConfigFunc<AdditionalParams>;
+    modifyProdConfig?: ModifyConfigFunc<AdditionalParams>;
+  };
 
-export type Context = Pick<CreateConfigParams, 'entry' | 'output'> & {
+export type Context<AdditionalParams extends Record<string, any>> = Omit<
+  CreateConfigParams<AdditionalParams>,
+  'modifyAllConfigs' | 'modifyDevConfig' | 'modifyProdConfig'
+> & {
   mode: Mode;
-};
+} & AdditionalParams;

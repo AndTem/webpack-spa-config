@@ -8,14 +8,14 @@ export type ModifyConfigFunc<AdditionalParams extends Record<string, any>> = (
 
 export type CreateConfigParams<AdditionalParams extends Record<string, any>> =
   AdditionalParams & {
-    modifyAllConfigs?: ModifyConfigFunc<AdditionalParams>;
-    modifyDevConfig?: ModifyConfigFunc<AdditionalParams>;
-    modifyProdConfig?: ModifyConfigFunc<AdditionalParams>;
+    modifyAll?: ModifyConfigFunc<AdditionalParams>;
+    modifyDev?: ModifyConfigFunc<AdditionalParams>;
+    modifyProd?: ModifyConfigFunc<AdditionalParams>;
   };
 
 export type Context<AdditionalParams extends Record<string, any>> = Omit<
   CreateConfigParams<AdditionalParams>,
-  'modifyAllConfigs' | 'modifyDevConfig' | 'modifyProdConfig'
+  'modifyAll' | 'modifyDev' | 'modifyProd'
 > & {
   mode: Mode;
 } & AdditionalParams;

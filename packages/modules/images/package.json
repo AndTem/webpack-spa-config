@@ -16,5 +16,9 @@
     "linting": "npm run lint && npm run lint:types && npm run tests",
     "release": "npm run linting && npm run build && npm publish"
   },
-  "dependencies": {}
+  "dependencies": {
+    "image-minimizer-webpack-plugin": "2.2.0",
+    "imagemin-jpegtran": "7.0.0",
+    "imagemin-svgo": "9.0.0"
+  }
 }

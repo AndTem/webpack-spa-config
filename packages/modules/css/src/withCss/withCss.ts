@@ -4,7 +4,8 @@ import {
   Mode,
   isProduction,
   Plugin,
-  addPlugin,
+  compose,
+  addPlugins,
 } from '@webpackon/core';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
@@ -30,27 +31,27 @@ const getMiniCssExtractPlugin = (mode: Mode): Plugin =>
 
 export const withCss = createConfigDecorator<WithCssParams, true>(
   (config, { cssLoaderParams, mode, postCssPlugins, postCssLoaderOptions }) => {
-    const withLoaders = addLoaders(config, [
-      createCssLoader({ mode, ...cssLoaderParams }),
-      createPostCssLoader({
-        mode,
-        plugins: postCssPlugins,
-        ...postCssLoaderOptions,
-      }),
-    ]);
-
-    return addPlugin(
-      {
-        ...withLoaders,
-        optimization: {
-          ...withLoaders.optimization,
-          minimizer: [
-            ...withLoaders.optimization.minimizer,
-            new OptimizeCSSAssetsPlugin(),
-          ],
-        },
-      },
-      [getMiniCssExtractPlugin(mode)]
+    const modifyConfig = compose(
+      addLoaders([
+        createCssLoader({ mode, ...cssLoaderParams }),
+        createPostCssLoader({
+          mode,
+          plugins: postCssPlugins,
+          ...postCssLoaderOptions,
+        }),
+      ]),
+      addPlugins([getMiniCssExtractPlugin(mode)])
     );
+
+    return modifyConfig({
+      ...config,
+      optimization: {
+        ...config.optimization,
+        minimizer: [
+          ...config.optimization.minimizer,
+          new OptimizeCSSAssetsPlugin(),
+        ],
+      },
+    });
   }
 );

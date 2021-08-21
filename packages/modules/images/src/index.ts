@@ -1,3 +1,2 @@
-export * from './cssLoader';
-export * from './postCssLoader';
-export * from './withCss';
+export * from './imageLoader';
+export * from './withImages';

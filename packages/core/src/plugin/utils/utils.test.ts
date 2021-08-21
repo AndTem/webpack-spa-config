@@ -1,8 +1,7 @@
-import webpack from 'webpack';
+// eslint-disable-next-line max-classes-per-file
+import { Plugin } from '../types';
 
-import { DEVELOPMENT_MODE, Mode } from '../../mode';
-
-import { createPluginsList, mergePlugins, removePlugin } from './utils';
+import { removePlugin } from './utils';
 
 class Plugin1 {
   value: Record<string, any>;
@@ -20,108 +19,9 @@ class Plugin2 {
   }
 }
 
-class Plugin3 {
-  value: Record<string, any>;
-
-  constructor(value) {
-    this.value = value;
-  }
-}
-
-describe('createPluginsList', () => {
-  it('adds definePlugin to the list of plugins that will return pluginsListCreator', () => {
-    const plugins = [new Plugin1({})];
-    const expectPlugins = [
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(DEVELOPMENT_MODE)
-      }),
-      new Plugin1({})
-    ];
-
-    const pluginsList = createPluginsList(() => plugins);
-
-    expect(pluginsList({ mode: DEVELOPMENT_MODE })).toEqual(expectPlugins);
-  });
-
-  it('passes to creator all passed values ​​with mode', () => {
-    const plugins = [new Plugin1({})];
-    const params = { mode: DEVELOPMENT_MODE as Mode, outputDirectoryName: '/' };
-
-    const expectPlugins = [
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(DEVELOPMENT_MODE)
-      }),
-      new Plugin1({}),
-      params
-    ];
-
-    const pluginsList = createPluginsList<{ outputDirectoryName: string }>(
-      allParams => [...plugins, allParams]
-    );
-
-    expect(pluginsList(params)).toEqual(expectPlugins);
-  });
-});
-
-describe('mergePlugins', () => {
-  it('merges two plugins based on constructor information', () => {
-    const plugins1 = [
-      new Plugin1({ test: 'test' }),
-      new Plugin2({ test: 'test' })
-    ];
-    const plugins2 = [new Plugin1({ data: 'data', enable: false })];
-    const expectPlugins = [
-      new Plugin1({ data: 'data', enable: false }),
-      new Plugin2({ test: 'test' })
-    ];
-
-    expect(mergePlugins(plugins1, plugins2)).toEqual(expectPlugins);
-  });
-
-  it('combines more than two plugins, preserving the order of the first array', () => {
-    const plugins1 = [
-      new Plugin1({ data: 'data', enable: true }),
-      new Plugin2({ test: 'test' }),
-      new Plugin3({ test: 'test' })
-    ];
-    const plugins2 = [
-      new Plugin3({ data: 'data' }),
-      new Plugin1({ data: 'data', enable: false, newData: 'newdata' })
-    ];
-    const plugins3 = [new Plugin1({ data: 'data', enable: false })];
-    const expectPlugins = [
-      new Plugin1({ data: 'data', enable: false }),
-      new Plugin2({ test: 'test' }),
-      new Plugin3({ data: 'data' })
-    ];
-
-    expect(mergePlugins(plugins1, plugins2, plugins3)).toEqual(expectPlugins);
-  });
-
-  it('exclude merge for definePlugin', () => {
-    const plugins1 = [
-      new Plugin1({ data: 'data', enable: true }),
-      new webpack.DefinePlugin({ test1: 1 })
-    ];
-    const plugins2 = [
-      new Plugin1({ data: 'data', enable: false }),
-      new webpack.DefinePlugin({ test2: 2 }),
-      new webpack.DefinePlugin({ test3: 3 })
-    ];
-    const expectPlugins = [
-      new Plugin1({ data: 'data', enable: false }),
-      new webpack.DefinePlugin({ test1: 1 }),
-      new webpack.DefinePlugin({ test2: 2 }),
-      new webpack.DefinePlugin({ test3: 3 })
-    ];
-
-    expect(mergePlugins(plugins1, plugins2)).toEqual(expectPlugins);
-  });
-});
-
 describe('removePlugin', () => {
   it('removes the passed plugin', () => {
-    const plugins = [new Plugin1({}), new Plugin2({})];
+    const plugins: Plugin[] = [new Plugin1({}), new Plugin2({})] as any;
 
     expect(removePlugin(plugins, Plugin2)).toEqual([new Plugin1({})]);
   });

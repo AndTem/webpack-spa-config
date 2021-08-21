@@ -1,5 +1,5 @@
 {
-  "name": "@webpackon/css",
+  "name": "@webpackon/fonts",
   "version": "1.0.0",
   "description": "Webpack 4 config for SPA",
   "author": "And_tem",
@@ -16,13 +16,5 @@
     "linting": "npm run lint && npm run lint:types && npm run tests",
     "release": "npm run linting && npm run build && npm publish"
   },
-  "dependencies": {
-    "css-loader": "^6.2.0",
-    "postcss-flexbugs-fixes": "^5.0.2",
-    "postcss-loader": "^6.1.1",
-    "autoprefixer": "^10.3.1",
-    "mini-css-extract-plugin": "^2.2.0",
-    "optimize-css-assets-webpack-plugin": "^6.0.1",
-    "@webpackon/core": "^1.0.0"
-  }
+  "dependencies": {}
 }

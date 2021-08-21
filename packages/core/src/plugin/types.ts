@@ -1,1 +1,3 @@
-export type Plugin = Record<string, any>;
+import webpack from 'webpack';
+
+export type Plugin = webpack.WebpackPluginInstance;

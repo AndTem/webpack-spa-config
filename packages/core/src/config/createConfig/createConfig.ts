@@ -10,18 +10,18 @@ export const createConfig = <AdditionalParams extends Record<string, any>>(
   mode: Mode
 ) => {
   const {
-    modifyAllConfigs = mockModifyConfig,
-    modifyDevConfig = mockModifyConfig,
-    modifyProdConfig = mockModifyConfig,
+    modifyAll = mockModifyConfig,
+    modifyDev = mockModifyConfig,
+    modifyProd = mockModifyConfig,
   } = entryParams;
 
   const context: Context<AdditionalParams> = { ...entryParams, mode };
 
-  const commonConfig = modifyAllConfigs(baseConfig, context);
+  const commonConfig = modifyAll(baseConfig, context);
 
   if (isDevelopment(mode)) {
-    return modifyDevConfig(commonConfig, context);
+    return modifyDev(commonConfig, context);
   }
 
-  return modifyProdConfig(commonConfig, context);
+  return modifyProd(commonConfig, context);
 };

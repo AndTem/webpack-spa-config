@@ -2,12 +2,14 @@ import { createConfigDecorator, addLoaders } from '@webpackon/core';
 
 import { createBabelLoader, BabelLoaderOptions } from '../babelLoader';
 
-type WithBabelParams = {
-  transpileModules?: RegExp[] | string[];
+type WithBabelParams = Pick<
+  BabelLoaderOptions,
+  'transpileModules' | 'enableJSX'
+> & {
   loaderParams?: BabelLoaderOptions;
 };
 
 export const withBabel = createConfigDecorator<WithBabelParams, false>(
   (config, { loaderParams } = {}) =>
-    addLoaders(config, [createBabelLoader(loaderParams)])
+    addLoaders([createBabelLoader(loaderParams)])(config)
 );

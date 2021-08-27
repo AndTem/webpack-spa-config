@@ -1,17 +1,11 @@
-import {
-  ModifyConfigFunc,
-  isProduction,
-  Mode,
-  compose,
-  addPlugins,
-} from '@webpackon/core';
+import { ModifyConfigFunc, isProduction, Mode, compose } from '@webpackon/core';
 import { withBabel } from '@webpackon/babel';
 import { withCss } from '@webpackon/css';
 import { withImages } from '@webpackon/images';
 import { withFonts } from '@webpackon/fonts';
 import { withHtmlTemplate } from '@webpackon/html';
 import { withDevServer } from '@webpackon/dev-server';
-import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
+import { withOptimization } from '@webpackon/optimization';
 
 import path from 'path';
 
@@ -43,9 +37,11 @@ export const modifyAllConfigs: ModifyConfigFunc<AdditionalEntryParams> = (
     enableJSX,
     htmlTitle,
     templatePath,
-    dev,
+    dev = {},
+    production = {},
   } = context;
-  const { useLocalIp, autoOpen } = dev || {};
+  const { useLocalIp, autoOpen } = dev;
+  const { dropConsole, splitChunkCacheGroups } = production;
 
   const baseConfig = {
     target: 'web',
@@ -69,7 +65,7 @@ export const modifyAllConfigs: ModifyConfigFunc<AdditionalEntryParams> = (
     withCss({ mode }),
     withBabel({ transpileModules, enableJSX }),
     withHtmlTemplate({ mode, title: htmlTitle, templatePath }),
-    addPlugins([new CaseSensitivePathsPlugin()])
+    withOptimization({ mode, dropConsole, splitChunkCacheGroups })
   );
 
   return modifyConfigs(baseConfig);

@@ -42,8 +42,8 @@
     "@webpackon/fonts": "^1.0.0",
     "@webpackon/html": "^1.0.0",
     "@webpackon/dev-server": "^1.0.0",
-    "@types/webpack": "5.28.0",
-    "case-sensitive-paths-webpack-plugin": "^2.4.0"
+    "@webpackon/optimization": "^1.0.0",
+    "@types/webpack": "5.28.0"
   },
   "peerDependencies": {
     "webpack": "5.x.x",

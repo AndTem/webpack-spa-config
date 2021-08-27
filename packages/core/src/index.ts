@@ -8,4 +8,8 @@ export {
   ModifyConfigFunc,
 } from './config';
 export { Mode, isProduction, isDevelopment } from './mode';
-export { compose } from './common/utils';
+export {
+  compose,
+  getExcludePackagesRegexp,
+  getIncludePackagesRegexp,
+} from './common/utils';

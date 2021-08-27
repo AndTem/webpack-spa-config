@@ -13,6 +13,13 @@ export type AdditionalEntryParams = {
     useLocalIp?: boolean;
     autoOpen?: boolean;
   };
+  production?: {
+    dropConsole?: boolean;
+    splitChunkCacheGroups?: Array<{
+      chunkName: string;
+      includePackages: string[];
+    }>;
+  };
 };
 
 export type EntryParams = CreateConfigParams<AdditionalEntryParams>;

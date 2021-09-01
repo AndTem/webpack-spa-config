@@ -1,0 +1,50 @@
+{
+  "name": "@webpackon/react-config",
+  "version": "1.2.4",
+  "description": "Webpack 4 config for SPA",
+  "author": "And_tem",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndTem/webpack-spa-config"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/AndTem/webpack-spa-config#Readme",
+  "keywords": [
+    "webpack",
+    "webpack 5",
+    "webpack config",
+    "webpack-config",
+    "webpack spa",
+    "webpack compatibility config",
+    "webpack modern config"
+  ],
+  "bugs": {
+    "url": "https://github.com/AndTem/webpack-spa-config/issues"
+  },
+  "main": "lib/index.js",
+  "files": [
+    "lib/**/*"
+  ],
+  "scripts": {
+    "tsc": "../../node_modules/.bin/tsc",
+    "remove-build": "../../node_modules/.bin/rimraf lib/*",
+    "build": "npm run remove-build && npm run tsc",
+    "lint": "eslint --fix .",
+    "lint:types": "tsc --noEmit",
+    "tests": "jest",
+    "linting": "npm run lint && npm run lint:types && npm run tests",
+    "release": "npm run linting && npm run build && npm publish"
+  },
+  "dependencies": {
+    "@webpackon/core": "^1.0.0",
+    "@webpackon/babel": "^1.0.0",
+    "@webpackon/typescript": "^1.0.0",
+    "@webpackon/base-config": "^1.0.0",
+    "@webpackon/optimization": "^1.0.0",
+    "@types/webpack": "5.28.0"
+  },
+  "peerDependencies": {
+    "webpack": "5.x.x",
+    "webpack-dev-server": "3.x.x"
+  }
+}

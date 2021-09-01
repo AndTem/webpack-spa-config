@@ -28,6 +28,9 @@ export const withOptimization = createConfigDecorator<
 
   return modifyConfig({
     ...config,
+
+    devtool: 'hidden-source-map',
+
     optimization: {
       ...config.optimization,
       moduleIds: 'deterministic',

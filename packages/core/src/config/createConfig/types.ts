@@ -8,9 +8,7 @@ export type ModifyConfigFunc<AdditionalParams extends Record<string, any>> = (
 
 export type CreateConfigParams<AdditionalParams extends Record<string, any>> =
   AdditionalParams & {
-    modifyAll?: ModifyConfigFunc<AdditionalParams>;
-    modifyDev?: ModifyConfigFunc<AdditionalParams>;
-    modifyProd?: ModifyConfigFunc<AdditionalParams>;
+    modify?: ModifyConfigFunc<AdditionalParams>;
   };
 
 export type Context<AdditionalParams extends Record<string, any>> = Omit<

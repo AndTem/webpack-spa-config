@@ -23,6 +23,8 @@ const getHtmlWebpackPlugin = ({
     options.minify = {
       collapseWhitespace: true,
       conservativeCollapse: true,
+      minifyCSS: true,
+      removeComments: true,
     };
   }
 

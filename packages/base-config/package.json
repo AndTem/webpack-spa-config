@@ -1,5 +1,5 @@
 {
-  "name": "@webpackon/common-config",
+  "name": "@webpackon/base-config",
   "version": "1.2.4",
   "description": "Webpack 4 config for SPA",
   "author": "And_tem",
@@ -21,10 +21,8 @@
   "bugs": {
     "url": "https://github.com/AndTem/webpack-spa-config/issues"
   },
-  "main": "lib/index.js",
-  "files": [
-    "lib/**/*"
-  ],
+  "browser": "src/index.ts",
+  "types": "src/index.ts",
   "scripts": {
     "tsc": "../../node_modules/.bin/tsc",
     "remove-build": "../../node_modules/.bin/rimraf lib/*",

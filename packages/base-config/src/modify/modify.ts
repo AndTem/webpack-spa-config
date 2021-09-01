@@ -1,3 +1,5 @@
+import path from 'path';
+
 import { ModifyConfigFunc, isProduction, Mode, compose } from '@webpackon/core';
 import { withBabel } from '@webpackon/babel';
 import { withCss } from '@webpackon/css';
@@ -6,8 +8,6 @@ import { withFonts } from '@webpackon/fonts';
 import { withHtmlTemplate } from '@webpackon/html';
 import { withDevServer } from '@webpackon/dev-server';
 import { withOptimization } from '@webpackon/optimization';
-
-import path from 'path';
 
 import { AdditionalEntryParams } from '../entry';
 
@@ -24,23 +24,20 @@ const DEFAULT_RESOLVE = {
   extensions: ['.js', '.jsx', '.json', '.css', '.scss', '.less'],
 };
 
-export const modifyAllConfigs: ModifyConfigFunc<AdditionalEntryParams> = (
-  _,
-  context
-) => {
+export const modify: ModifyConfigFunc<AdditionalEntryParams> = (_, context) => {
   const {
     entry,
     output,
     resolve,
     mode,
     transpileModules,
-    enableJSX,
     htmlTitle,
     templatePath,
+    disableDefaultBabelLoader,
     dev = {},
     production = {},
   } = context;
-  const { useLocalIp, autoOpen } = dev;
+  const { useLocalIp, autoOpen, proxy } = dev;
   const { dropConsole, splitChunkCacheGroups } = production;
 
   const baseConfig = {
@@ -53,20 +50,24 @@ export const modifyAllConfigs: ModifyConfigFunc<AdditionalEntryParams> = (
     resolve: resolve || DEFAULT_RESOLVE,
   };
 
-  const modifyConfigs = compose(
+  const configModifiers = [
     withDevServer({
       mode,
       useLocalIp,
+      proxy,
       open: autoOpen,
       outputPath: typeof output === 'string' ? output : output.path,
     }),
     withFonts(),
     withImages({ mode }),
     withCss({ mode }),
-    withBabel({ transpileModules, enableJSX }),
     withHtmlTemplate({ mode, title: htmlTitle, templatePath }),
-    withOptimization({ mode, dropConsole, splitChunkCacheGroups })
-  );
+    withOptimization({ mode, dropConsole, splitChunkCacheGroups }),
+  ];
 
-  return modifyConfigs(baseConfig);
+  if (!disableDefaultBabelLoader) {
+    configModifiers.push(withBabel({ transpileModules }));
+  }
+
+  return compose(...configModifiers)(baseConfig);
 };

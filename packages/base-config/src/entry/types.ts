@@ -9,9 +9,11 @@ export type AdditionalEntryParams = {
   enableJSX?: boolean;
   templatePath?: string;
   htmlTitle?: string;
+  disableDefaultBabelLoader?: boolean;
   dev?: {
     useLocalIp?: boolean;
     autoOpen?: boolean;
+    proxy?: Record<string, unknown>;
   };
   production?: {
     dropConsole?: boolean;

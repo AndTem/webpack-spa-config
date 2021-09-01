@@ -1,4 +1,5 @@
 import webpack from 'webpack';
+import path from 'path';
 import {
   createConfigDecorator,
   Mode,
@@ -11,10 +12,11 @@ type WithDevServerParams = {
   outputPath: string;
   open?: boolean;
   useLocalIp?: boolean;
+  proxy?: Record<string, unknown>;
 };
 
 export const withDevServer = createConfigDecorator<WithDevServerParams, true>(
-  (config, { mode, outputPath, open = false, useLocalIp = false }) => {
+  (config, { mode, outputPath, open = false, useLocalIp = false, proxy }) => {
     if (isProduction(mode)) return config;
 
     const modifyConfig = addPlugins([new webpack.HotModuleReplacementPlugin()]);
@@ -25,9 +27,15 @@ export const withDevServer = createConfigDecorator<WithDevServerParams, true>(
       devServer: {
         contentBase: outputPath,
         host: useLocalIp ? 'local-ip' : undefined,
-        open,
         hot: true,
         historyApiFallback: true,
+        open,
+        proxy,
+      },
+      cache: {
+        type: 'filesystem',
+        cacheLocation: path.join(outputPath, '.cache'),
+        compression: 'brotli',
       },
     });
   }

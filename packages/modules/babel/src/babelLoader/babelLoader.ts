@@ -5,7 +5,6 @@ import {
 } from '@webpackon/core';
 
 type BabelLoaderAddParams = {
-  enableJSX?: boolean;
   transpileModules?: string[];
   options?: Record<string, any>;
 };
@@ -13,8 +12,8 @@ type BabelLoaderAddParams = {
 export type BabelLoaderOptions = LoaderCreatorParams<BabelLoaderAddParams>;
 
 export const createBabelLoader = createLoader<BabelLoaderAddParams>(
-  ({ options, enableJSX, transpileModules }) => ({
-    test: enableJSX ? /\.(js|jsx)$/ : /\.js$/,
+  ({ options, transpileModules }) => ({
+    test: /\.(js|jsx)$/,
     exclude: transpileModules
       ? getExcludePackagesRegexp(transpileModules)
       : /node_modules/,

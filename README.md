@@ -1,4 +1,8 @@
+# Attention
+This package is no longer supported. Use [webpackon](https://github.com/AndTem/webpackon).
+
 # Webpack SPA Config
+
 Webpack 4 config for SPA.
 
 This configuration has everything you need to build a SPA. Also this configuration is easy to extend and editing.
